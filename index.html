@@ -126,11 +126,11 @@ button.ghost:active{background:rgba(0,0,0,0.05)}
 .green{background:#16a34a}.red{background:#b91c1c}.black{background:#1e293b}
 
 /* ===== PATTERN OVERLAY ===== */
-.pattern-overlay{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:10001;background:#fff;border:3px solid #f59e0b;box-shadow:0 10px 25px rgba(0,0,0,0.2);padding:18px;border-radius:12px;width:92%;max-width:500px;display:none}
+.pattern-overlay{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:10001;background:#fff;border:3px solid #f59e0b;box-shadow:0 10px 25px rgba(0,0,0,0.2);padding:18px;border-radius:12px;width:92%;max-width:500px;display:none;max-height:calc(100vh - 40px);overflow-y:auto;-webkit-overflow-scrolling:touch}
 
 /* ===== MODAL OVERLAY ===== */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;justify-content:center;align-items:center;z-index:10002;display:none}
-.modal-box{background:#fff;border-radius:12px;padding:20px;width:90%;max-width:460px;box-shadow:0 10px 30px rgba(0,0,0,0.25)}
+.modal-box{background:#fff;border-radius:12px;padding:20px;width:90%;max-width:460px;box-shadow:0 10px 30px rgba(0,0,0,0.25);max-height:85vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .modal-box h3{margin:0 0 12px;font-size:18px}
 .modal-box .modal-actions{display:flex;gap:8px;margin-top:16px}
 .modal-box .modal-actions button{flex:1}
@@ -206,6 +206,37 @@ body.theme-dark .sticky-sitout .ghost,body.theme-blue .sticky-sitout .ghost,body
   .history{max-height:200px}
   .history table{font-size:11px}
   .numpad button{padding:7px 1px;font-size:13px;min-height:34px}
+  /* Mobile modal fixes */
+  .modal-box{padding:14px;max-height:80vh}
+  .modal-box h3{font-size:16px;margin:0 0 8px}
+  .modal-box p{font-size:13px}
+  .modal-box .modal-actions{gap:6px;margin-top:10px}
+  .modal-box .modal-actions button{padding:8px 6px;font-size:11px}
+  .pattern-overlay{padding:12px;top:10px;max-height:calc(100vh - 20px)}
+  .pattern-overlay h2{font-size:16px;margin:0 0 6px}
+  .pattern-overlay p{font-size:12px;margin:0 0 8px}
+  .pct-btn-group{gap:3px;margin:4px 0 6px}
+  .pct-btn{padding:4px 8px;font-size:11px}
+  .pct-custom-wrap input{width:40px;font-size:11px;padding:3px}
+  .outcome-table{font-size:11px}
+  .outcome-table th,.outcome-table td{padding:3px 4px}
+  .msb-type-grid{gap:3px;margin:4px 0}
+  .msb-type-btn{padding:6px;font-size:12px}
+  .msb-value-grid{gap:3px;margin:4px 0}
+  .msb-value-btn{padding:5px 8px;font-size:11px}
+  #manualSideBetModal .modal-box{padding:14px;max-height:80vh}
+  #zeroEditModal .ze-row{margin-bottom:6px}
+  #zeroEditModal .ze-row label{font-size:12px}
+  #zeroEditModal .ze-row input{width:65px}
+  /* Fix mode toggle buttons on mobile */
+  .mode-toggle button{padding:6px 14px !important;font-size:12px !important;min-height:auto}
+  .mode-toggle{flex-shrink:0}
+  /* Stack settings card items vertically on narrow screens */
+  .controls .card{flex-direction:column;align-items:stretch}
+  .controls .card>div{width:100%}
+  .controls .card>div label{display:block;margin-bottom:2px}
+  .controls .card>div input,.controls .card>div select{width:100% !important}
+  #startSession{width:100%}
 }
 
 /* ===== ZERO EDIT MODAL ===== */
@@ -240,10 +271,10 @@ body.theme-dark .mode-badge.sim,body.theme-blue .mode-badge.sim,body.theme-green
 body.theme-dark .mode-badge.live,body.theme-blue .mode-badge.live,body.theme-green .mode-badge.live,body.theme-turquoise .mode-badge.live,body.theme-gold .mode-badge.live,body.theme-pink .mode-badge.live,body.theme-grey .mode-badge.live{background:rgba(245,158,11,0.25);color:#fbbf24;border-color:rgba(245,158,11,0.4)}
 
 /* ===== MODE SELECTOR ===== */
-.mode-toggle{display:flex;gap:0;border-radius:6px;overflow:hidden;border:1px solid rgba(0,0,0,0.12)}
-.mode-toggle button{padding:6px 14px;font-size:12px;font-weight:700;border:none;cursor:pointer;transition:all .15s;background:transparent;color:var(--muted)}
-.mode-toggle button.active-sim{background:#dbeafe;color:#1d4ed8}
-.mode-toggle button.active-live{background:#fef3c7;color:#92400e}
+.mode-toggle{display:flex;gap:4px;border-radius:6px;overflow:visible;border:none}
+.mode-toggle button{padding:6px 14px;font-size:12px;font-weight:700;border:2px solid #000 !important;cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,0.2);-webkit-appearance:none;touch-action:manipulation;transition:all .15s;background:transparent;color:var(--muted);border-radius:6px}
+.mode-toggle button.active-sim{background:#dbeafe;color:#1d4ed8;border:2px solid #000 !important}
+.mode-toggle button.active-live{background:#fef3c7;color:#92400e;border:2px solid #000 !important}
 body.theme-dark .mode-toggle,body.theme-blue .mode-toggle,body.theme-green .mode-toggle,body.theme-turquoise .mode-toggle,body.theme-gold .mode-toggle,body.theme-pink .mode-toggle,body.theme-grey .mode-toggle{border-color:rgba(255,255,255,0.2)}
 
 /* ===== TAPPABLE STICKY ZEROS ===== */
@@ -252,7 +283,7 @@ body.theme-dark .mode-toggle,body.theme-blue .mode-toggle,body.theme-green .mode
 .sticky-zeros .sz:active{opacity:0.7}
 
 /* ===== MANUAL SIDE BET MODAL ===== */
-#manualSideBetModal .modal-box{border-top:4px solid #8b5cf6;max-width:520px}
+#manualSideBetModal .modal-box{border-top:4px solid #8b5cf6;max-width:520px;max-height:85vh;overflow-y:auto}
 .msb-type-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin:8px 0}
 .msb-type-btn{padding:8px;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer;border:2px solid rgba(0,0,0,0.12);background:transparent;color:inherit;transition:all .15s}
 .msb-type-btn.active{background:#8b5cf6;color:#fff;border-color:#8b5cf6}
@@ -974,6 +1005,9 @@ function setMode(m){
   state.histPL=m==='live'?state.liveHistPL:state.simHistPL;
   refresh();
 }
+// Mode toggle event listeners (simplified for iOS Safari compatibility)
+$('modeSimBtn').addEventListener('click',function(){setMode('sim');});
+$('modeLiveBtn').addEventListener('click',function(){setMode('live');});
 
 /* ===== V9: LIVE MODE DOUBLE CONFIRM ===== */
 let liveConfirmResolve=null;
