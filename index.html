@@ -222,6 +222,7 @@ body.theme-dark .sticky-sitout .ghost,body.theme-blue .sticky-sitout .ghost,body
   button{padding:7px 10px;font-size:12px}
   .history{max-height:200px}
   .history table{font-size:11px;table-layout:fixed}
+  .history th,.history td{padding:4px 3px}
   .numpad button{padding:5px 0;font-size:11px;min-height:32px}
   .modal-box{padding:14px;max-height:80vh}
   .modal-box h3{font-size:16px;margin:0 0 8px}
@@ -501,7 +502,7 @@ body.theme-dark .mode-toggle,body.theme-blue .mode-toggle,body.theme-green .mode
 <!-- ===== STICKY HEADER ===== -->
 <div class="sticky-header" id="stickyHeader">
   <div class="sticky-bal-row">
-    <span>Balance: <strong id="stickyBal">$1,000.00</strong><span class="mode-badge sim" id="modeBadge">SIM</span></span>
+    <span>Balance: <strong id="stickyBal">$1,000</strong> <span class="mode-badge sim" id="modeBadge">SIM</span></span>
     <span>S/Spins: <strong id="stickySessionSpins">0</strong></span>
     <span>Spins: <strong id="stickyCounter">0/12</strong></span>
   </div>
@@ -562,8 +563,7 @@ body.theme-dark .mode-toggle,body.theme-blue .mode-toggle,body.theme-green .mode
       <button id="startSession" style="margin-top:14px;">Start Session</button>
     </div>
     <div class="card" style="text-align:right;">
-      <div class="big" id="currentBalance">$1,000.00</div>
-      <div style="font-size:11px;color:var(--muted);">Session Balance</div>
+    <div class="big" id="currentBalance">$1,000</div>      <div style="font-size:11px;color:var(--muted);">Session Balance</div>
     </div>
   </div>
 </header>
@@ -645,9 +645,9 @@ body.theme-dark .mode-toggle,body.theme-blue .mode-toggle,body.theme-green .mode
   <aside>
     <div class="card">
       <label><strong>Session Summary</strong></label>
-      <div style="margin-bottom:8px;"><div style="font-size:12px;">Starting Bankroll</div><div class="big" id="sumStart">$1,500.00</div></div>
-      <div style="margin-bottom:8px;"><div style="font-size:12px;">Session P/L</div><div class="big" id="sumSession">$0.00</div></div>
-      <div style="margin-bottom:8px;"><div style="font-size:12px;">Historical P/L</div><div class="big" id="sumHist">$0.00</div></div>
+      <div style="margin-bottom:8px;"><div style="font-size:12px;">Starting Bankroll</div><div class="big" id="sumStart">$1,500</div></div>
+      <div style="margin-bottom:8px;"><div style="font-size:12px;">Session P/L</div><div class="big" id="sumSession">$0</div></div>
+      <div style="margin-bottom:8px;"><div style="font-size:12px;">Historical P/L</div><div class="big" id="sumHist">$0</div></div>
 
       <label style="margin-top:12px;"><strong>Loss / Win Alerts</strong></label>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;">
@@ -739,7 +739,7 @@ function getStorageKey(){
   return STORAGE_KEY_SIM;
 }
 const $=id=>document.getElementById(id);
-const fmt=v=>v.toLocaleString('en-US',{style:'currency',currency:'USD'});
+const fmt=v=>v.toLocaleString('en-US',{style:'currency',currency:'USD',minimumFractionDigits:0,maximumFractionDigits:0});
 
 /* ===== GLOBAL STATS (cross-session, cross-mode) ===== */
 let globalStats = {
@@ -1238,9 +1238,9 @@ function refresh(){
   $('bet00Display').textContent=state.table==='american'?fmt(b00):'\u2014';
   $('betSplitDisplay').textContent=showSplit?fmt(bSp):'\u2014';
 
-  $('pay0').textContent=b0>0?`Pays: ${fmt(b0*36)} total (${fmt(b0*35)} profit)`:'';
-  $('pay00').textContent=(state.table==='american'&&b00>0)?`Pays: ${fmt(b00*36)} total (${fmt(b00*35)} profit)`:'';
-  $('paySplit').textContent=(showSplit&&bSp>0)?`Pays: ${fmt(bSp*18)} total (${fmt(bSp*17)} profit)`:'';
+  $('pay0').textContent=b0>0?`Pays: ${fmt(b0*36)} total, ${fmt(b0*35)} profit`:'';
+  $('pay00').textContent=(state.table==='american'&&b00>0)?`Pays: ${fmt(b00*36)} total, ${fmt(b00*35)} profit`:'';
+  $('paySplit').textContent=(showSplit&&bSp>0)?`Pays: ${fmt(bSp*18)} total, ${fmt(bSp*17)} profit`:'';
 
   $('bet00Card').style.opacity=state.table==='american'?1:0.3;
   $('betSplitCard').style.opacity=showSplit?1:0.3;
@@ -1360,7 +1360,7 @@ function handleSpin(val){
     else if(side.type==='Parity')shortLabel=side.value.charAt(0).toUpperCase()+side.value.slice(1);
     else if(side.type==='Dozen')shortLabel=side.value+'/12';
     else if(side.type==='Column')shortLabel='Col'+side.value;
-    sideDescription=`${shortLabel} ($${stake})`;
+    sideDescription=`${shortLabel} $${stake}`;
     if(side.type==='Color'||side.type==='Parity'){
       if(matched)sideWinTotal=stake*2;
     }else{
