@@ -555,9 +555,9 @@ body.theme-dark .mode-toggle,body.theme-blue .mode-toggle,body.theme-green .mode
       <div style="margin-top:8px;">
         <label>Mode</label>
         <div class="mode-toggle" id="modeToggle">
-          <button id="modeSimBtn" class="active-sim" onclick="setMode('sim')">SIM</button>
-          <button id="modeLiveBtn" onclick="setMode('live')">LIVE</button>
-          <button id="modeTableBtn" onclick="setMode('table')">TABLE</button>
+          <button id="modeSimBtn" class="active-sim">SIM</button>
+          <button id="modeLiveBtn">LIVE</button>
+          <button id="modeTableBtn">TABLE</button>
         </div>
       </div>
       <button id="startSession" style="margin-top:14px;">Start Session</button>
@@ -1439,9 +1439,9 @@ function cancelSitOut(){
 
 /* ===== RESET SESSION ===== */
 function doResetSession(clearLast36){
-  state.bank=parseFloat($('startBank').value)||0;
+  state.bank=parseFloat($('startBank').value)||1500;
   state.balance=state.bank;
-  state.unit=parseFloat($('unit').value)||0;
+  state.unit=parseFloat($('unit').value)||5;
   state.bet0=state.unit;state.bet00=state.unit;state.betSplit=state.unit;
   state.table=$('tableType').value;
   state.history=[];
