@@ -1253,8 +1253,13 @@ function refresh(){
   if(state.activeSides&&state.activeSides.length>0){
     $('activeStakeBar').style.display='block';
     const lines=state.activeSides.map(s=>{
-      let desc=`${s.type} ${s.value} \u2014 $${s.amt}`;
-      if(s.remove)desc+=' (zeros removed this spin)';
+      let sl='';
+      if(s.type==='Color')sl=s.value==='red'?'R':'B';
+      else if(s.type==='Parity')sl=s.value==='even'?'E':'O';
+      else if(s.type==='Dozen')sl='D'+s.value;
+      else if(s.type==='Column')sl='C'+s.value;
+      let desc=`${sl}/$${s.amt}`;
+      if(s.remove)desc+=' (no zeros)';
       return desc;
     });
     $('activeStakeText').innerHTML=lines.map(l=>`<div>${l}</div>`).join('');
@@ -1344,11 +1349,11 @@ function handleSpin(val){
       else if(side.type==='Column')matched=String(props.col)===side.value;
       let sideWinTotal=0;
       let shortLabel='';
-      if(side.type==='Color')shortLabel=side.value.charAt(0).toUpperCase()+side.value.slice(1);
-      else if(side.type==='Parity')shortLabel=side.value.charAt(0).toUpperCase()+side.value.slice(1);
-      else if(side.type==='Dozen')shortLabel=side.value+'/12';
-      else if(side.type==='Column')shortLabel='Col'+side.value;
-      sideLabels.push(`${shortLabel} $${stake}`);
+      if(side.type==='Color')shortLabel=side.value==='red'?'R':'B';
+      else if(side.type==='Parity')shortLabel=side.value==='even'?'E':'O';
+      else if(side.type==='Dozen')shortLabel='D'+side.value;
+      else if(side.type==='Column')shortLabel='C'+side.value;
+      sideLabels.push(`${shortLabel}/$${stake}`);
       if(side.type==='Color'||side.type==='Parity'){
         if(matched)sideWinTotal=stake*2;
       }else{
