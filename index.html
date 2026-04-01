@@ -705,7 +705,7 @@ body.theme-dark .mode-toggle,body.theme-blue .mode-toggle,body.theme-green .mode
 
 /* ===== CORE STATE ===== */
 let state = {
-  bank:1000, balance:1000, unit:5, table:'american',
+  bank:1500, balance:1500, unit:5, table:'american',
   histPL:0, history:[], last36:[], spinCounter:0, spinCounterMax:12,
   sitOut:0, theme:'white',
   activeSides:[], pendingType:null, pendingValue:null, pendingAlerts:[],
@@ -1307,9 +1307,9 @@ function handleSpin(val){
     val=String(n);
   }
   if(!state.sessionStarted){
-    state.bank=parseFloat($('startBank').value)||0;
+    state.bank=parseFloat($('startBank').value)||1500;
     state.balance=state.bank;
-    state.unit=parseFloat($('unit').value)||0;
+    state.unit=parseFloat($('unit').value)||5;
     state.bet0=state.unit;state.bet00=state.unit;state.betSplit=state.unit;
     state.table=$('tableType').value;
     state.sessionStarted=true;
