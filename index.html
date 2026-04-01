@@ -1438,7 +1438,7 @@ function cancelSitOut(){
 }
 
 /* ===== RESET SESSION ===== */
-function doResetSession(clearLast36){
+function doResetSession(clearLast36,startSession){
   state.bank=parseFloat($('startBank').value)||1500;
   state.balance=state.bank;
   state.unit=parseFloat($('unit').value)||5;
@@ -1448,7 +1448,7 @@ function doResetSession(clearLast36){
   if(clearLast36)state.last36=[];
   state.spinCounter=0;state.sitOut=0;state.activeSide=null;
   state.pendingType=null;state.pendingValue=null;state.lastAlertLevel=null;
-  state.sessionStarted=true;state.sessionStartTime=Date.now();
+  if(startSession!==false){state.sessionStarted=true;state.sessionStartTime=Date.now();}else{state.sessionStarted=false;state.sessionStartTime=null;}
   state.totalSpins=0;state.ghostHits=0;state.ghostHitLog=[];
   state.sitOutTimesUsed=0;state.totalSitOutSpins=0;
   state.sessionZeroGaps=[];state.sessionCurrentGap=0;
@@ -1604,7 +1604,7 @@ $('resetSession').onclick=()=>{
   appConfirm('Reset Session','Reset the current session balance?').then(ok=>{
     if(ok){
       appConfirm('Clear Numbers','Also clear the Last 36 numbers?').then(clearNums=>{
-        doResetSession(clearNums);
+        doResetSession(clearNums,false);
       });
     }
   });
