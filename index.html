@@ -708,7 +708,7 @@ let state = {
   bank:1000, balance:1000, unit:5, table:'american',
   histPL:0, history:[], last36:[], spinCounter:0, spinCounterMax:12,
   sitOut:0, theme:'white',
-  activeSide:null, pendingType:null, pendingValue:null,
+  activeSides:[], pendingType:null, pendingValue:null, pendingAlerts:[],
   lastAlertLevel:null, alertTimeoutId:null, sessionStarted:false,
   bet0:5, bet00:5, betSplit:5,
   ghostHits:0, ghostHitLog:[],
@@ -1000,6 +1000,7 @@ function runPatternCheck(){
   if(state.last36.length<6)return;
   const recent=state.last36.slice(0,6).map(n=>getNumProps(n));
   const checks=[{name:'Color',key:'color'},{name:'Parity',key:'parity'},{name:'Dozen',key:'dozen'},{name:'Column',key:'col'}];
+  const alerts=[];
   for(let c of checks){
     const fv=recent[0][c.key];
     if(fv&&recent.every(item=>item[c.key]===fv)){
@@ -1012,8 +1013,12 @@ function runPatternCheck(){
         let coldest=1,min=counts[1];for(let d=2;d<=3;d++){if(counts[d]<min){min=counts[d];coldest=d;}}
         sv=String(coldest);
       }
-      triggerPatternUI(c.name,fv,sv);return;
+      alerts.push({type:c.name,value:fv,suggested:sv});
     }
+  }
+  if(alerts.length>0){
+    state.pendingAlerts=alerts.slice(1);
+    triggerPatternUI(alerts[0].type,alerts[0].value,alerts[0].suggested);
   }
 }
 function triggerPatternUI(type,value,suggestedValue){
@@ -1032,6 +1037,12 @@ function triggerPatternUI(type,value,suggestedValue){
   state.pendingType=type;
   setSideBetPct(state.sideBetPct);
   queueModal('patternDialog');
+}
+function showNextPendingAlert(){
+  if(state.pendingAlerts.length>0){
+    const next=state.pendingAlerts.shift();
+    triggerPatternUI(next.type,next.value,next.suggested);
+  }
 }
 
 /* ===== FLASHING BORDER ===== */
@@ -1239,12 +1250,15 @@ function refresh(){
 
   document.body.className='theme-'+state.theme;
 
-  if(state.activeSide){
+  if(state.activeSides&&state.activeSides.length>0){
     $('activeStakeBar').style.display='block';
-    const s=state.activeSide;let desc=`${s.type} ${s.value} \u2014 $${s.amt}`;
-    if(s.remove)desc+=' (zeros removed this spin)';
-    $('activeStakeText').textContent=desc;
-  }else{$('activeStakeBar').style.display='none';}
+    const lines=state.activeSides.map(s=>{
+      let desc=`${s.type} ${s.value} \u2014 $${s.amt}`;
+      if(s.remove)desc+=' (zeros removed this spin)';
+      return desc;
+    });
+    $('activeStakeText').innerHTML=lines.map(l=>`<div>${l}</div>`).join('');
+  }else{$('activeStakeBar').style.display='none';$('activeStakeText').innerHTML='';}
 
   // Render last 36
   const nh=$('numHistory');nh.innerHTML='';
@@ -1314,29 +1328,36 @@ function handleSpin(val){
     state.ghostHitLog.push({time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),number:val});
   }
 
-  // Side bet
-  const side=state.activeSide;let sideDescription='-';let totalStake=zeroStake;
-  if(side){
-    const stake=side.amt||0;totalStake+=stake;
-    if(side.remove)totalStake-=zeroStake;
-    const props=getNumProps(val);let matched=false;
-    if(side.type==='Color')matched=props.color===side.value;
-    else if(side.type==='Parity')matched=props.parity===side.value;
-    else if(side.type==='Dozen')matched=String(props.dozen)===side.value;
-    else if(side.type==='Column')matched=String(props.col)===side.value;
-    let sideWinTotal=0;
-    let shortLabel='';
-    if(side.type==='Color')shortLabel=side.value.charAt(0).toUpperCase()+side.value.slice(1);
-    else if(side.type==='Parity')shortLabel=side.value.charAt(0).toUpperCase()+side.value.slice(1);
-    else if(side.type==='Dozen')shortLabel=side.value+'/12';
-    else if(side.type==='Column')shortLabel='Col'+side.value;
-    sideDescription=`${shortLabel} $${stake}`;
-    if(side.type==='Color'||side.type==='Parity'){
-      if(matched)sideWinTotal=stake*2;
-    }else{
-      if(matched)sideWinTotal=stake*3;
-    }
-    if(sideWinTotal>0)win+=sideWinTotal;
+  // Side bets (multiple)
+  const sides=state.activeSides||[];let sideDescription='-';let totalStake=zeroStake;
+  let anyRemove=false;
+  if(sides.length>0){
+    const props=getNumProps(val);
+    const sideLabels=[];
+    sides.forEach(side=>{
+      const stake=side.amt||0;totalStake+=stake;
+      if(side.remove)anyRemove=true;
+      let matched=false;
+      if(side.type==='Color')matched=props.color===side.value;
+      else if(side.type==='Parity')matched=props.parity===side.value;
+      else if(side.type==='Dozen')matched=String(props.dozen)===side.value;
+      else if(side.type==='Column')matched=String(props.col)===side.value;
+      let sideWinTotal=0;
+      let shortLabel='';
+      if(side.type==='Color')shortLabel=side.value.charAt(0).toUpperCase()+side.value.slice(1);
+      else if(side.type==='Parity')shortLabel=side.value.charAt(0).toUpperCase()+side.value.slice(1);
+      else if(side.type==='Dozen')shortLabel=side.value+'/12';
+      else if(side.type==='Column')shortLabel='Col'+side.value;
+      sideLabels.push(`${shortLabel} $${stake}`);
+      if(side.type==='Color'||side.type==='Parity'){
+        if(matched)sideWinTotal=stake*2;
+      }else{
+        if(matched)sideWinTotal=stake*3;
+      }
+      if(sideWinTotal>0)win+=sideWinTotal;
+    });
+    if(anyRemove)totalStake-=zeroStake;
+    sideDescription=sideLabels.join(', ');
   }
 
   const net=win-totalStake;
@@ -1364,7 +1385,7 @@ function handleSpin(val){
 
   state.history.push({
     t:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),
-    n:val,s:zeroStake,side:state.activeSide?sideDescription:'-',net:net,b:state.balance,
+    n:val,s:zeroStake,side:(state.activeSides&&state.activeSides.length>0)?sideDescription:'-',net:net,b:state.balance,
     mode:state.mode
   });
 
@@ -1385,7 +1406,7 @@ function handleSpin(val){
     }
   }
 
-  state.activeSide=null;state.pendingType=null;state.pendingValue=null;
+  state.activeSides=[];state.pendingType=null;state.pendingValue=null;state.pendingAlerts=[];
   runPatternCheck();
   refresh();
 }
@@ -1446,8 +1467,8 @@ function doResetSession(clearLast36,startSession){
   state.table=$('tableType').value;
   state.history=[];
   if(clearLast36)state.last36=[];
-  state.spinCounter=0;state.sitOut=0;state.activeSide=null;
-  state.pendingType=null;state.pendingValue=null;state.lastAlertLevel=null;
+  state.spinCounter=0;state.sitOut=0;state.activeSides=[];
+  state.pendingType=null;state.pendingValue=null;state.pendingAlerts=[];state.lastAlertLevel=null;
   if(startSession!==false){state.sessionStarted=true;state.sessionStartTime=Date.now();}else{state.sessionStarted=false;state.sessionStartTime=null;}
   state.totalSpins=0;state.ghostHits=0;state.ghostHitLog=[];
   state.sitOutTimesUsed=0;state.totalSitOutSpins=0;
@@ -1537,7 +1558,7 @@ $('leaveConfirm').onclick=()=>{
   }
   $('leaveModal').style.display='none';
   state.history=[];state.last36=[];state.spinCounter=0;state.sitOut=0;
-  state.activeSide=null;state.pendingType=null;state.pendingValue=null;
+  state.activeSides=[];state.pendingType=null;state.pendingValue=null;state.pendingAlerts=[];
   state.lastAlertLevel=null;state.sessionStarted=false;
   state.totalSpins=0;state.ghostHits=0;state.ghostHitLog=[];
   state.sitOutTimesUsed=0;state.totalSitOutSpins=0;state.sessionStartTime=null;
@@ -1714,18 +1735,25 @@ $('resetCountBtn').onclick=()=>{state.spinCounter=0;refresh();};
 $('btnKeepZeros').onclick=()=>{
   const amt=parseFloat($('sideBetAmount').value)||0;
   if(!state.pendingType){dismissModal('patternDialog');return;}
-  state.activeSide={type:state.pendingType,value:state.pendingValue,amt:amt,remove:false};
-  dismissModal('patternDialog');refresh();
+  state.activeSides.push({type:state.pendingType,value:state.pendingValue,amt:amt,remove:false});
+  state.pendingType=null;state.pendingValue=null;
+  dismissModal('patternDialog');
+  showNextPendingAlert();
+  refresh();
 };
 $('btnRemoveZeros').onclick=()=>{
   const amt=parseFloat($('sideBetAmount').value)||0;
   if(!state.pendingType){dismissModal('patternDialog');return;}
-  state.activeSide={type:state.pendingType,value:state.pendingValue,amt:amt,remove:true};
-  dismissModal('patternDialog');refresh();
+  state.activeSides.push({type:state.pendingType,value:state.pendingValue,amt:amt,remove:true});
+  state.pendingType=null;state.pendingValue=null;
+  dismissModal('patternDialog');
+  showNextPendingAlert();
+  refresh();
 };
 $('btnIgnore').onclick=()=>{
-  dismissModal('patternDialog');
   state.pendingType=null;state.pendingValue=null;
+  dismissModal('patternDialog');
+  showNextPendingAlert();
 };
 
 /* ===== V10: MANUAL SIDE BET ===== */
@@ -1846,14 +1874,14 @@ $('manualSideBetBtn').onclick=openManualSideBet;
 $('msbKeepZeros').onclick=()=>{
   if(!msbSelectedType||!msbSelectedValue){alert('Select a bet type and value first.');return;}
   const amt=parseFloat($('msbAmount').value)||0;
-  state.activeSide={type:msbSelectedType,value:msbSelectedValue,amt:amt,remove:false};
+  state.activeSides.push({type:msbSelectedType,value:msbSelectedValue,amt:amt,remove:false});
   state.pendingType=msbSelectedType;state.pendingValue=msbSelectedValue;
   dismissModal('manualSideBetModal');refresh();
 };
 $('msbRemoveZeros').onclick=()=>{
   if(!msbSelectedType||!msbSelectedValue){alert('Select a bet type and value first.');return;}
   const amt=parseFloat($('msbAmount').value)||0;
-  state.activeSide={type:msbSelectedType,value:msbSelectedValue,amt:amt,remove:true};
+  state.activeSides.push({type:msbSelectedType,value:msbSelectedValue,amt:amt,remove:true});
   state.pendingType=msbSelectedType;state.pendingValue=msbSelectedValue;
   dismissModal('manualSideBetModal');refresh();
 };
@@ -1896,6 +1924,10 @@ function loadState(){
     // Ensure sessionZeroGaps exists
     if(!state.sessionZeroGaps)state.sessionZeroGaps=[];
     if(state.sessionCurrentGap===undefined)state.sessionCurrentGap=0;
+    // Migrate old activeSide to activeSides array
+    if(state.activeSide&&!state.activeSides){state.activeSides=[state.activeSide];delete state.activeSide;}
+    if(!state.activeSides)state.activeSides=[];
+    if(!state.pendingAlerts)state.pendingAlerts=[];
   }catch(e){}
 }
 
