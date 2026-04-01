@@ -1377,7 +1377,9 @@ function handleSpin(val){
 
   // V10: Zero gap tracking
   state.sessionCurrentGap++;
+  let zeroHit=false;
   if(val==='0'||val==='00'){
+    zeroHit=true;
     state.sessionZeroGaps.push(state.sessionCurrentGap);
     globalStats.allZeroGaps.push(state.sessionCurrentGap);
     globalStats.totalZerosAllTime++;
@@ -1415,6 +1417,24 @@ function handleSpin(val){
   state.activeSides=[];state.pendingType=null;state.pendingValue=null;state.pendingAlerts=[];
   runPatternCheck();
   refresh();
+
+  // Auto sit-out suggestion after zero hit (only if not already sitting out)
+  if(zeroHit&&!isSit){
+    const histAvg=getHistoricalAvgGap();
+    const suggested=histAvg>0?histAvg:24;
+    const avgText=histAvg>0?histAvg+' spins':'no data yet, default 24';
+    appConfirm('Zero Hit — Sit Out?',`Historical avg spins between zeros: ${avgText}. Sit out ${suggested} spins?`).then(useSuggested=>{
+      if(useSuggested){
+        state.sitOut=suggested;state.sitOutTimesUsed++;refresh();
+      }else{
+        appPrompt('Custom Sit Out','Enter number of spins to sit out (or cancel):',String(suggested)).then(n=>{
+          if(n!==null&&!isNaN(parseInt(n))&&parseInt(n)>0){
+            state.sitOut=parseInt(n);state.sitOutTimesUsed++;refresh();
+          }
+        });
+      }
+    });
+  }
 }
 
 /* ===== ROLLBACK LAST SPIN ===== */
