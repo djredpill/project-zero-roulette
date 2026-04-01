@@ -1353,7 +1353,8 @@ function handleSpin(val){
       else if(side.type==='Parity')shortLabel=side.value==='even'?'E':'O';
       else if(side.type==='Dozen')shortLabel='D'+side.value;
       else if(side.type==='Column')shortLabel='C'+side.value;
-      sideLabels.push(`${shortLabel}/$${stake}`);
+      const clr=matched?'var(--win)':'var(--lose)';
+      sideLabels.push(`<span style="color:${clr}">${shortLabel}/$${stake}</span>`);
       if(side.type==='Color'||side.type==='Parity'){
         if(matched)sideWinTotal=stake*2;
       }else{
