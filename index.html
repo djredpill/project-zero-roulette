@@ -998,6 +998,8 @@ function getNumProps(n){
 }
 function runPatternCheck(){
   if(state.last36.length<6)return;
+  // Confirmed: Side bets limited to first 20 spins only
+  if(state.totalSpins>20)return;
   const recent=state.last36.slice(0,6).map(n=>getNumProps(n));
   const checks=[{name:'Color',key:'color'},{name:'Parity',key:'parity'},{name:'Dozen',key:'dozen'},{name:'Column',key:'col'}];
   const alerts=[];
@@ -1125,9 +1127,27 @@ function checkAlerts(){
     if(state.alertTimeoutId){clearTimeout(state.alertTimeoutId);state.alertTimeoutId=null;}
     if(level&&level.startsWith('w')){
       playWinChime();
-      if(level==='w40')flashBorder('win',10,300);else flashBorder('win',5,600);
+      if(level==='w40'){
+        flashBorder('win',10,300);
+        // Confirmed: Walk suggestion at 40% win — lock in profits
+        setTimeout(()=>{
+          const pct=(((state.balance-state.bank)/state.bank)*100).toFixed(0);
+          appConfirm('40% Win \u2014 Lock In Profits!',`You are up ${pct}% on your bankroll! The confirmed strategy recommends leaving at 40% profit. Would you like to leave the casino and lock in your winnings?`).then(ok=>{
+            if(ok){$('leaveBtn').click();}
+          });
+        },1000);
+      }else flashBorder('win',5,600);
     }else if(level==='l20'){playLossAlert(false);flashBorder('lose',5,600);}
-    else if(level==='l33'){playLossAlert(false);flashBorder('lose',5,600);}
+    else if(level==='l33'){
+      playLossAlert(false);flashBorder('lose',5,600);
+      // Confirmed: Walk suggestion at 33% loss
+      setTimeout(()=>{
+        const pct=Math.abs(((state.balance-state.bank)/state.bank)*100).toFixed(0);
+        appConfirm('33% Loss — Consider Leaving',`You have lost ${pct}% of your bankroll. The confirmed strategy recommends walking at 33% loss. Would you like to leave the casino?`).then(ok=>{
+          if(ok){$('leaveBtn').click();}
+        });
+      },1000);
+    }
     else if(level==='l40'){
       playLossAlert(true);flashBorder('lose-urgent',10,300);
       setTimeout(()=>showCrisisModal(),1000);
@@ -1421,8 +1441,8 @@ function handleSpin(val){
   // Auto sit-out suggestion after zero hit (only if not already sitting out)
   if(zeroHit&&!isSit){
     const histAvg=getHistoricalAvgGap();
-    const suggested=histAvg>0?histAvg:24;
-    const avgText=histAvg>0?histAvg+' spins':'no data yet, default 24';
+    const suggested=histAvg>0?histAvg:17;
+    const avgText=histAvg>0?histAvg+' spins':'no data yet, default 17';
     appConfirm('Zero Hit — Sit Out?',`Historical avg spins between zeros: ${avgText}. Sit out ${suggested} spins?`).then(useSuggested=>{
       if(useSuggested){
         state.sitOut=suggested;state.sitOutTimesUsed++;refresh();
@@ -1683,7 +1703,7 @@ $('resetHist').onclick=()=>{
 
 $('sitOutToggle').onclick=()=>{
   const histAvg=getHistoricalAvgGap();
-  const suggested=histAvg>0?histAvg:24;
+  const suggested=histAvg>0?histAvg:17;
   appConfirm('Sit Out Suggestion',`Based on your historical average (${histAvg>0?histAvg+' spins between zeros':'no data yet'}), suggested sit-out: ${suggested} spins. Use this?`).then(useSuggested=>{
     if(useSuggested){
       state.sitOut=suggested;state.sitOutTimesUsed++;refresh();
