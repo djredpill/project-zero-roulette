@@ -1,0 +1,23 @@
+Screenshot Review Notes
+======================
+
+All screenshots look good. Key observations:
+
+iPad Landscape:
+- Leave report: Displays fully, all content visible including email field and buttons
+- Crisis modal: Displays fully centered, all 3 buttons visible
+- Streak alerts: Full outcome breakdown visible
+
+No UI issues found from screenshot review - all modals display fully in both orientations.
+
+Will use primarily:
+- iPhone screenshots for the iPhone section
+- iPad landscape screenshots for the iPad section  
+- iPad portrait screenshots for modals that look better in portrait
+
+Screenshots selected for manual (per device):
+01_splash, 02_setup, 03_session_started, 04_numpad, 05_streak_color, 06_streak_parity,
+07_active_stakes, 08_history, 09_sitout_auto, 10_sitting_out, 11_sidebet_open,
+12_sidebet_red, 14_zero_edit, 15_loss_alert, 16_crisis, 17_win_state,
+18_raise_hold, 19_edit_bankroll, 20_leave_report, 21_summary_settings,
+theme_dark, theme_green, theme_gold, 25_reset_confirm, 26_zero_bets

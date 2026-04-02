@@ -1,0 +1,1100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<title>Project Zero Roulette — Revision 8.0</title>
+<style>
+/* ===== SPLASH SCREEN ===== */
+#splash-overlay {
+  position:fixed; inset:0; background:#0a0a0a;
+  display:flex; flex-direction:column; justify-content:center; align-items:center;
+  z-index:10000; transition:opacity 1.5s ease; cursor:pointer;
+}
+#splash-overlay img {
+  max-width:96%; max-height:90vh; object-fit:contain; border-radius:8px;
+}
+#splash-tap-hint {
+  position:absolute; bottom:18px; color:rgba(255,255,255,0.6);
+  font-size:13px; font-family:sans-serif; animation:pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+
+/* ===== CSS VARIABLES ===== */
+:root {
+  --card-bg:rgba(2,6,23,0.06); --accent:#0891b2; --muted:#475569;
+  --win:#16a34a; --lose:#ef4444; --text-dark:#041014;
+}
+
+/* ===== 8 THEMES ===== */
+body.theme-white      { background:#f8f9fa; color:var(--text-dark) }
+body.theme-dark       { background:#1a1a2e; color:#e0e0e0; --card-bg:rgba(255,255,255,0.07); --muted:#94a3b8 }
+body.theme-blue       { background:#1e3a5f; color:#e0ecf7; --card-bg:rgba(255,255,255,0.08); --muted:#93b5d6 }
+body.theme-green      { background:#1a3c2a; color:#d4edda; --card-bg:rgba(255,255,255,0.07); --muted:#8fbfa0 }
+body.theme-turquoise  { background:#134e4a; color:#ccfbf1; --card-bg:rgba(255,255,255,0.08); --muted:#5eead4 }
+body.theme-gold       { background:#3d2e0a; color:#fef3c7; --card-bg:rgba(255,255,255,0.07); --muted:#d4a843 }
+body.theme-pink       { background:#4a1942; color:#fce4ec; --card-bg:rgba(255,255,255,0.07); --muted:#e091c9 }
+body.theme-grey       { background:#2d3436; color:#dfe6e9; --card-bg:rgba(255,255,255,0.07); --muted:#b2bec3 }
+
+/* Dark theme overrides for inputs/buttons */
+body.theme-dark input, body.theme-dark select,
+body.theme-blue input, body.theme-blue select,
+body.theme-green input, body.theme-green select,
+body.theme-turquoise input, body.theme-turquoise select,
+body.theme-gold input, body.theme-gold select,
+body.theme-pink input, body.theme-pink select,
+body.theme-grey input, body.theme-grey select {
+  background:rgba(255,255,255,0.12); color:inherit; border-color:rgba(255,255,255,0.2);
+}
+body.theme-dark .ghost, body.theme-blue .ghost, body.theme-green .ghost,
+body.theme-turquoise .ghost, body.theme-gold .ghost, body.theme-pink .ghost,
+body.theme-grey .ghost {
+  border-color:rgba(255,255,255,0.25); color:inherit;
+}
+body.theme-dark .ghost:active, body.theme-blue .ghost:active, body.theme-green .ghost:active,
+body.theme-turquoise .ghost:active, body.theme-gold .ghost:active, body.theme-pink .ghost:active,
+body.theme-grey .ghost:active {
+  background:rgba(255,255,255,0.1);
+}
+body.theme-dark .history, body.theme-blue .history, body.theme-green .history,
+body.theme-turquoise .history, body.theme-gold .history, body.theme-pink .history,
+body.theme-grey .history {
+  background:rgba(255,255,255,0.04);
+}
+body.theme-dark .history th, body.theme-blue .history th, body.theme-green .history th,
+body.theme-turquoise .history th, body.theme-gold .history th, body.theme-pink .history th,
+body.theme-grey .history th {
+  border-bottom-color:rgba(255,255,255,0.15);
+}
+body.theme-dark .modal-box, body.theme-blue .modal-box, body.theme-green .modal-box,
+body.theme-turquoise .modal-box, body.theme-gold .modal-box, body.theme-pink .modal-box,
+body.theme-grey .modal-box {
+  background:#2a2a3e; color:#e0e0e0;
+}
+body.theme-dark .badge, body.theme-blue .badge, body.theme-green .badge,
+body.theme-turquoise .badge, body.theme-gold .badge, body.theme-pink .badge,
+body.theme-grey .badge {
+  background:rgba(255,255,255,0.05);
+}
+
+/* ===== BASE ===== */
+*{box-sizing:border-box}
+body{font-family:Inter,system-ui,'Segoe UI',Roboto,Arial,sans-serif;margin:0;padding:0;transition:border .3s ease,background .3s ease,color .3s ease;border:6px solid transparent;min-height:100vh}
+.wrap{max-width:1100px;margin:0 auto;padding:12px 14px;position:relative}
+
+/* ===== HEADER ===== */
+header{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:10px}
+.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.card{background:var(--card-bg);padding:10px 12px;border-radius:10px}
+label{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}
+input[type="number"],select,input[type="text"]{background:#fff;border:1px solid rgba(0,0,0,0.12);padding:7px 8px;border-radius:6px;width:90px;font-size:14px}
+button{background:var(--accent);border:none;color:#fff;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:600;font-size:13px;touch-action:manipulation}
+button.ghost{background:transparent;border:1px solid rgba(0,0,0,0.12);color:var(--muted)}
+button.ghost:active{background:rgba(0,0,0,0.05)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.badge{padding:5px 8px;border-radius:8px;background:rgba(0,0,0,0.03);font-size:13px;color:var(--muted);border:1px solid transparent}
+.big{font-size:18px;font-weight:600}
+
+/* ===== LAYOUT ===== */
+.panel{display:grid;grid-template-columns:1fr 340px;gap:12px;margin-top:10px}
+
+/* ===== ZERO TRIO (horizontal, sticky) ===== */
+.zeros-strip{display:flex;gap:6px;align-items:stretch;margin-bottom:8px}
+.zeroItem{flex:1;padding:10px 6px;border-radius:8px;text-align:center;background:var(--card-bg);cursor:pointer;transition:box-shadow .2s;border:2px solid transparent}
+.zeroItem:hover{box-shadow:0 0 0 2px var(--accent)}
+.zeroItem .big{font-size:16px}
+.zeroItem div{font-size:10px!important}
+.uniform-bet-bar{text-align:center;font-size:11px;color:var(--muted);margin-bottom:8px;padding:4px}
+
+/* ===== HISTORY ===== */
+.history{margin-top:10px;max-height:300px;overflow:auto;padding:6px;border-radius:8px;background:rgba(0,0,0,0.02)}
+.history table{width:100%;border-collapse:collapse;font-size:13px}
+.history th,.history td{padding:4px 6px;text-align:left}
+.history th{font-weight:600;border-bottom:1px solid rgba(0,0,0,0.1)}
+
+/* ===== LAST 36 NUMBERS ===== */
+.lastnums{display:flex;flex-wrap:wrap;gap:4px;padding:8px;background:rgba(0,0,0,0.04);border-radius:8px;min-height:36px;max-height:108px;overflow:hidden}
+.num{width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff;flex-shrink:0}
+.green{background:#16a34a}.red{background:#b91c1c}.black{background:#1e293b}
+
+/* ===== PATTERN OVERLAY ===== */
+.pattern-overlay{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:10001;background:#fff;border:3px solid #f59e0b;box-shadow:0 10px 25px rgba(0,0,0,0.2);padding:18px;border-radius:12px;width:92%;max-width:500px;display:none}
+
+/* ===== MODAL OVERLAY ===== */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;justify-content:center;align-items:center;z-index:10002;display:none}
+.modal-box{background:#fff;border-radius:12px;padding:20px;width:90%;max-width:460px;box-shadow:0 10px 30px rgba(0,0,0,0.25)}
+.modal-box h3{margin:0 0 12px;font-size:18px}
+.modal-box .modal-actions{display:flex;gap:8px;margin-top:16px}
+.modal-box .modal-actions button{flex:1}
+
+/* ===== FLASHING BORDER ===== */
+@keyframes flashGreen{0%{border-color:rgba(22,163,74,0)}50%{border-color:rgba(22,163,74,0.7)}100%{border-color:rgba(22,163,74,0)}}
+@keyframes flashRed{0%{border-color:rgba(239,68,68,0)}50%{border-color:rgba(239,68,68,0.7)}100%{border-color:rgba(239,68,68,0)}}
+@keyframes flashRedUrgent{0%{border-color:rgba(239,68,68,0)}50%{border-color:rgba(239,68,68,1)}100%{border-color:rgba(239,68,68,0)}}
+body.flash-win{animation:flashGreen .6s linear}
+body.flash-lose{animation:flashRed .6s linear}
+body.flash-lose-urgent{animation:flashRedUrgent .3s linear}
+
+/* ===== NUMBER PAD ===== */
+.numpad{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}
+.numpad button{padding:12px 4px;font-size:16px;font-weight:700;border-radius:8px;min-height:44px}
+.numpad button.np-green{background:#16a34a}.numpad button.np-red{background:#b91c1c}
+.numpad button.np-black{background:#1e293b}.numpad button.np-action{background:var(--accent)}
+.numpad button.np-clear{background:#ef4444}
+
+/* ===== SIT OUT BADGE ===== */
+#sitOutBadge{display:none;background:#fee2e2;color:#b91c1c;padding:8px;border-radius:6px;text-align:center;font-weight:700;margin-bottom:8px}
+#sitOutBadge button{margin-left:8px;font-size:11px;padding:4px 8px}
+
+/* ===== ACTIVE STAKE DISPLAY ===== */
+.active-stake-bar{display:none;background:#eff6ff;border:1px solid #3b82f6;padding:8px 12px;border-radius:8px;margin-bottom:8px;font-size:13px;color:#1e40af}
+
+/* ===== RAISE/HOLD MODAL ===== */
+#raiseHoldModal .modal-box{border-top:4px solid #f59e0b}
+/* ===== CRISIS MODAL ===== */
+#crisisModal .modal-box{border-top:4px solid #ef4444}
+/* ===== LEAVE MODAL ===== */
+#leaveModal .modal-box{border-top:4px solid #16a34a}
+
+/* ===== STICKY HEADER (mobile) ===== */
+.sticky-header{display:none;position:sticky;top:0;z-index:999;backdrop-filter:blur(8px);padding:6px 14px;border-bottom:1px solid rgba(0,0,0,0.08)}
+body.theme-white .sticky-header{background:rgba(248,249,250,0.95)}
+body.theme-dark .sticky-header{background:rgba(26,26,46,0.95)}
+body.theme-blue .sticky-header{background:rgba(30,58,95,0.95)}
+body.theme-green .sticky-header{background:rgba(26,60,42,0.95)}
+body.theme-turquoise .sticky-header{background:rgba(19,78,74,0.95)}
+body.theme-gold .sticky-header{background:rgba(61,46,10,0.95)}
+body.theme-pink .sticky-header{background:rgba(74,25,66,0.95)}
+body.theme-grey .sticky-header{background:rgba(45,52,54,0.95)}
+
+.sticky-bal-row{display:flex;justify-content:space-between;align-items:center;font-size:14px}
+.sticky-zeros{display:flex;gap:4px;margin-top:4px}
+.sticky-zeros .sz{flex:1;text-align:center;font-size:11px;font-weight:700;padding:3px 4px;border-radius:4px;background:rgba(0,0,0,0.06)}
+
+@media(max-width:900px){
+  .panel{grid-template-columns:1fr}
+  header{flex-direction:column;align-items:stretch}
+  .controls{justify-content:center}
+  .sticky-header{display:block}
+}
+@media(max-width:600px){
+  .wrap{padding:8px}
+  .card{padding:8px}
+  header h1{font-size:20px}
+  .big{font-size:16px}
+  input[type="number"],select,input[type="text"]{width:70px;font-size:13px;padding:6px}
+  button{padding:7px 10px;font-size:12px}
+  .history{max-height:200px}
+  .history table{font-size:11px}
+  .numpad button{padding:10px 2px;font-size:15px;min-height:40px}
+}
+
+/* ===== ZERO EDIT MODAL ===== */
+#zeroEditModal .modal-box{border-top:4px solid var(--accent)}
+#zeroEditModal .ze-row{display:flex;gap:8px;align-items:center;margin-bottom:10px}
+#zeroEditModal .ze-row label{margin:0;flex:1;font-size:13px;font-weight:600}
+#zeroEditModal .ze-row input{width:80px}
+</style>
+</head>
+<body class="theme-white">
+
+<!-- ===== SPLASH SCREEN ===== -->
+<div id="splash-overlay">
+  <img id="splashImg" alt="Project Zero Roulette" />
+  <div id="splash-tap-hint">Tap anywhere to enter</div>
+</div>
+
+<!-- ===== PATTERN DIALOG ===== -->
+<div id="patternDialog" class="pattern-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+  <h2 id="patternTitle" style="margin:0 0 10px;color:#b45309;">STREAK DETECTED!</h2>
+  <p id="patternDesc" style="margin:0 0 12px;font-size:14px;"></p>
+  <div id="coldSuggestion" style="margin-bottom:12px;font-weight:bold;color:#16a34a;font-size:13px;"></div>
+  <div style="background:rgba(0,0,0,0.05);padding:10px;border-radius:8px;margin-bottom:12px;">
+    <label><strong>Side Bet Stake Amount ($)</strong></label>
+    <input id="sideBetAmount" type="number" value="0" style="width:100%;margin-top:4px;">
+  </div>
+  <div style="display:flex;gap:8px;">
+    <button id="btnKeepZeros" style="flex:1;background:#16a34a;">Bet + Keep Zeros</button>
+    <button id="btnRemoveZeros" style="flex:1;background:#475569;">Bet + Remove Zeros</button>
+    <button id="btnIgnore" style="flex:1;background:transparent;color:#475569;border:1px solid #ccc;">Ignore</button>
+  </div>
+</div>
+
+<!-- ===== RAISE / HOLD MODAL ===== -->
+<div id="raiseHoldModal" class="modal-overlay">
+  <div class="modal-box">
+    <h3>Raise or Hold?</h3>
+    <p id="raiseHoldText" style="font-size:14px;margin:0 0 8px;"></p>
+    <div id="raiseHoldInfo" style="font-size:13px;color:var(--muted);margin-bottom:12px;"></div>
+    <div class="modal-actions">
+      <button id="btnRaise" style="background:#16a34a;">Raise (+<span id="raiseAmt"></span>)</button>
+      <button id="btnHold" class="ghost">Hold</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CRISIS MODAL ===== -->
+<div id="crisisModal" class="modal-overlay">
+  <div class="modal-box">
+    <h3 id="crisisTitle" style="color:#ef4444;">Loss Alert</h3>
+    <p id="crisisText" style="font-size:14px;"></p>
+    <div class="modal-actions">
+      <button id="btnCrisisContinue" style="background:#475569;">Continue Playing</button>
+      <button id="btnCrisisReset" style="background:#f59e0b;color:#000;">Reset Session</button>
+      <button id="btnCrisisQuit" style="background:#ef4444;">Quit</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ZERO EDIT MODAL ===== -->
+<div id="zeroEditModal" class="modal-overlay">
+  <div class="modal-box">
+    <h3>Edit Zero Bets</h3>
+    <p style="font-size:13px;color:var(--muted);margin:0 0 12px;">Set a uniform amount for all three, or enter different amounts for each.</p>
+    <div class="ze-row">
+      <label>Uniform Bet:</label>
+      <input id="zeUniform" type="number" min="0" value="5" />
+      <button id="zeApplyUniform" style="padding:6px 10px;font-size:12px;">Apply to All</button>
+    </div>
+    <hr style="border:none;border-top:1px solid rgba(0,0,0,0.1);margin:10px 0;">
+    <div class="ze-row"><label>Bet on 0:</label><input id="zeBet0" type="number" min="0" value="5" /></div>
+    <div class="ze-row"><label>Bet on 00:</label><input id="zeBet00" type="number" min="0" value="5" /></div>
+    <div class="ze-row"><label>Bet on 0/00 Split:</label><input id="zeBetSplit" type="number" min="0" value="5" /></div>
+    <div class="modal-actions">
+      <button id="zeSave" style="background:#16a34a;">Save</button>
+      <button id="zeCancel" class="ghost">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== LEAVE THE CASINO MODAL ===== -->
+<div id="leaveModal" class="modal-overlay">
+  <div class="modal-box" style="max-width:520px;">
+    <h3 id="leaveTitle" style="color:#16a34a;">Leave The Casino</h3>
+    <div id="leaveReport" style="font-size:13px;max-height:50vh;overflow:auto;"></div>
+    <div style="margin-top:12px;">
+      <label style="font-size:12px;">Email report to (optional):</label>
+      <input id="leaveEmail" type="text" placeholder="email@example.com" style="width:100%;margin-top:4px;" />
+    </div>
+    <div class="modal-actions" style="margin-top:12px;">
+      <button id="leaveExportCsv" style="background:#0891b2;">Export CSV</button>
+      <button id="leaveConfirm" style="background:#16a34a;">Confirm &amp; Leave</button>
+      <button id="leaveCancel" class="ghost">Stay</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== STICKY HEADER (mobile) ===== -->
+<div class="sticky-header" id="stickyHeader">
+  <div class="sticky-bal-row">
+    <span>Balance: <strong id="stickyBal">$1,000.00</strong></span>
+    <span>Spins: <strong id="stickyCounter">0/12</strong></span>
+  </div>
+  <div class="sticky-zeros">
+    <div class="sz" id="sz0">0: $5</div>
+    <div class="sz" id="szSplit">Split: $5</div>
+    <div class="sz" id="sz00">00: $5</div>
+  </div>
+</div>
+
+<!-- ===== MAIN APP ===== -->
+<div class="wrap" id="main-app-content" style="opacity:0;visibility:hidden;">
+
+<header>
+  <div>
+    <h1 style="margin:0;font-size:22px;">Project Zero Roulette</h1>
+    <div style="font-size:11px;color:var(--muted);">American table by default. Switch to European to disable 00 and split.</div>
+  </div>
+  <div class="controls">
+    <div class="card" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+      <div><label>Starting Bankroll</label><input id="startBank" type="number" value="1000" /></div>
+      <div><label>Unit per zero</label><input id="unit" type="number" value="5" /></div>
+      <div>
+        <label>Table Type</label>
+        <select id="tableType">
+          <option value="american">American (0 &amp; 00)</option>
+          <option value="european">European (single 0)</option>
+        </select>
+      </div>
+      <div>
+        <label>Background</label>
+        <select id="bgSelect">
+          <option value="white">White</option>
+          <option value="dark">Dark</option>
+          <option value="blue">Blue</option>
+          <option value="green">Green</option>
+          <option value="turquoise">Turquoise</option>
+          <option value="gold">Gold</option>
+          <option value="pink">Pink</option>
+          <option value="grey">Grey</option>
+        </select>
+      </div>
+      <button id="startSession" style="margin-top:14px;">Start Session</button>
+    </div>
+    <div class="card" style="text-align:right;">
+      <div class="big" id="currentBalance">$1,000.00</div>
+      <div style="font-size:11px;color:var(--muted);">Session Balance</div>
+    </div>
+  </div>
+</header>
+
+<div class="panel">
+  <!-- ===== LEFT COLUMN ===== -->
+  <div class="left">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+        <div style="flex:1;min-width:200px;">
+          <label><strong>Spin Input</strong></label>
+          <div class="row">
+            <input id="spinInput" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="Enter number" style="flex:1" readonly />
+            <button id="placeSpin">Place Spin</button>
+            <button id="randomSpin" class="ghost">Random</button>
+          </div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px;">Use the number pad below or type a value. Valid: 0, 00, 1-36.</div>
+          <div class="numpad" id="numpad"></div>
+        </div>
+        <div style="min-width:180px;">
+          <label><strong>Session Controls</strong></label>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;">
+            <button id="resetSession" class="ghost">Reset Session</button>
+            <button id="exportCsv" class="ghost">Export CSV</button>
+            <button id="resetHist" class="ghost">Reset Historical P/L</button>
+            <button id="sitOutToggle" class="ghost" style="border-color:red;color:red;">Sit Out Spins</button>
+            <button id="rollbackBtn" class="ghost" style="border-color:#f59e0b;color:#b45309;">Undo Last Spin</button>
+            <button id="editMidSession" class="ghost">Edit Bankroll/Unit</button>
+            <button id="leaveCasinoBtn" class="ghost" style="grid-column:span 2;border-color:#16a34a;color:#16a34a;font-weight:700;">Leave The Casino</button>
+            <button id="clearSavedState" class="ghost" style="grid-column:span 2;font-size:11px;">Clear Saved App State</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Stake Display -->
+      <div class="active-stake-bar" id="activeStakeBar">
+        <strong>Active Stake:</strong> <span id="activeStakeText"></span>
+      </div>
+
+      <!-- Sit Out Badge -->
+      <div id="sitOutBadge">
+        SITTING OUT: <span id="sitOutCount">0</span> SPINS
+        <span id="sitGhostHits" style="margin-left:10px;font-size:12px;color:#b45309;"></span>
+        <button class="ghost" onclick="editSitOut()" style="background:#fff;">Edit</button>
+        <button class="ghost" onclick="cancelSitOut()" style="background:#fff;border-color:red;color:red;">Cancel</button>
+      </div>
+
+      <!-- Zero Bet Display -->
+      <div class="uniform-bet-bar">Click any Zero box to change individual bets</div>
+      <div class="zeros-strip">
+        <div class="zeroItem" id="bet0Card" onclick="openZeroEdit()">
+          <div style="font-size:11px;color:var(--muted);">Bet on 0</div>
+          <div class="big" id="bet0Display">$5.00</div>
+          <div style="font-size:10px;color:var(--muted);" id="pay0"></div>
+        </div>
+        <div class="zeroItem" id="betSplitCard" onclick="openZeroEdit()">
+          <div style="font-size:11px;color:var(--muted);">Bet on 0/00 split</div>
+          <div class="big" id="betSplitDisplay">$5.00</div>
+          <div style="font-size:10px;color:var(--muted);" id="paySplit"></div>
+        </div>
+        <div class="zeroItem" id="bet00Card" onclick="openZeroEdit()">
+          <div style="font-size:11px;color:var(--muted);">Bet on 00</div>
+          <div class="big" id="bet00Display">$5.00</div>
+          <div style="font-size:10px;color:var(--muted);" id="pay00"></div>
+        </div>
+      </div>
+
+      <!-- Last 36 Numbers -->
+      <label><strong>Last 36 Numbers</strong></label>
+      <div class="lastnums" id="numHistory"></div>
+
+      <!-- Session History -->
+      <label style="margin-top:12px;"><strong>Session History</strong></label>
+      <div class="history">
+        <table id="historyTable">
+          <thead><tr><th>Time</th><th>Spin</th><th>Zeros Stake</th><th>Side</th><th>Net</th><th>Balance</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== RIGHT SIDEBAR ===== -->
+  <aside>
+    <div class="card">
+      <label><strong>Session Summary</strong></label>
+      <div style="margin-bottom:8px;"><div style="font-size:12px;">Starting Bankroll</div><div class="big" id="sumStart">$1,000.00</div></div>
+      <div style="margin-bottom:8px;"><div style="font-size:12px;">Session P/L</div><div class="big" id="sumSession">$0.00</div></div>
+      <div style="margin-bottom:8px;"><div style="font-size:12px;">Historical P/L</div><div class="big" id="sumHist">$0.00</div></div>
+
+      <label style="margin-top:12px;"><strong>Loss / Win Alerts</strong></label>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;">
+        <div class="badge" id="alL20" style="border-color:#ef4444;color:#ef4444;opacity:0.3;">L: 1/5</div>
+        <div class="badge" id="alL33" style="border-color:#ef4444;color:#ef4444;opacity:0.3;">L: 1/3</div>
+        <div class="badge" id="alL40" style="border-color:#ef4444;color:#ef4444;opacity:0.3;">L: 2/5</div>
+        <div class="badge" id="alW20" style="border-color:#16a34a;color:#16a34a;opacity:0.3;">W: 1/5</div>
+        <div class="badge" id="alW33" style="border-color:#16a34a;color:#16a34a;opacity:0.3;">W: 1/3</div>
+        <div class="badge" id="alW40" style="border-color:#16a34a;color:#16a34a;opacity:0.3;">W: 2/5</div>
+      </div>
+
+      <label style="margin-top:16px;"><strong>Settings</strong></label>
+      <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+        <label style="display:flex;align-items:center;gap:8px;margin:0;">
+          <input type="checkbox" id="autoIncEvery" checked> Auto increment every N spins
+        </label>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <div><label>N spins:</label><input type="number" id="nSpins" value="12" style="width:55px" /></div>
+          <div><label>Increment $:</label><input type="number" id="incVal" value="5" style="width:55px" /></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span>Spin counter:</span>
+          <input type="number" id="spinCountLeft" value="0" style="width:45px;text-align:center;" min="0" />
+          <span>/</span>
+          <input type="number" id="spinCountRight" value="12" style="width:45px;text-align:center;" min="1" />
+          <button id="resetCountBtn" class="ghost" style="padding:4px 8px;font-size:11px;">Reset</button>
+        </div>
+        <label style="display:flex;align-items:center;gap:8px;margin:0;">
+          <input type="checkbox" id="showSplit" checked> Show 0/00 split bet (American only)
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;margin:0;">
+          <input type="checkbox" id="autoPlaceSplit" checked> Auto-place split bet when shown
+        </label>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<div style="text-align:right;font-size:10px;color:var(--muted);padding:16px;">
+  Project Zero Roulette — Revision 8.0 — client only
+</div>
+</div>
+
+<script>
+/* ================================================================
+   PROJECT ZERO ROULETTE — REVISION 8.0
+   Complete rebuild with all gap analysis fixes + new features.
+   ================================================================ */
+
+/* ===== CORE STATE ===== */
+let state = {
+  bank:1000, balance:1000, unit:5, table:'american',
+  histPL:0, history:[], last36:[], spinCounter:0, spinCounterMax:12,
+  sitOut:0, theme:'white',
+  activeSide:null, pendingType:null, pendingValue:null,
+  lastAlertLevel:null, alertTimeoutId:null, sessionStarted:false,
+  // NEW in Rev 8
+  bet0:5, bet00:5, betSplit:5,
+  ghostHits:0, ghostHitLog:[],
+  sitOutTimesUsed:0, totalSitOutSpins:0,
+  sessionStartTime:null, totalSpins:0,
+  defaultEmail:''
+};
+
+const REDS=[1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36];
+const STORAGE_KEY='PZ_ROULETTE_REV_8';
+const $=id=>document.getElementById(id);
+const fmt=v=>v.toLocaleString('en-US',{style:'currency',currency:'USD'});
+
+/* ===== SPLASH SCREEN ===== */
+(function initSplash(){
+  const img=$('splashImg');
+  img.src='SPLASH_PLACEHOLDER';
+  $('splash-overlay').onclick=function(){
+    // Try to play audio on user interaction
+    try{
+      const audio=new Audio('AUDIO_PLACEHOLDER');
+      audio.volume=0.4;
+      audio.play().catch(()=>{});
+    }catch(e){}
+    this.style.opacity='0';
+    setTimeout(()=>{
+      this.style.display='none';
+      $('main-app-content').style.visibility='visible';
+      $('main-app-content').style.opacity='1';
+    },1500);
+  };
+  // Auto-dismiss after 6s if not tapped
+  setTimeout(()=>{
+    if($('splash-overlay').style.display!=='none'){
+      $('splash-overlay').style.opacity='0';
+      setTimeout(()=>{
+        $('splash-overlay').style.display='none';
+        $('main-app-content').style.visibility='visible';
+        $('main-app-content').style.opacity='1';
+      },1500);
+    }
+  },6000);
+})();
+
+/* ===== BUILD NUMBER PAD ===== */
+function buildNumpad(){
+  const pad=$('numpad');
+  pad.innerHTML='';
+  const rows=[['1','2','3','0'],['4','5','6','00'],['7','8','9','CLR'],['10','11','12','GO']];
+  const extra=[['13','14','15','16'],['17','18','19','20'],['21','22','23','24'],['25','26','27','28'],['29','30','31','32'],['33','34','35','36']];
+  function getColor(n){
+    if(n==='0'||n==='00')return'np-green';
+    const num=parseInt(n);if(isNaN(num))return'';
+    return REDS.includes(num)?'np-red':'np-black';
+  }
+  [...rows,...extra].forEach(row=>{
+    row.forEach(val=>{
+      const btn=document.createElement('button');
+      if(val==='CLR'){btn.textContent='CLR';btn.className='np-clear';btn.onclick=()=>{$('spinInput').value=''};}
+      else if(val==='GO'){btn.textContent='SPIN';btn.className='np-action';btn.onclick=()=>{if($('spinInput').value!==''){handleSpin($('spinInput').value);$('spinInput').value='';}}}
+      else{btn.textContent=val;btn.className=getColor(val);btn.onclick=()=>{$('spinInput').value=val;};}
+      pad.appendChild(btn);
+    });
+  });
+}
+
+/* ===== AUDIO ===== */
+function playTone(freq=880,duration=400,type='sine',volume=0.2){
+  try{const ctx=new(window.AudioContext||window.webkitAudioContext)();const o=ctx.createOscillator();const g=ctx.createGain();o.type=type;o.frequency.value=freq;o.connect(g);g.connect(ctx.destination);g.gain.setValueAtTime(0,ctx.currentTime);g.gain.linearRampToValueAtTime(volume,ctx.currentTime+0.01);o.start();g.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+duration/1000);setTimeout(()=>{o.stop();try{ctx.close();}catch(e){}},duration+50);}catch(e){}
+}
+function playWinChime(){playTone(880,200,'sine',0.15);setTimeout(()=>playTone(1320,200,'sine',0.15),220);}
+function playLossAlert(urgent){
+  if(urgent){playTone(440,300,'square',0.3);setTimeout(()=>playTone(330,400,'square',0.3),320);}
+  else{playTone(440,250,'sine',0.2);setTimeout(()=>playTone(330,250,'sine',0.2),270);}
+}
+
+/* ===== PATTERN ANALYZER ===== */
+function getNumProps(n){
+  if(n==='0'||n==='00')return{color:'green',parity:null,dozen:null,col:null};
+  const num=parseInt(n);const color=REDS.includes(num)?'red':'black';
+  const parity=num%2===0?'even':'odd';const dozen=Math.ceil(num/12);const col=((num-1)%3)+1;
+  return{color,parity,dozen,col};
+}
+function runPatternCheck(){
+  if(state.last36.length<6)return;
+  const recent=state.last36.slice(0,6).map(n=>getNumProps(n));
+  const checks=[{name:'Color',key:'color'},{name:'Parity',key:'parity'},{name:'Dozen',key:'dozen'},{name:'Column',key:'col'}];
+  for(let c of checks){
+    const fv=recent[0][c.key];
+    if(fv&&recent.every(item=>item[c.key]===fv)){
+      let sv=null;
+      if(c.name==='Color')sv=fv==='red'?'black':(fv==='black'?'red':null);
+      else if(c.name==='Parity')sv=fv==='odd'?'even':'odd';
+      else{
+        let counts={1:0,2:0,3:0};const key=c.name==='Dozen'?'dozen':'col';
+        state.last36.forEach(n=>{const p=getNumProps(n);if(p[key])counts[p[key]]++;});
+        let coldest=1,min=counts[1];for(let d=2;d<=3;d++){if(counts[d]<min){min=counts[d];coldest=d;}}
+        sv=String(coldest);
+      }
+      triggerPatternUI(c.name,fv,sv);return;
+    }
+  }
+}
+function triggerPatternUI(type,value,suggestedValue){
+  $('patternDialog').style.display='block';
+  $('patternDialog').setAttribute('aria-hidden','false');
+  $('patternTitle').textContent=`6+ ${type.toUpperCase()} STREAK!`;
+  $('patternDesc').textContent=`The last 6 numbers were all ${value}. Would you like to place a side bet?`;
+  if(type==='Dozen'||type==='Column'){
+    const key=type==='Dozen'?'dozen':'col';
+    let counts={1:0,2:0,3:0};state.last36.forEach(n=>{const p=getNumProps(n);if(p[key])counts[p[key]]++;});
+    const coldest=Object.keys(counts).reduce((a,b)=>counts[a]<=counts[b]?a:b);
+    $('coldSuggestion').textContent=`Suggestion: Bet on ${type} ${coldest} (Coldest: hit ${counts[coldest]} times in last 36).`;
+    state.pendingValue=String(coldest);
+  }else if(suggestedValue){
+    $('coldSuggestion').textContent=`Suggestion: Bet on ${suggestedValue.toUpperCase()}.`;
+    state.pendingValue=suggestedValue;
+  }else{$('coldSuggestion').textContent='';state.pendingValue=null;}
+  const defaultAmt=state.unit||0;
+  if(!parseFloat($('sideBetAmount').value))$('sideBetAmount').value=defaultAmt;
+  state.pendingType=type;
+}
+
+/* ===== FLASHING BORDER ===== */
+function flashBorder(type,count,interval){
+  let i=0;const cls=type==='win'?'flash-win':(type==='lose-urgent'?'flash-lose-urgent':'flash-lose');
+  function doFlash(){if(i>=count)return;document.body.classList.add(cls);setTimeout(()=>{document.body.classList.remove(cls);},interval*0.7);i++;setTimeout(doFlash,interval);}
+  doFlash();
+}
+
+/* ===== WIN/LOSS ALERT CHECK (20%, 33%, 40%) ===== */
+function checkAlerts(){
+  const diff=(state.balance-state.bank)/state.bank;
+  const thresholds={alL20:-0.20,alL33:-0.33,alL40:-0.40,alW20:0.20,alW33:0.33,alW40:0.40};
+  let anyWin=false,anyLose=false,highestLoss=0,highestWin=0;
+  for(let id in thresholds){
+    const t=thresholds[id];const active=t<0?diff<=t:diff>=t;
+    $(id).style.opacity=active?1:0.3;
+    $(id).style.background=active?(t<0?'#fee2e2':'#dcfce7'):'transparent';
+    if(active&&t>0){anyWin=true;highestWin=Math.max(highestWin,t);}
+    if(active&&t<0){anyLose=true;highestLoss=Math.min(highestLoss,t);}
+  }
+  let level=null;
+  if(anyWin){level=highestWin>=0.40?'w40':(highestWin>=0.33?'w33':'w20');}
+  else if(anyLose){level=highestLoss<=-0.40?'l40':(highestLoss<=-0.33?'l33':'l20');}
+  if(level!==state.lastAlertLevel){
+    document.body.classList.remove('flash-win','flash-lose','flash-lose-urgent');
+    if(state.alertTimeoutId){clearTimeout(state.alertTimeoutId);state.alertTimeoutId=null;}
+    if(level&&level.startsWith('w')){
+      playWinChime();
+      if(level==='w40')flashBorder('win',10,300);else flashBorder('win',5,600);
+    }else if(level==='l20'){playLossAlert(false);flashBorder('lose',5,600);}
+    else if(level==='l33'){playLossAlert(false);flashBorder('lose',5,600);}
+    else if(level==='l40'){
+      playLossAlert(true);flashBorder('lose-urgent',10,300);
+      setTimeout(()=>showCrisisModal(),1000);
+    }
+    state.lastAlertLevel=level;
+  }
+}
+
+/* ===== CRISIS MODAL ===== */
+function showCrisisModal(){
+  const pct=Math.abs(((state.balance-state.bank)/state.bank)*100).toFixed(0);
+  $('crisisTitle').textContent='40% LOSS ALERT (2/5)';
+  $('crisisText').textContent=`You have lost ${pct}% of your starting bankroll (${fmt(state.bank)}). Your current balance is ${fmt(state.balance)}. What would you like to do?`;
+  $('crisisModal').style.display='flex';
+}
+$('btnCrisisContinue').onclick=()=>{$('crisisModal').style.display='none';};
+$('btnCrisisReset').onclick=()=>{$('crisisModal').style.display='none';doResetSession(true);};
+$('btnCrisisQuit').onclick=()=>{$('crisisModal').style.display='none';showLeaveReport();};
+
+/* ===== RAISE / HOLD MODAL ===== */
+function showRaiseHold(){
+  const inc=parseFloat($('incVal').value)||0;
+  $('raiseAmt').textContent=fmt(inc);
+  $('raiseHoldText').textContent=`You've completed ${state.spinCounterMax} spins. Would you like to raise your unit bet or hold at the current level?`;
+  $('raiseHoldInfo').textContent=`Current unit: ${fmt(state.unit)} → Raise to: ${fmt(state.unit+inc)}`;
+  $('raiseHoldModal').style.display='flex';
+}
+$('btnRaise').onclick=()=>{
+  const inc=parseFloat($('incVal').value)||0;
+  state.unit+=inc;state.bet0=state.unit;state.bet00=state.unit;state.betSplit=state.unit;
+  $('unit').value=state.unit;
+  $('raiseHoldModal').style.display='none';state.spinCounter=0;refresh();
+};
+$('btnHold').onclick=()=>{$('raiseHoldModal').style.display='none';state.spinCounter=0;refresh();};
+
+/* ===== ZERO EDIT MODAL ===== */
+function openZeroEdit(){
+  $('zeBet0').value=state.bet0;
+  $('zeBet00').value=state.bet00;
+  $('zeBetSplit').value=state.betSplit;
+  $('zeUniform').value=state.unit;
+  $('zeroEditModal').style.display='flex';
+}
+$('zeApplyUniform').onclick=()=>{
+  const v=parseFloat($('zeUniform').value)||0;
+  $('zeBet0').value=v;$('zeBet00').value=v;$('zeBetSplit').value=v;
+};
+$('zeSave').onclick=()=>{
+  state.bet0=parseFloat($('zeBet0').value)||0;
+  state.bet00=parseFloat($('zeBet00').value)||0;
+  state.betSplit=parseFloat($('zeBetSplit').value)||0;
+  $('zeroEditModal').style.display='none';refresh();
+};
+$('zeCancel').onclick=()=>{$('zeroEditModal').style.display='none';};
+
+/* ===== UI REFRESH ===== */
+function refresh(){
+  $('currentBalance').textContent=fmt(state.balance);
+  $('stickyBal').textContent=fmt(state.balance);
+  $('sumStart').textContent=fmt(state.bank);
+  const sessionPL=state.balance-state.bank;
+  $('sumSession').textContent=fmt(sessionPL);
+  $('sumSession').style.color=sessionPL>=0?'var(--win)':'var(--lose)';
+  $('sumHist').textContent=fmt(state.histPL);
+  $('sumHist').style.color=state.histPL>=0?'var(--win)':'var(--lose)';
+
+  const isSit=state.sitOut>0;
+  const b0=isSit?0:state.bet0;
+  const b00=isSit?0:(state.table==='american'?state.bet00:0);
+  const showSplit=state.table==='american'&&$('showSplit').checked;
+  const bSp=isSit?0:(showSplit?state.betSplit:0);
+
+  $('bet0Display').textContent=fmt(b0);
+  $('bet00Display').textContent=state.table==='american'?fmt(b00):'—';
+  $('betSplitDisplay').textContent=showSplit?fmt(bSp):'—';
+
+  $('pay0').textContent=b0>0?`Pays: ${fmt(b0*36)} total (${fmt(b0*35)} profit)`:'';
+  $('pay00').textContent=(state.table==='american'&&b00>0)?`Pays: ${fmt(b00*36)} total (${fmt(b00*35)} profit)`:'';
+  $('paySplit').textContent=(showSplit&&bSp>0)?`Pays: ${fmt(bSp*18)} total (${fmt(bSp*17)} profit)`:'';
+
+  $('bet00Card').style.opacity=state.table==='american'?1:0.3;
+  $('betSplitCard').style.opacity=showSplit?1:0.3;
+
+  $('sitOutBadge').style.display=state.sitOut>0?'block':'none';
+  $('sitOutCount').textContent=state.sitOut;
+  $('sitGhostHits').textContent=state.ghostHits>0?`(${state.ghostHits} zero${state.ghostHits>1?'s':''} hit while out!)`:'';
+
+  $('spinCountLeft').value=state.spinCounter;
+  $('spinCountRight').value=state.spinCounterMax;
+  $('stickyCounter').textContent=state.spinCounter+'/'+state.spinCounterMax;
+
+  // Sticky zeros
+  $('sz0').textContent='0: '+fmt(state.bet0);
+  $('sz00').textContent='00: '+fmt(state.bet00);
+  $('szSplit').textContent='Split: '+fmt(state.betSplit);
+
+  document.body.className='theme-'+state.theme;
+
+  if(state.activeSide){
+    $('activeStakeBar').style.display='block';
+    const s=state.activeSide;let desc=`${s.type} ${s.value} — $${s.amt}`;
+    if(s.remove)desc+=' (zeros removed this spin)';
+    $('activeStakeText').textContent=desc;
+  }else{$('activeStakeBar').style.display='none';}
+
+  // Render last 36
+  const nh=$('numHistory');nh.innerHTML='';
+  state.last36.forEach(n=>{
+    const d=document.createElement('div');d.className='num ';
+    if(n==='0'||n==='00')d.classList.add('green');
+    else{const num=parseInt(n);d.classList.add(REDS.includes(num)?'red':'black');}
+    d.textContent=n;nh.appendChild(d);
+  });
+
+  // Render history
+  const tb=document.querySelector('#historyTable tbody');tb.innerHTML='';
+  [...state.history].reverse().forEach(r=>{
+    const tr=document.createElement('tr');
+    const netColor=r.net>=0?'var(--win)':'var(--lose)';
+    tr.innerHTML=`<td>${r.t}</td><td>${r.n}</td><td>${fmt(r.s)}</td><td>${r.side}</td><td style="color:${netColor}">${fmt(r.net)}</td><td>${fmt(r.b)}</td>`;
+    tb.appendChild(tr);
+  });
+
+  checkAlerts();
+  saveState();
+}
+
+function saveState(){
+  try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state));}catch(e){}
+}
+
+/* ===== HANDLE SPIN ===== */
+function handleSpin(val){
+  val=val.trim();
+  if(val!=='0'&&val!=='00'){
+    const n=parseInt(val);if(isNaN(n)||n<1||n>36){alert('Invalid number. Enter 0, 00, or 1-36.');return;}
+    val=String(n);
+  }
+  if(!state.sessionStarted){
+    state.bank=parseFloat($('startBank').value)||0;
+    state.balance=state.bank;
+    state.unit=parseFloat($('unit').value)||0;
+    state.bet0=state.unit;state.bet00=state.unit;state.betSplit=state.unit;
+    state.table=$('tableType').value;
+    state.sessionStarted=true;
+    state.sessionStartTime=Date.now();
+  }
+
+  const isSit=state.sitOut>0;
+  const b0=isSit?0:state.bet0;
+  const b00=isSit?0:(state.table==='american'?state.bet00:0);
+  const showSplit=state.table==='american'&&$('showSplit').checked&&$('autoPlaceSplit').checked;
+  const bSp=isSit?0:(showSplit?state.betSplit:0);
+  const zeroStake=b0+b00+bSp;
+
+  let win=0;
+  if(val==='0'){win+=b0*36;if(showSplit&&!isSit)win+=bSp*18;}
+  else if(val==='00'){win+=b00*36;if(showSplit&&!isSit)win+=bSp*18;}
+
+  // Ghost hit tracking
+  if(isSit&&(val==='0'||val==='00')){
+    state.ghostHits++;
+    state.ghostHitLog.push({time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),number:val});
+  }
+
+  // Side bet
+  const side=state.activeSide;let sideDescription='-';let totalStake=zeroStake;
+  if(side){
+    const stake=side.amt||0;totalStake+=stake;
+    if(side.remove)totalStake-=zeroStake;
+    const props=getNumProps(val);let matched=false;
+    if(side.type==='Color')matched=props.color===side.value;
+    else if(side.type==='Parity')matched=props.parity===side.value;
+    else if(side.type==='Dozen')matched=String(props.dozen)===side.value;
+    else if(side.type==='Column')matched=String(props.col)===side.value;
+    let sideWinTotal=0;
+    if(side.type==='Color'||side.type==='Parity'){
+      sideDescription=`${side.type} ${side.value} ($${stake})`;
+      if(matched)sideWinTotal=stake*2;
+    }else{
+      sideDescription=`${side.type} ${side.value} ($${stake})`;
+      if(matched)sideWinTotal=stake*3;
+    }
+    if(sideWinTotal>0)win+=sideWinTotal;
+  }
+
+  const net=win-totalStake;
+  state.balance+=net;
+  state.histPL+=net;
+  state.totalSpins++;
+
+  state.last36.unshift(val);
+  if(state.last36.length>36)state.last36.pop();
+
+  state.history.push({
+    t:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),
+    n:val,s:zeroStake,side:state.activeSide?sideDescription:'-',net:net,b:state.balance
+  });
+
+  if(isSit){
+    state.sitOut--;
+    state.totalSitOutSpins++;
+  }else if($('autoIncEvery').checked){
+    // Auto-reset counter on zero hit
+    if(val==='0'||val==='00'){
+      state.spinCounter=0;
+    }else{
+      state.spinCounter++;
+      if(state.spinCounter>=state.spinCounterMax){showRaiseHold();}
+    }
+  }
+
+  state.activeSide=null;state.pendingType=null;state.pendingValue=null;
+  runPatternCheck();
+  refresh();
+}
+
+/* ===== ROLLBACK LAST SPIN ===== */
+function rollbackLastSpin(){
+  if(state.history.length===0){alert('No spins to undo.');return;}
+  const last=state.history.pop();
+  state.balance-=last.net;state.histPL-=last.net;state.totalSpins--;
+  if(state.last36.length>0)state.last36.shift();
+  if(state.spinCounter>0&&state.sitOut===0)state.spinCounter--;
+  refresh();
+  const replacement=prompt('Spin undone. Enter the correct number to replace it (or Cancel to just remove):');
+  if(replacement!==null&&replacement.trim()!=='')handleSpin(replacement.trim());
+}
+
+/* ===== SIT OUT CONTROLS ===== */
+function editSitOut(){
+  const n=prompt('Enter new number of sit-out spins:',state.sitOut);
+  if(n!==null&&!isNaN(parseInt(n))){state.sitOut=Math.max(0,parseInt(n));refresh();}
+}
+function cancelSitOut(){
+  if(confirm('Cancel sit-out and resume betting?')){
+    state.sitOut=0;
+    const changeBet=confirm('Would you like to change your bet amounts before resuming?');
+    if(changeBet)openZeroEdit();
+    refresh();
+  }
+}
+
+/* ===== RESET SESSION ===== */
+function doResetSession(clearLast36){
+  state.bank=parseFloat($('startBank').value)||0;
+  state.balance=state.bank;
+  state.unit=parseFloat($('unit').value)||0;
+  state.bet0=state.unit;state.bet00=state.unit;state.betSplit=state.unit;
+  state.table=$('tableType').value;
+  state.history=[];
+  if(clearLast36)state.last36=[];
+  state.spinCounter=0;state.sitOut=0;state.activeSide=null;
+  state.pendingType=null;state.pendingValue=null;state.lastAlertLevel=null;
+  state.sessionStarted=true;state.sessionStartTime=Date.now();
+  state.totalSpins=0;state.ghostHits=0;state.ghostHitLog=[];
+  state.sitOutTimesUsed=0;state.totalSitOutSpins=0;
+  document.body.classList.remove('flash-win','flash-lose','flash-lose-urgent');
+  refresh();
+}
+
+/* ===== LEAVE THE CASINO ===== */
+function showLeaveReport(){
+  if(!confirm('Are you sure you want to leave the casino?'))return;
+  const now=Date.now();
+  const elapsed=state.sessionStartTime?now-state.sessionStartTime:0;
+  const hrs=Math.floor(elapsed/3600000);
+  const mins=Math.floor((elapsed%3600000)/60000);
+  const secs=Math.floor((elapsed%60000)/1000);
+  const timeStr=`${hrs}h ${mins}m ${secs}s`;
+  const sessionPL=state.balance-state.bank;
+  const isProfit=sessionPL>=0;
+
+  let ghostDetail='';
+  if(state.ghostHitLog.length>0){
+    ghostDetail='<br>Ghost hits: '+state.ghostHitLog.map(g=>`${g.time} — ${g.number}`).join(', ');
+  }
+
+  const report=`
+    <table style="width:100%;font-size:13px;border-collapse:collapse;">
+      <tr><td style="padding:4px 0;"><strong>Session Duration:</strong></td><td>${timeStr}</td></tr>
+      <tr><td style="padding:4px 0;"><strong>Total Spins:</strong></td><td>${state.totalSpins}</td></tr>
+      <tr><td style="padding:4px 0;"><strong>Starting Bankroll:</strong></td><td>${fmt(state.bank)}</td></tr>
+      <tr><td style="padding:4px 0;"><strong>Ending Balance:</strong></td><td>${fmt(state.balance)}</td></tr>
+      <tr><td style="padding:4px 0;"><strong>Session P/L:</strong></td><td style="color:${isProfit?'#16a34a':'#ef4444'};font-weight:700;">${fmt(sessionPL)}</td></tr>
+      <tr><td style="padding:4px 0;"><strong>Historical P/L:</strong></td><td>${fmt(state.histPL)}</td></tr>
+      <tr><td colspan="2" style="padding:8px 0 4px;border-top:1px solid rgba(0,0,0,0.1);"><strong>Sit-Out Statistics:</strong></td></tr>
+      <tr><td style="padding:4px 0;">Times Sit-Out Used:</td><td>${state.sitOutTimesUsed}</td></tr>
+      <tr><td style="padding:4px 0;">Total Sit-Out Spins:</td><td>${state.totalSitOutSpins}</td></tr>
+      <tr><td style="padding:4px 0;">Avg Sit-Out Length:</td><td>${state.sitOutTimesUsed>0?Math.round(state.totalSitOutSpins/state.sitOutTimesUsed):0} spins</td></tr>
+      <tr><td style="padding:4px 0;">Zeros Hit While Out:</td><td>${state.ghostHits}${ghostDetail}</td></tr>
+    </table>
+    <div style="margin-top:14px;padding:12px;border-radius:8px;text-align:center;font-weight:700;font-size:15px;background:${isProfit?'#dcfce7':'#fee2e2'};color:${isProfit?'#16a34a':'#ef4444'};">
+      ${isProfit?'Congratulations! You leave the table a winner!':'Better luck next time. The table will be here when you return.'}
+    </div>
+  `;
+
+  $('leaveTitle').textContent=isProfit?'Winner! — Session Report':'Session Report';
+  $('leaveTitle').style.color=isProfit?'#16a34a':'#ef4444';
+  $('leaveReport').innerHTML=report;
+  $('leaveEmail').value=state.defaultEmail||'';
+  $('leaveModal').style.display='flex';
+}
+
+$('leaveExportCsv').onclick=()=>{exportCSV();};
+$('leaveConfirm').onclick=()=>{
+  const email=$('leaveEmail').value.trim();
+  if(email){
+    state.defaultEmail=email;
+    // mailto: link as best-effort email
+    const sessionPL=state.balance-state.bank;
+    const subject=encodeURIComponent('Project Zero Roulette — Session Report');
+    const body=encodeURIComponent(`Session Report\n\nTotal Spins: ${state.totalSpins}\nStarting Bankroll: ${fmt(state.bank)}\nEnding Balance: ${fmt(state.balance)}\nSession P/L: ${fmt(sessionPL)}\nHistorical P/L: ${fmt(state.histPL)}\nSit-Out Times Used: ${state.sitOutTimesUsed}\nTotal Sit-Out Spins: ${state.totalSitOutSpins}\nZeros Hit While Out: ${state.ghostHits}`);
+    window.open(`mailto:${email}?subject=${subject}&body=${body}`,'_blank');
+  }
+  $('leaveModal').style.display='none';
+  // Full reset
+  state.history=[];state.last36=[];state.spinCounter=0;state.sitOut=0;
+  state.activeSide=null;state.pendingType=null;state.pendingValue=null;
+  state.lastAlertLevel=null;state.sessionStarted=false;
+  state.totalSpins=0;state.ghostHits=0;state.ghostHitLog=[];
+  state.sitOutTimesUsed=0;state.totalSitOutSpins=0;state.sessionStartTime=null;
+  state.bank=parseFloat($('startBank').value)||1000;
+  state.balance=state.bank;
+  state.unit=parseFloat($('unit').value)||5;
+  state.bet0=state.unit;state.bet00=state.unit;state.betSplit=state.unit;
+  document.body.classList.remove('flash-win','flash-lose','flash-lose-urgent');
+  refresh();
+};
+$('leaveCancel').onclick=()=>{$('leaveModal').style.display='none';};
+
+/* ===== CSV EXPORT ===== */
+function exportCSV(){
+  if(state.history.length===0){alert('No history to export.');return;}
+  const sessionPL=state.balance-state.bank;
+  const elapsed=state.sessionStartTime?Date.now()-state.sessionStartTime:0;
+  const hrs=Math.floor(elapsed/3600000);const mins=Math.floor((elapsed%3600000)/60000);
+  let csv='Project Zero Roulette — Session Report\n';
+  csv+=`Session Duration,${hrs}h ${mins}m\n`;
+  csv+=`Total Spins,${state.totalSpins}\n`;
+  csv+=`Starting Bankroll,${state.bank}\n`;
+  csv+=`Ending Balance,${state.balance}\n`;
+  csv+=`Session P/L,${sessionPL}\n`;
+  csv+=`Historical P/L,${state.histPL}\n`;
+  csv+=`Sit-Out Times Used,${state.sitOutTimesUsed}\n`;
+  csv+=`Total Sit-Out Spins,${state.totalSitOutSpins}\n`;
+  csv+=`Zeros Hit While Out,${state.ghostHits}\n\n`;
+  csv+='Time,Spin,Zeros Stake,Side,Net,Balance\n';
+  state.history.forEach(r=>{csv+=`${r.t},${r.n},${r.s},"${r.side}",${r.net},${r.b}\n`;});
+  const blob=new Blob([csv],{type:'text/csv'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;
+  a.download=`ProjectZero_Session_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();URL.revokeObjectURL(url);
+}
+
+/* ===== EVENT HANDLERS ===== */
+$('startSession').onclick=()=>{
+  if(state.sessionStarted){
+    if(!confirm('Start a new session? This will reset everything.'))return;
+  }
+  doResetSession(true);
+};
+
+$('placeSpin').onclick=()=>{if($('spinInput').value!==''){handleSpin($('spinInput').value);$('spinInput').value='';}};
+
+$('randomSpin').onclick=()=>{
+  const nums=state.table==='american'?['0','00',...Array.from({length:36},(_,i)=>String(i+1))]:['0',...Array.from({length:36},(_,i)=>String(i+1))];
+  handleSpin(nums[Math.floor(Math.random()*nums.length)]);
+};
+
+$('resetSession').onclick=()=>{
+  if(confirm('Reset the current session balance?')){
+    const clearNums=confirm('Also clear the Last 36 numbers?');
+    doResetSession(clearNums);
+  }
+};
+
+$('exportCsv').onclick=exportCSV;
+
+$('resetHist').onclick=()=>{if(confirm('Reset Historical P/L to $0?')){state.histPL=0;refresh();}};
+
+$('sitOutToggle').onclick=()=>{
+  const n=prompt('How many spins to sit out? (Default: 24)','24');
+  if(n!==null&&!isNaN(parseInt(n))&&parseInt(n)>0){
+    state.sitOut=parseInt(n);state.sitOutTimesUsed++;refresh();
+  }
+};
+
+$('rollbackBtn').onclick=rollbackLastSpin;
+
+$('editMidSession').onclick=()=>{
+  const newBank=prompt('Enter new Starting Bankroll (or Cancel to skip):',state.bank);
+  if(newBank!==null&&!isNaN(parseFloat(newBank))){
+    if(confirm(`Change starting bankroll from ${fmt(state.bank)} to ${fmt(parseFloat(newBank))}?`)){
+      state.bank=parseFloat(newBank);$('startBank').value=state.bank;
+    }
+  }
+  const newUnit=prompt('Enter new Unit per zero (or Cancel to skip):',state.unit);
+  if(newUnit!==null&&!isNaN(parseFloat(newUnit))){
+    if(confirm(`Change unit from ${fmt(state.unit)} to ${fmt(parseFloat(newUnit))}?`)){
+      state.unit=parseFloat(newUnit);state.bet0=state.unit;state.bet00=state.unit;state.betSplit=state.unit;
+      $('unit').value=state.unit;
+    }
+  }
+  refresh();
+};
+
+$('leaveCasinoBtn').onclick=showLeaveReport;
+
+$('clearSavedState').onclick=()=>{
+  if(confirm('Clear all saved app state? This will reload the app fresh.')){
+    localStorage.removeItem(STORAGE_KEY);location.reload();
+  }
+};
+
+$('bgSelect').onchange=(e)=>{state.theme=e.target.value;refresh();};
+$('tableType').onchange=()=>{state.table=$('tableType').value;refresh();};
+$('showSplit').onchange=refresh;
+$('autoPlaceSplit').onchange=refresh;
+
+$('spinCountLeft').onchange=()=>{state.spinCounter=Math.max(0,parseInt($('spinCountLeft').value)||0);refresh();};
+$('spinCountRight').onchange=()=>{state.spinCounterMax=Math.max(1,parseInt($('spinCountRight').value)||12);$('nSpins').value=state.spinCounterMax;refresh();};
+$('nSpins').onchange=()=>{state.spinCounterMax=Math.max(1,parseInt($('nSpins').value)||12);$('spinCountRight').value=state.spinCounterMax;refresh();};
+$('resetCountBtn').onclick=()=>{state.spinCounter=0;refresh();};
+
+$('btnKeepZeros').onclick=()=>{
+  const amt=parseFloat($('sideBetAmount').value)||0;
+  if(!state.pendingType){$('patternDialog').style.display='none';return;}
+  state.activeSide={type:state.pendingType,value:state.pendingValue,amt:amt,remove:false};
+  $('patternDialog').style.display='none';$('patternDialog').setAttribute('aria-hidden','true');refresh();
+};
+$('btnRemoveZeros').onclick=()=>{
+  const amt=parseFloat($('sideBetAmount').value)||0;
+  if(!state.pendingType){$('patternDialog').style.display='none';return;}
+  state.activeSide={type:state.pendingType,value:state.pendingValue,amt:amt,remove:true};
+  $('patternDialog').style.display='none';$('patternDialog').setAttribute('aria-hidden','true');refresh();
+};
+$('btnIgnore').onclick=()=>{
+  $('patternDialog').style.display='none';$('patternDialog').setAttribute('aria-hidden','true');
+  state.pendingType=null;state.pendingValue=null;
+};
+
+$('spinInput').addEventListener('focus',function(){if(window.innerWidth>600)this.removeAttribute('readonly');});
+$('spinInput').addEventListener('blur',function(){this.setAttribute('readonly','readonly');});
+$('spinInput').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();if(this.value!==''){handleSpin(this.value);this.value='';}}});
+
+/* ===== LOAD STATE & INIT ===== */
+window.onload=()=>{
+  const saved=localStorage.getItem(STORAGE_KEY);
+  if(saved){
+    try{
+      const parsed=JSON.parse(saved);Object.assign(state,parsed);
+      $('startBank').value=state.bank;$('unit').value=state.unit;
+      $('tableType').value=state.table;$('bgSelect').value=state.theme;
+      $('nSpins').value=state.spinCounterMax||12;$('incVal').value=state.incVal||5;
+    }catch(e){}
+  }
+  buildNumpad();
+  refresh();
+};
+</script>
+</body>
+</html>

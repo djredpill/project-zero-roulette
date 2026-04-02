@@ -1,0 +1,1 @@
+The PDF shows broken image icons instead of the actual screenshots. The manus-md-to-pdf converter is using relative paths (screenshots_cropped/...) which may not resolve correctly. Need to use absolute paths in the markdown before converting.

@@ -1,0 +1,12 @@
+PDF Review Notes:
+- Total pages: 21
+- Page 1: Title page and preface - looks clean
+- Page 2: Splash screen screenshot renders perfectly - cropped nicely
+- Page 5: Session History section - streak alert screenshot renders correctly with the orange border
+- Page 6: Section 3 header - Streak Alerts & Side Bets
+- Page 7: Streak alert screenshot renders well, outcome breakdown table visible
+- Page 8: Multiple Simultaneous Streaks and Active Stakes Display sections
+
+Issue noticed on Page 5: The screenshot under "Session History & Last 36 Numbers" heading is actually showing the streak alert modal, not the session history table. This appears to be a screenshot naming/mapping issue - iphone_05_session_history.png may have been captured incorrectly during the automated process.
+
+Overall: Screenshots are rendering correctly in the PDF. The cropping looks good. Text formatting is professional.

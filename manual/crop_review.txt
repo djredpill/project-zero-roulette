@@ -1,0 +1,8 @@
+Crop Review
+===========
+- Splash: Black bars trimmed top/bottom, still has "Tap anywhere to enter" visible. Good.
+- Crisis modal: Shows header bar for context + modal content. Gray overlay trimmed at bottom. Good.
+- Leave report: Shows header bar + full report modal with all buttons. Good.
+- Full page views: Kept as-is, no over-cropping. Good.
+
+All cropped screenshots look appropriate. Proceeding to update manual to use cropped versions.

@@ -1,0 +1,34 @@
+MULTIPLE STREAK ALERTS REFACTOR NOTES
+======================================
+
+CURRENT ARCHITECTURE:
+- state.activeSide = single object {type, value, amt, remove} or null
+- state.pendingType / state.pendingValue = single pending streak
+- runPatternCheck() loops through [Color, Parity, Dozen, Column], finds FIRST match, calls triggerPatternUI, then RETURNS
+- triggerPatternUI shows the patternDialog modal
+- btnKeepZeros/btnRemoveZeros set state.activeSide to a single object
+- btnIgnore clears pendingType/pendingValue
+- handleSpin settles ONE side bet, then clears state.activeSide
+
+NEEDED CHANGES:
+1. runPatternCheck: collect ALL matching streaks, not just the first
+2. Queue multiple pattern alerts sequentially
+3. state.activeSide → state.activeSides (array of side bet objects)
+4. Active Stake display: render multiple lines
+5. handleSpin: settle ALL active side bets, sum up stakes and wins
+6. History table side column: show multiple side bets (e.g. "Red $71, Even $50")
+7. btnKeepZeros/btnRemoveZeros: ADD to activeSides array instead of replacing
+8. btnIgnore: skip current alert, show next if queued
+
+KEY LINES:
+- runPatternCheck: 999-1018
+- triggerPatternUI: 1019-1035
+- Active stake display in refresh: 1242-1247
+- Side bet settlement in handleSpin: 1317-1340
+- Net calculation: 1342-1344
+- History push: 1365-1369
+- Clear after spin: 1388
+- btnKeepZeros: 1714-1718
+- btnRemoveZeros: 1720-1725
+- btnIgnore: 1726-1729
+- activeStakeBar HTML: 604-606
