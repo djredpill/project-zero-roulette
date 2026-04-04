@@ -1,5 +1,5 @@
 <!--
-  Project Zero Roulette — Revision 11
+  Project Zero Roulette — Revision 13
   Copyright (c) 2026 James Jones Jr. All rights reserved.
 
   This software and its source code are the proprietary property of
@@ -595,7 +595,7 @@ body.theme-dark .mode-toggle,body.theme-blue .mode-toggle,body.theme-green .mode
 
 <header>
   <div>
-    <h1 style="margin:0;font-size:22px;">Project Zero Roulette</h1>
+    <h1 style="margin:0;font-size:22px;">Project Zero Roulette - Legacy</h1>
     <div style="font-size:11px;color:var(--muted);">American table by default. Switch to European to disable 00 and split.</div>
   </div>
   <div class="controls">
@@ -632,9 +632,6 @@ body.theme-dark .mode-toggle,body.theme-blue .mode-toggle,body.theme-green .mode
       </div>
       <button id="startSession" style="margin-top:14px;">Start Session</button>
     </div>
-    <div class="card" style="text-align:right;">
-    <div class="big" id="currentBalance">$1,000</div>      <div style="font-size:11px;color:var(--muted);">Session Balance</div>
-    </div>
   </div>
 </header>
 
@@ -666,14 +663,12 @@ body.theme-dark .mode-toggle,body.theme-blue .mode-toggle,body.theme-green .mode
             <button id="rollbackBtn" class="ghost" style="border-color:#f59e0b;color:#b45309;">Undo Last Spin</button>
             <button id="editMidSession" class="ghost">Edit Bankroll/Unit</button>
             <button id="leaveCasinoBtn" class="ghost" style="grid-column:span 2;border-color:#16a34a;color:#16a34a;font-weight:700;">Leave The Casino</button>
-            <button id="clearSavedState" class="ghost" style="grid-column:span 2;font-size:11px;">Clear Saved App State</button>
+            <button id="clearSavedState" class="ghost" style="grid-column:span 2;font-size:11px;border:2px solid #000;">Clear Saved App State</button>
           </div>
         </div>
       </div>
 
-      <div class="active-stake-bar" id="activeStakeBar">
-        <strong>Active Stake:</strong> <span id="activeStakeText"></span>
-      </div>
+
 
       <div id="sitOutBadge">
         SITTING OUT: <span id="sitOutCount">0</span> SPINS
@@ -715,9 +710,14 @@ body.theme-dark .mode-toggle,body.theme-blue .mode-toggle,body.theme-green .mode
   <aside>
     <div class="card">
       <label><strong>Session Summary</strong></label>
+      <div style="margin-bottom:8px;"><div style="font-size:12px;">Session Balance</div><div class="big" id="currentBalance">$1,000</div></div>
       <div style="margin-bottom:8px;"><div style="font-size:12px;">Starting Bankroll</div><div class="big" id="sumStart">$1,500</div></div>
       <div style="margin-bottom:8px;"><div style="font-size:12px;">Session P/L</div><div class="big" id="sumSession">$0</div></div>
       <div style="margin-bottom:8px;"><div style="font-size:12px;">Historical P/L</div><div class="big" id="sumHist">$0</div></div>
+
+      <div class="active-stake-bar" id="activeStakeBar" style="margin-top:8px;">
+        <strong>Active Stake:</strong> <span id="activeStakeText"></span>
+      </div>
 
       <label style="margin-top:12px;"><strong>Loss / Win Alerts</strong></label>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;">
@@ -757,7 +757,7 @@ body.theme-dark .mode-toggle,body.theme-blue .mode-toggle,body.theme-green .mode
 </div>
 
 <div style="text-align:right;font-size:10px;color:var(--muted);padding:16px;">
-  Project Zero Roulette — Revision 11 — client only
+  Project Zero Roulette — Legacy — Revision 13 — client only
 </div>
 </div>
 
@@ -1137,8 +1137,6 @@ function getNumProps(n){
 }
 function runPatternCheck(){
   if(state.last36.length<6)return;
-  // Confirmed: Side bets limited to first 20 spins only
-  if(state.totalSpins>20)return;
   const recent=state.last36.slice(0,6).map(n=>getNumProps(n));
   const checks=[{name:'Color',key:'color'},{name:'Parity',key:'parity'},{name:'Dozen',key:'dozen'},{name:'Column',key:'col'}];
   const alerts=[];
