@@ -153,20 +153,19 @@ body{font-family:Inter,system-ui,'Segoe UI',Roboto,Arial,sans-serif;margin:0;pad
 .wrap{max-width:1100px;margin:0 auto;padding:12px 14px;position:relative}
 
 /* ===== HEADER ===== */
-header{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:10px}
-.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+header{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:6px}
 .card{background:var(--card-bg);padding:10px 12px;border-radius:10px}
 label{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}
 input[type="number"],select,input[type="text"]{background:#fff;border:1px solid rgba(0,0,0,0.12);padding:7px 8px;border-radius:6px;width:90px;font-size:14px}
 button{background:var(--accent);border:none;color:#fff;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:600;font-size:13px;touch-action:manipulation}
-button.ghost{background:transparent;border:1px solid rgba(0,0,0,0.12);color:var(--muted)}
+button.ghost{background:transparent;border:1.5px solid rgba(0,0,0,0.35);color:var(--muted)}
 button.ghost:active{background:rgba(0,0,0,0.05)}
 .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .badge{padding:5px 8px;border-radius:8px;background:rgba(0,0,0,0.03);font-size:13px;color:var(--muted);border:1px solid transparent}
 .big{font-size:18px;font-weight:600}
 
 /* ===== LAYOUT ===== */
-.panel{display:grid;grid-template-columns:1fr 340px;gap:12px;margin-top:10px}
+.panel{display:grid;grid-template-columns:1fr 340px;gap:16px 16px;margin-top:10px}
 
 /* ===== ZERO TRIO (horizontal, sticky) ===== */
 .zeros-strip{display:flex;gap:6px;align-items:stretch;margin-bottom:8px;max-width:100%;overflow:hidden}
@@ -209,8 +208,8 @@ body.flash-lose{animation:flashRed .6s linear}
 body.flash-lose-urgent{animation:flashRedUrgent .3s linear}
 
 /* ===== NUMBER PAD ===== */
-.numpad{display:grid;grid-template-columns:repeat(6,1fr);gap:3px;margin-top:8px;max-width:100%;overflow:hidden}
-.numpad button{padding:6px 1px;font-size:13px;font-weight:700;border-radius:6px;min-height:34px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.numpad{display:grid;grid-template-columns:repeat(6,1fr);gap:2px;margin-top:6px;max-width:95%;overflow:hidden}
+.numpad button{padding:3px 1px;font-size:11px;font-weight:700;border-radius:5px;min-height:28px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .numpad button.np-green{background:#16a34a}.numpad button.np-red{background:#b91c1c}
 .numpad button.np-black{background:#1e293b}.numpad button.np-action{background:var(--accent)}
 .numpad button.np-clear{background:#ef4444}
@@ -261,10 +260,28 @@ body.theme-dark .sticky-sitout .ghost,body.theme-blue .sticky-sitout .ghost,body
   .controls{justify-content:center}
   .sticky-header{display:block}
 }
-/* Portrait iPad: Settings stretch full width in 3 rows */
+/* ===== LANDSCAPE: config bar in col 1, aside spans full height in col 2 ===== */
+@media (orientation:landscape) and (min-width:900px) {
+  .panel { grid-template-columns:1fr 340px; }
+  .panel .config-bar { grid-column:1; grid-row:1; }
+  .panel .left { grid-column:1; grid-row:2; }
+  .panel aside { grid-column:2; grid-row:1 / span 3; }
+}
+/* ===== PORTRAIT: config bar spans full width ===== */
+@media (orientation:portrait) {
+  .panel .config-bar { grid-column:1 / -1; }
+}
+/* ===== Portrait iPad: Compact bottom section ===== */
 @media (orientation:portrait) and (min-width:700px) {
-  #settingsContainer { display:grid !important; grid-template-columns:1fr 1fr 1fr; gap:8px; align-items:start; }
-  #alertsGrid { margin-bottom:4px; }
+  /* Row 1: Session Summary 4 across */
+  #summaryGrid { display:grid !important; grid-template-columns:1fr 1fr 1fr 1fr; gap:4px 8px; }
+  /* Row 2: Alerts 6 across */
+  #alertsGrid { display:grid !important; grid-template-columns:repeat(6,1fr) !important; gap:4px !important; margin-bottom:4px; }
+  #alertsGrid .badge { font-size:11px !important; padding:4px 2px !important; }
+  /* Row 3: Settings checkboxes 3 across */
+  .settings-checkboxes { display:grid !important; grid-template-columns:1fr 1fr 1fr; gap:6px; }
+  /* Row 4: N spins / Increment / Spin counter left-justified */
+  .settings-inputs { display:flex !important; gap:12px; align-items:center; justify-content:flex-start; }
 }
 /* Landscape: show zero bet controls in sidebar, hide in left column */
 @media (orientation:landscape) {
@@ -613,10 +630,14 @@ body.theme-dark .mode-toggle,body.theme-blue .mode-toggle,body.theme-green .mode
     <h1 style="margin:0;font-size:22px;">Project Zero Roulette - Legacy</h1>
     <div style="font-size:11px;color:var(--muted);">American table by default. Switch to European to disable 00 and split.</div>
   </div>
-  <div class="controls">
+</header>
+
+<div class="panel">
+  <!-- ===== CONFIG BAR (column 1 only in landscape) ===== -->
+  <div class="config-bar" id="configBar">
     <div class="card" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
       <div><label>Starting Bankroll</label><input id="startBank" type="number" value="1500" /></div>
-      <div><label>Unit per zero</label><input id="unit" type="number" value="5" /></div>
+      <div><label>Unit per zero</label><input id="unit" type="number" value="5" style="width:60px;" /></div>
       <div>
         <label>Table Type</label>
         <select id="tableType">
@@ -637,7 +658,7 @@ body.theme-dark .mode-toggle,body.theme-blue .mode-toggle,body.theme-green .mode
           <option value="grey">Grey</option>
         </select>
       </div>
-      <div style="margin-top:8px;">
+      <div>
         <label>Mode</label>
         <div class="mode-toggle" id="modeToggle">
           <button id="modeSimBtn" class="active-sim">SIM</button>
@@ -645,43 +666,40 @@ body.theme-dark .mode-toggle,body.theme-blue .mode-toggle,body.theme-green .mode
           <button id="modeTableBtn">TABLE</button>
         </div>
       </div>
-      <button id="startSession" style="margin-top:14px;">Start Session</button>
+      <button id="startSession">Start Session</button>
     </div>
   </div>
-</header>
 
-<div class="panel">
   <!-- ===== LEFT COLUMN ===== -->
   <div class="left">
-    <div class="card">
-      <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;">
-        <div style="flex:1;min-width:200px;">
-          <label><strong>Spin Input</strong></label>
-          <div class="row">
-            <input id="spinInput" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="Enter number" style="flex:1" readonly />
-            <button id="placeSpin">Place Spin</button>
-            <button id="randomSpin" class="ghost">Random</button>
-          </div>
-          <div style="font-size:11px;color:var(--muted);margin-top:4px;">Use the number pad below or type a value. Valid: 0, 00, 1-36.</div>
-          <div class="numpad" id="numpad"></div>
-          <label style="margin-top:8px;"><strong>Last 36 Numbers</strong></label>
-          <div class="lastnums" id="numHistory" style="position:sticky;top:90px;z-index:98;background:var(--bg);padding:4px 0;"></div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+      <div class="card" style="flex:1;min-width:200px;">
+        <label><strong>Spin Input</strong></label>
+        <div class="row">
+          <input id="spinInput" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="Enter number" style="flex:1" readonly />
+          <button id="placeSpin">Place Spin</button>
+          <button id="randomSpin" class="ghost" style="border:1.5px solid #555;">Random</button>
         </div>
-        <div style="min-width:180px;">
-          <label><strong>Session Controls</strong></label>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;">
-            <button id="resetSession" class="ghost">Reset Session</button>
-            <button id="exportCsv" class="ghost">Export CSV</button>
-            <button id="resetHist" class="ghost">Reset Historical P/L</button>
-            <button id="sitOutToggle" class="ghost" style="border-color:red;color:red;">Sit Out Spins</button>
-            <button id="manualSideBetBtn" class="ghost" style="border-color:#8b5cf6;color:#8b5cf6;grid-column:span 2;">Place Side Bet</button>
-            <button id="rollbackBtn" class="ghost" style="border-color:#f59e0b;color:#b45309;">Undo Last Spin</button>
-            <button id="editMidSession" class="ghost">Edit Bankroll/Unit</button>
-            <button id="leaveCasinoBtn" class="ghost" style="grid-column:span 2;border-color:#16a34a;color:#16a34a;font-weight:700;">Leave The Casino</button>
-            <button id="clearSavedState" class="ghost" style="grid-column:span 2;font-size:11px;border:2px solid #000;">Clear Saved App State</button>
-          </div>
+        <div style="font-size:11px;color:var(--muted);margin-top:4px;">Use the number pad below or type a value. Valid: 0, 00, 1-36.</div>
+        <div class="numpad" id="numpad"></div>
+        <label style="margin-top:8px;"><strong>Last 36 Numbers</strong></label>
+        <div class="lastnums" id="numHistory" style="position:sticky;top:90px;z-index:98;background:var(--bg);padding:4px 0;"></div>
+      </div>
+      <div class="card" style="min-width:180px;">
+        <label><strong>Session Controls</strong></label>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;">
+          <button id="resetSession" class="ghost" style="border:1.5px solid #555;">Reset Session</button>
+          <button id="exportCsv" class="ghost" style="border:1.5px solid #555;">Export CSV</button>
+          <button id="resetHist" class="ghost">Reset Historical P/L</button>
+          <button id="sitOutToggle" class="ghost" style="border-color:red;color:red;">Sit Out Spins</button>
+          <button id="manualSideBetBtn" class="ghost" style="border-color:#8b5cf6;color:#8b5cf6;grid-column:span 2;">Place Side Bet</button>
+          <button id="rollbackBtn" class="ghost" style="border-color:#f59e0b;color:#b45309;">Undo Last Spin</button>
+          <button id="editMidSession" class="ghost">Edit Bankroll/Unit</button>
+          <button id="leaveCasinoBtn" class="ghost" style="grid-column:span 2;border-color:#16a34a;color:#16a34a;font-weight:700;">Leave The Casino</button>
+          <button id="clearSavedState" class="ghost" style="grid-column:span 2;font-size:11px;border:2px solid #000;">Clear Saved App State</button>
         </div>
       </div>
+    </div>
 
 
 
@@ -693,7 +711,7 @@ body.theme-dark .mode-toggle,body.theme-blue .mode-toggle,body.theme-green .mode
       </div>
 
       <div id="zeroBetControlsLeft">
-        <div class="uniform-bet-bar">Click any Zero box to change individual bets</div>
+        <div class="uniform-bet-bar" style="font-size:12px;color:#333;font-weight:600;">Click any Zero box to change individual bets</div>
         <div class="zeros-strip">
           <div class="zeroItem" id="bet0Card" onclick="openZeroEdit()">
             <div style="font-size:11px;color:var(--muted);">Bet on 0</div>
@@ -727,7 +745,7 @@ body.theme-dark .mode-toggle,body.theme-blue .mode-toggle,body.theme-green .mode
   <aside>
     <div class="card">
       <label><strong>Session Summary</strong></label>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;margin-bottom:8px;">
+      <div id="summaryGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;margin-bottom:8px;">
         <div><div style="font-size:12px;">Starting Bankroll</div><div class="big" id="sumStart">$1,500</div></div>
         <div><div style="font-size:12px;">Session Balance</div><div class="big" id="currentBalance">$1,000</div></div>
         <div><div style="font-size:12px;">Session P/L</div><div class="big" id="sumSession">$0</div></div>
@@ -740,12 +758,12 @@ body.theme-dark .mode-toggle,body.theme-blue .mode-toggle,body.theme-green .mode
 
       <label style="margin-top:12px;"><strong>Loss / Win Alerts</strong></label>
       <div id="alertsGrid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;">
-        <div class="badge" id="alL20" style="border-color:#ef4444;color:#ef4444;opacity:0.3;">L: 1/5</div>
-        <div class="badge" id="alL33" style="border-color:#ef4444;color:#ef4444;opacity:0.3;">L: 1/3</div>
-        <div class="badge" id="alL40" style="border-color:#ef4444;color:#ef4444;opacity:0.3;">L: 2/5</div>
-        <div class="badge" id="alW20" style="border-color:#16a34a;color:#16a34a;opacity:0.3;">W: 1/5</div>
-        <div class="badge" id="alW33" style="border-color:#16a34a;color:#16a34a;opacity:0.3;">W: 1/3</div>
-        <div class="badge" id="alW40" style="border-color:#16a34a;color:#16a34a;opacity:0.3;">W: 2/5</div>
+        <div class="badge" id="alL20" style="border-color:#ef4444;color:#ef4444;opacity:0.3;">L: 20%</div>
+        <div class="badge" id="alL33" style="border-color:#ef4444;color:#ef4444;opacity:0.3;">L: 33%</div>
+        <div class="badge" id="alL40" style="border-color:#ef4444;color:#ef4444;opacity:0.3;">L: 40%</div>
+        <div class="badge" id="alW20" style="border-color:#16a34a;color:#16a34a;opacity:0.3;">W: 20%</div>
+        <div class="badge" id="alW33" style="border-color:#16a34a;color:#16a34a;opacity:0.3;">W: 33%</div>
+        <div class="badge" id="alW40" style="border-color:#16a34a;color:#16a34a;opacity:0.3;">W: 40%</div>
       </div>
 
       <!-- Zero Bet Controls (landscape only - moved here from left column) -->
@@ -768,31 +786,33 @@ body.theme-dark .mode-toggle,body.theme-blue .mode-toggle,body.theme-green .mode
             <div style="font-size:9px;color:var(--muted);" id="pay00SB"></div>
           </div>
         </div>
-        <div style="text-align:center;font-size:10px;color:var(--muted);margin-top:4px;">Click any Zero box to change individual bets</div>
+        <div style="text-align:center;font-size:14px;color:#111;font-weight:700;margin-top:6px;">Click any Zero box to change individual bets</div>
       </div>
 
       <label style="margin-top:16px;"><strong>Settings</strong></label>
       <div id="settingsContainer" style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
-        <label style="display:flex;align-items:center;gap:8px;margin:0;">
-          <input type="checkbox" id="autoIncEvery" checked> Auto increment every N spins
-        </label>
-        <div style="display:flex;gap:8px;align-items:center;">
+        <div class="settings-checkboxes" style="display:flex;flex-direction:column;gap:6px;">
+          <label style="display:flex;align-items:center;gap:6px;margin:0;">
+            <input type="checkbox" id="autoIncEvery" checked> Auto increment every N spins
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;margin:0;">
+            <input type="checkbox" id="showSplit" checked> Show 0/00 split bet (American only)
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;margin:0;">
+            <input type="checkbox" id="autoPlaceSplit" checked> Auto-place split bet when shown
+          </label>
+        </div>
+        <div class="settings-inputs" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
           <div><label>N spins:</label><input type="number" id="nSpins" value="12" style="width:55px" /></div>
           <div><label>Increment $:</label><input type="number" id="incVal" value="5" style="width:55px" /></div>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <span>Spin counter:</span>
+            <input type="number" id="spinCountLeft" value="0" style="width:45px;text-align:center;" min="0" />
+            <span>/</span>
+            <input type="number" id="spinCountRight" value="12" style="width:45px;text-align:center;" min="1" />
+            <button id="resetCountBtn" class="ghost" style="padding:4px 8px;font-size:11px;">Reset</button>
+          </div>
         </div>
-        <div style="display:flex;align-items:center;gap:8px;">
-          <span>Spin counter:</span>
-          <input type="number" id="spinCountLeft" value="0" style="width:45px;text-align:center;" min="0" />
-          <span>/</span>
-          <input type="number" id="spinCountRight" value="12" style="width:45px;text-align:center;" min="1" />
-          <button id="resetCountBtn" class="ghost" style="padding:4px 8px;font-size:11px;">Reset</button>
-        </div>
-        <label style="display:flex;align-items:center;gap:8px;margin:0;">
-          <input type="checkbox" id="showSplit" checked> Show 0/00 split bet (American only)
-        </label>
-        <label style="display:flex;align-items:center;gap:8px;margin:0;">
-          <input type="checkbox" id="autoPlaceSplit" checked> Auto-place split bet when shown
-        </label>
       </div>
     </div>
   </aside>
@@ -1338,7 +1358,7 @@ function checkAlerts(){
 /* ===== CRISIS MODAL ===== */
 function showCrisisModal(){
   const pct=Math.abs(((state.balance-state.bank)/state.bank)*100).toFixed(0);
-  $('crisisTitle').textContent='40% LOSS ALERT (2/5)';
+  $('crisisTitle').textContent='40% LOSS ALERT';
   $('crisisText').textContent=`You have lost ${pct}% of your starting bankroll (${fmt(state.bank)}). Your current balance is ${fmt(state.balance)}. What would you like to do?`;
   queueModal('crisisModal');
 }
