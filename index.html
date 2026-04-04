@@ -146,6 +146,15 @@ body.theme-grey .badge {
   background:rgba(255,255,255,0.05);
 }
 
+/* Auto Sim → black text on all colored themes */
+body.theme-blue #autoSimToggle,body.theme-green #autoSimToggle,
+body.theme-turquoise #autoSimToggle,body.theme-gold #autoSimToggle,
+body.theme-pink #autoSimToggle,body.theme-grey #autoSimToggle {
+  color:#111 !important; border-color:#111 !important;
+}
+body.theme-white #autoSimToggle { border-color:#111 !important; }
+body.theme-white #autoSimSpeed { border-color:#111 !important; }
+
 /* ===== BASE ===== */
 *{box-sizing:border-box}
 html{}
@@ -153,7 +162,7 @@ body{font-family:Inter,system-ui,'Segoe UI',Roboto,Arial,sans-serif;margin:0;pad
 .wrap{max-width:1100px;margin:0 auto;padding:12px 14px;position:relative}
 
 /* ===== HEADER ===== */
-header{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:10px}
+header{margin-bottom:4px}
 .controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .card{background:var(--card-bg);padding:10px 12px;border-radius:10px}
 label{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}
@@ -166,7 +175,7 @@ button.ghost:active{background:rgba(0,0,0,0.05)}
 .big{font-size:18px;font-weight:600}
 
 /* ===== LAYOUT ===== */
-.panel{display:grid;grid-template-columns:1fr 340px;gap:12px;margin-top:10px}
+.panel{display:grid;grid-template-columns:1fr 340px;gap:12px;margin-top:6px}
 
 /* ===== ZERO TRIO (horizontal, sticky) ===== */
 .zeros-strip{display:flex;gap:6px;align-items:stretch;margin-bottom:8px;max-width:100%;overflow:hidden}
@@ -257,7 +266,6 @@ body.theme-dark .sticky-sitout .ghost,body.theme-blue .sticky-sitout .ghost,body
 
 @media(max-width:900px){
   .panel{grid-template-columns:1fr}
-  header{flex-direction:column;align-items:stretch}
   .controls{justify-content:center}
   .sticky-header{display:block}
 }
@@ -621,46 +629,46 @@ body.theme-dark .mode-toggle,body.theme-blue .mode-toggle,body.theme-green .mode
     <h1 style="margin:0;font-size:22px;">Project Zero Roulette - Legacy</h1>
     <div style="font-size:11px;color:var(--muted);">American table by default. Switch to European to disable 00 and split.</div>
   </div>
-  <div class="controls">
-    <div class="card" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-      <div><label>Starting Bankroll</label><input id="startBank" type="number" value="1500" /></div>
-      <div><label>Unit per zero</label><input id="unit" type="number" value="5" /></div>
-      <div>
-        <label>Table Type</label>
-        <select id="tableType">
-          <option value="american">American (0 &amp; 00)</option>
-          <option value="european">European (single 0)</option>
-        </select>
-      </div>
-      <div>
-        <label>Background</label>
-        <select id="bgSelect">
-          <option value="white">White</option>
-          <option value="dark">Dark</option>
-          <option value="blue">Blue</option>
-          <option value="green">Green</option>
-          <option value="turquoise">Turquoise</option>
-          <option value="gold">Gold</option>
-          <option value="pink">Pink</option>
-          <option value="grey">Grey</option>
-        </select>
-      </div>
-      <div style="margin-top:8px;">
-        <label>Mode</label>
-        <div class="mode-toggle" id="modeToggle">
-          <button id="modeSimBtn" class="active-sim">SIM</button>
-          <button id="modeLiveBtn">LIVE</button>
-          <button id="modeTableBtn">TABLE</button>
-        </div>
-      </div>
-      <button id="startSession" style="margin-top:14px;">Start Session</button>
-    </div>
-  </div>
 </header>
 
 <div class="panel">
   <!-- ===== LEFT COLUMN ===== -->
   <div class="left">
+    <div class="controls">
+      <div class="card" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+        <div><label>Starting Bankroll</label><input id="startBank" type="number" value="1500" /></div>
+        <div><label>Unit per zero</label><input id="unit" type="number" value="5" style="width:60px" /></div>
+        <div>
+          <label>Table Type</label>
+          <select id="tableType">
+            <option value="american">American (0 &amp; 00)</option>
+            <option value="european">European (single 0)</option>
+          </select>
+        </div>
+        <div>
+          <label>Background</label>
+          <select id="bgSelect">
+            <option value="white">White</option>
+            <option value="dark">Dark</option>
+            <option value="blue">Blue</option>
+            <option value="green">Green</option>
+            <option value="turquoise">Turquoise</option>
+            <option value="gold">Gold</option>
+            <option value="pink">Pink</option>
+            <option value="grey">Grey</option>
+          </select>
+        </div>
+        <div>
+          <label>Mode</label>
+          <div class="mode-toggle" id="modeToggle">
+            <button id="modeSimBtn" class="active-sim">SIM</button>
+            <button id="modeLiveBtn">LIVE</button>
+            <button id="modeTableBtn">TABLE</button>
+          </div>
+        </div>
+        <button id="startSession">Start Session</button>
+      </div>
+    </div>
     <div style="display:flex;gap:12px;flex-wrap:wrap;">
       <div class="card" style="flex:1;min-width:200px;">
         <label><strong>Spin Input</strong></label>
@@ -677,6 +685,12 @@ body.theme-dark .mode-toggle,body.theme-blue .mode-toggle,body.theme-green .mode
       <div class="card" style="min-width:180px;">
         <label><strong>Session Controls</strong></label>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;">
+          <button id="autoSimToggle" class="ghost" style="border-color:#3b82f6;color:#3b82f6;">Auto Sim</button>
+          <select id="autoSimSpeed" style="border-radius:8px;padding:7px 8px;font-size:13px;font-weight:600;border:1.5px solid #555;background:transparent;color:var(--muted);">
+            <option value="2000">Slow (~2s)</option>
+            <option value="1000" selected>Medium (~1s)</option>
+            <option value="300">Fast (~0.3s)</option>
+          </select>
           <button id="resetSession" class="ghost" style="border:1.5px solid #555;">Reset Session</button>
           <button id="exportCsv" class="ghost" style="border:1.5px solid #555;">Export CSV</button>
           <button id="resetHist" class="ghost">Reset Historical P/L</button>
@@ -807,7 +821,7 @@ body.theme-dark .mode-toggle,body.theme-blue .mode-toggle,body.theme-green .mode
 </div>
 
 <div style="text-align:right;font-size:10px;color:var(--muted);padding:16px;">
-  Project Zero Roulette — Legacy — Revision 17 — client only
+  Project Zero Roulette — Legacy — Revision 18 — client only
 </div>
 </div>
 
@@ -1005,9 +1019,20 @@ function queueModal(id){
 }
 
 function showNextModal(){
-  if(modalQueue.length===0){activeModal=null;return;}
+  if(modalQueue.length===0){
+    activeModal=null;
+    if(typeof autoSimPausedByModal!=='undefined'&&autoSimPausedByModal&&autoSimRunning){
+      autoSimPausedByModal=false;
+      const speed=parseInt($('autoSimSpeed').value)||1000;
+      autoSimInterval=setInterval(()=>{$('randomSpin').click();},speed);
+    }
+    return;
+  }
   const next=modalQueue.shift();
   activeModal=next.id;
+  if(typeof autoSimRunning!=='undefined'&&autoSimRunning&&autoSimInterval){
+    clearInterval(autoSimInterval);autoSimInterval=null;autoSimPausedByModal=true;
+  }
   if(next.id==='patternDialog'){
     $(next.id).style.display='flex';$(next.id).style.flexDirection='column';
     $(next.id).setAttribute('aria-hidden','false');
@@ -1984,6 +2009,41 @@ $('spinCountLeft').onchange=()=>{state.spinCounter=Math.max(0,parseInt($('spinCo
 $('spinCountRight').onchange=()=>{state.spinCounterMax=Math.max(1,parseInt($('spinCountRight').value)||12);$('nSpins').value=state.spinCounterMax;refresh();};
 $('nSpins').onchange=()=>{state.spinCounterMax=Math.max(1,parseInt($('nSpins').value)||12);$('spinCountRight').value=state.spinCounterMax;refresh();};
 $('resetCountBtn').onclick=()=>{state.spinCounter=0;refresh();};
+
+/* ===== AUTO SIM ===== */
+let autoSimInterval=null;
+let autoSimRunning=false;
+let autoSimPausedByModal=false;
+$('autoSimToggle').onclick=function(){
+  if(autoSimRunning){
+    clearInterval(autoSimInterval);
+    autoSimInterval=null;
+    autoSimRunning=false;
+    $('autoSimToggle').textContent='Auto Sim';
+    $('autoSimToggle').style.borderColor='#3b82f6';
+    $('autoSimToggle').style.color='#3b82f6';
+    $('autoSimToggle').style.background='transparent';
+  }else{
+    autoSimRunning=true;
+    $('autoSimToggle').textContent='Stop Sim';
+    $('autoSimToggle').style.background='#ef4444';
+    $('autoSimToggle').style.color='#fff';
+    $('autoSimToggle').style.borderColor='#ef4444';
+    const speed=parseInt($('autoSimSpeed').value)||1000;
+    autoSimInterval=setInterval(()=>{
+      $('randomSpin').click();
+    },speed);
+  }
+};
+$('autoSimSpeed').onchange=function(){
+  if(autoSimRunning){
+    clearInterval(autoSimInterval);
+    const speed=parseInt($('autoSimSpeed').value)||1000;
+    autoSimInterval=setInterval(()=>{
+      $('randomSpin').click();
+    },speed);
+  }
+};
 
 $('btnKeepZeros').onclick=()=>{
   const amt=parseFloat($('sideBetAmount').value)||0;
