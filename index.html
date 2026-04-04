@@ -1,9 +1,9 @@
 <!--
   Project Zero Roulette — Revision 11
-  Copyright (c) 2026 James Munchman. All rights reserved.
+  Copyright (c) 2026 James Jones Jr. All rights reserved.
 
   This software and its source code are the proprietary property of
-  James Munchman. Unauthorized copying, modification, distribution,
+  James Jones Jr. Unauthorized copying, modification, distribution,
   or use of this software, in whole or in part, is strictly prohibited
   without the express written permission of the copyright holder.
 
@@ -18,12 +18,12 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<meta name="apple-mobile-web-app-title" content="Zero Roulette" />
+<meta name="apple-mobile-web-app-title" content="Project Zero Legacy" />
 <meta name="theme-color" content="#0a0a0a" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="apple-touch-icon.png" />
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
-<title>Project Zero Roulette — Revision 11</title>
+<title>Project Zero Legacy</title>
 <style>
 /* ===== SPLASH SCREEN ===== */
 #splash-overlay {
@@ -61,49 +61,27 @@
 /* ===== 8 THEMES ===== */
 body.theme-white      { background:#f8f9fa; color:var(--text-dark) }
 body.theme-dark       { background:#1a1a2e; color:#e0e0e0; --card-bg:rgba(255,255,255,0.07); --muted:#94a3b8 }
-body.theme-blue       { background:#7ba8d4; color:#f0f5fb; --card-bg:rgba(255,255,255,0.14); --muted:#111 }
-body.theme-green      { background:#7bb892; color:#e8f5ec; --card-bg:rgba(255,255,255,0.14); --muted:#111 }
-body.theme-turquoise  { background:#72c4bc; color:#e0faf6; --card-bg:rgba(255,255,255,0.14); --muted:#111 }
-body.theme-gold       { background:#c4a96b; color:#fef8e0; --card-bg:rgba(255,255,255,0.14); --muted:#111 }
-body.theme-pink       { background:#d4a0c8; color:#fdf0f5; --card-bg:rgba(255,255,255,0.14); --muted:#111 }
-body.theme-grey       { background:#98a0a3; color:#edf1f3; --card-bg:rgba(255,255,255,0.14); --muted:#111 }
+body.theme-blue       { background:#1e3a5f; color:#e0ecf7; --card-bg:rgba(255,255,255,0.08); --muted:#93b5d6 }
+body.theme-green      { background:#1a3c2a; color:#d4edda; --card-bg:rgba(255,255,255,0.07); --muted:#8fbfa0 }
+body.theme-turquoise  { background:#134e4a; color:#ccfbf1; --card-bg:rgba(255,255,255,0.08); --muted:#5eead4 }
+body.theme-gold       { background:#3d2e0a; color:#fef3c7; --card-bg:rgba(255,255,255,0.07); --muted:#d4a843 }
+body.theme-pink       { background:#4a1942; color:#fce4ec; --card-bg:rgba(255,255,255,0.07); --muted:#e091c9 }
+body.theme-grey       { background:#2d3436; color:#dfe6e9; --card-bg:rgba(255,255,255,0.07); --muted:#b2bec3 }
 
-/* Dark theme: light borders for inputs/buttons */
-body.theme-dark input, body.theme-dark select {
-  background:rgba(255,255,255,0.12); color:inherit; border-color:rgba(255,255,255,0.2);
-}
-body.theme-dark .ghost {
-  border-color:rgba(255,255,255,0.25); color:inherit;
-}
-/* Dark mode: white borders on mode toggle buttons */
-body.theme-dark .mode-toggle button {
-  border-color:rgba(255,255,255,0.5) !important;
-}
-body.theme-dark .mode-toggle button.active-sim { border-color:rgba(255,255,255,0.5) !important; }
-body.theme-dark .mode-toggle button.active-live { border-color:rgba(255,255,255,0.5) !important; }
-body.theme-dark .mode-toggle button.active-table { border-color:rgba(255,255,255,0.5) !important; }
-/* Dark mode: threshold badges → amber/brown to match Undo Last Spin & Enter number */
-body.theme-dark .threshold-badge {
-  color:#b45309 !important; border-color:rgba(255,255,255,0.3) !important;
-}
-body.theme-dark #spinInput::placeholder { color:#b45309; opacity:1; }
-/* Dark mode: white borders on zero bet boxes */
-body.theme-dark .zeroItem {
-  border-color:rgba(255,255,255,0.5) !important;
-}
-/* Colored themes: semi-transparent bg, black borders, text handled in overrides section */
+/* Dark theme overrides for inputs/buttons */
+body.theme-dark input, body.theme-dark select,
 body.theme-blue input, body.theme-blue select,
 body.theme-green input, body.theme-green select,
 body.theme-turquoise input, body.theme-turquoise select,
 body.theme-gold input, body.theme-gold select,
 body.theme-pink input, body.theme-pink select,
 body.theme-grey input, body.theme-grey select {
-  background:rgba(255,255,255,0.12); border-color:#111;
+  background:rgba(255,255,255,0.12); color:inherit; border-color:rgba(255,255,255,0.2);
 }
-body.theme-blue .ghost, body.theme-green .ghost,
+body.theme-dark .ghost, body.theme-blue .ghost, body.theme-green .ghost,
 body.theme-turquoise .ghost, body.theme-gold .ghost, body.theme-pink .ghost,
 body.theme-grey .ghost {
-  border-color:#111;
+  border-color:rgba(255,255,255,0.25); color:inherit;
 }
 body.theme-dark .ghost:active, body.theme-blue .ghost:active, body.theme-green .ghost:active,
 body.theme-turquoise .ghost:active, body.theme-gold .ghost:active, body.theme-pink .ghost:active,
@@ -120,25 +98,10 @@ body.theme-turquoise .history th, body.theme-gold .history th, body.theme-pink .
 body.theme-grey .history th {
   border-bottom-color:rgba(255,255,255,0.15);
 }
-/* Colored themes: history table text → black */
-body.theme-blue .history th, body.theme-blue .history td,
-body.theme-green .history th, body.theme-green .history td,
-body.theme-turquoise .history th, body.theme-turquoise .history td,
-body.theme-gold .history th, body.theme-gold .history td,
-body.theme-pink .history th, body.theme-pink .history td,
-body.theme-grey .history th, body.theme-grey .history td {
-  color:#111 !important;
-}
 body.theme-dark .modal-box, body.theme-blue .modal-box, body.theme-green .modal-box,
 body.theme-turquoise .modal-box, body.theme-gold .modal-box, body.theme-pink .modal-box,
 body.theme-grey .modal-box {
   background:#2a2a3e; color:#e0e0e0;
-}
-/* Modal ghost/Cancel buttons → white text & border on dark/colored themes */
-body.theme-dark .modal-box .ghost, body.theme-blue .modal-box .ghost, body.theme-green .modal-box .ghost,
-body.theme-turquoise .modal-box .ghost, body.theme-gold .modal-box .ghost, body.theme-pink .modal-box .ghost,
-body.theme-grey .modal-box .ghost {
-  color:#e0e0e0 !important; border-color:rgba(255,255,255,0.3) !important;
 }
 body.theme-dark .badge, body.theme-blue .badge, body.theme-green .badge,
 body.theme-turquoise .badge, body.theme-gold .badge, body.theme-pink .badge,
@@ -159,7 +122,7 @@ header{display:flex;gap:12px;align-items:center;justify-content:space-between;fl
 label{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}
 input[type="number"],select,input[type="text"]{background:#fff;border:1px solid rgba(0,0,0,0.12);padding:7px 8px;border-radius:6px;width:90px;font-size:14px}
 button{background:var(--accent);border:none;color:#fff;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:600;font-size:13px;touch-action:manipulation}
-button.ghost{background:transparent;border:1px solid rgba(0,0,0,0.25);color:var(--muted)}
+button.ghost{background:transparent;border:1px solid rgba(0,0,0,0.12);color:var(--muted)}
 button.ghost:active{background:rgba(0,0,0,0.05)}
 .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .badge{padding:5px 8px;border-radius:8px;background:rgba(0,0,0,0.03);font-size:13px;color:var(--muted);border:1px solid transparent}
@@ -170,7 +133,7 @@ button.ghost:active{background:rgba(0,0,0,0.05)}
 
 /* ===== ZERO TRIO (horizontal, sticky) ===== */
 .zeros-strip{display:flex;gap:6px;align-items:stretch;margin-bottom:8px;max-width:100%;overflow:hidden}
-.zeroItem{flex:1;padding:10px 6px;border-radius:8px;text-align:center;background:var(--card-bg);cursor:pointer;transition:box-shadow .2s;border:2px solid rgba(0,0,0,0.2)}
+.zeroItem{flex:1;padding:10px 6px;border-radius:8px;text-align:center;background:var(--card-bg);cursor:pointer;transition:box-shadow .2s;border:2px solid transparent}
 .zeroItem:hover{box-shadow:0 0 0 2px var(--accent)}
 .zeroItem .big{font-size:16px}
 .zeroItem div{font-size:10px!important}
@@ -233,12 +196,12 @@ body.flash-lose-urgent{animation:flashRedUrgent .3s linear}
 .sticky-header{display:block;position:sticky;top:0;z-index:999;backdrop-filter:blur(8px);padding:6px 14px;border-bottom:1px solid rgba(0,0,0,0.08)}
 body.theme-white .sticky-header{background:rgba(248,249,250,0.95)}
 body.theme-dark .sticky-header{background:rgba(26,26,46,0.95)}
-body.theme-blue .sticky-header{background:rgba(123,168,212,0.95)}
-body.theme-green .sticky-header{background:rgba(123,184,146,0.95)}
-body.theme-turquoise .sticky-header{background:rgba(114,196,188,0.95)}
-body.theme-gold .sticky-header{background:rgba(196,169,107,0.95)}
-body.theme-pink .sticky-header{background:rgba(196,125,180,0.95)}
-body.theme-grey .sticky-header{background:rgba(152,160,163,0.95)}
+body.theme-blue .sticky-header{background:rgba(30,58,95,0.95)}
+body.theme-green .sticky-header{background:rgba(26,60,42,0.95)}
+body.theme-turquoise .sticky-header{background:rgba(19,78,74,0.95)}
+body.theme-gold .sticky-header{background:rgba(61,46,10,0.95)}
+body.theme-pink .sticky-header{background:rgba(74,25,66,0.95)}
+body.theme-grey .sticky-header{background:rgba(45,52,54,0.95)}
 
 .sticky-bal-row{display:flex;justify-content:space-between;align-items:center;font-size:14px;flex-wrap:wrap;gap:4px}
 .sticky-zeros{display:flex;gap:4px;margin-top:4px}
@@ -331,12 +294,6 @@ body.theme-dark .sticky-sitout .ghost,body.theme-blue .sticky-sitout .ghost,body
 .outcome-table th{font-weight:700;font-size:11px;color:var(--muted)}
 .outcome-table .win{color:#16a34a;font-weight:600}
 .outcome-table .lose{color:#ef4444;font-weight:600}
-/* Colored themes: outcome table text → black (except .win/.lose) */
-body.theme-blue .outcome-table td, body.theme-green .outcome-table td,
-body.theme-turquoise .outcome-table td, body.theme-gold .outcome-table td,
-body.theme-pink .outcome-table td, body.theme-grey .outcome-table td {
-  color:#111;
-}
 
 /* ===== MODE BADGE ===== */
 .mode-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:800;letter-spacing:0.5px;margin-left:8px;vertical-align:middle}
@@ -374,434 +331,9 @@ body.theme-dark .mode-toggle,body.theme-blue .mode-toggle,body.theme-green .mode
 #liveConfirmBtn{opacity:0.4;pointer-events:none;transition:opacity .3s}
 #liveConfirmBtn.enabled{opacity:1;pointer-events:auto}
 #liveCountdown{font-size:12px;color:#ef4444;font-weight:700;margin-left:8px}
-
-/* ===== LOCKOUT SCREEN ===== */
-#lockout-overlay {
-  position:fixed; inset:0; background:#0a0a0a;
-  display:none; flex-direction:column; justify-content:center; align-items:center;
-  z-index:10003; color:#fff; font-family:Inter,system-ui,sans-serif; padding:30px;
-}
-#lockout-overlay .lockout-box {
-  max-width:420px; text-align:center; background:#1a1a2e; padding:30px; border-radius:16px;
-  border:2px solid #ef4444;
-}
-#lockout-overlay h2 { color:#ef4444; margin:0 0 16px; font-size:22px; }
-#lockout-overlay p { font-size:14px; line-height:1.6; color:#ccc; margin:0 0 12px; }
-#lockout-overlay .unlock-date { font-size:18px; font-weight:700; color:#f59e0b; margin:12px 0; }
-#lockout-overlay .helpline { color:#22c55e; font-size:16px; font-weight:700; margin-top:16px; }
-#lockout-overlay .dev-password-wrap {
-  display:none; margin-top:16px;
-}
-#lockout-overlay .dev-password-wrap input {
-  padding:10px; font-size:16px; border-radius:8px; border:1px solid #555; background:#2a2a3e;
-  color:#fff; width:160px; text-align:center;
-}
-#lockout-overlay .dev-password-wrap button {
-  padding:10px 20px; font-size:14px; border-radius:8px; border:none; background:#22c55e;
-  color:#fff; font-weight:700; cursor:pointer; margin-left:8px;
-}
-
-/* ===== STRATEGY SELECTION SCREEN ===== */
-#strategy-overlay {
-  position:fixed; inset:0; background:#0a0a0a;
-  display:none; flex-direction:column; justify-content:center; align-items:center;
-  z-index:9999; color:#fff; font-family:Inter,system-ui,sans-serif; padding:20px;
-  overflow-y:auto;
-}
-#strategy-overlay h2 { margin:0 0 8px; font-size:22px; color:#fff; }
-#strategy-overlay .subtitle { font-size:13px; color:#94a3b8; margin-bottom:20px; }
-.strategy-grid-top {
-  display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px;
-  width:100%; max-width:520px; margin-bottom:10px;
-}
-.strategy-grid-bottom {
-  display:grid; grid-template-columns:1fr 1fr; gap:10px;
-  width:100%; max-width:348px; margin-bottom:0;
-}
-.strategy-card {
-  padding:14px; border-radius:12px;
-  cursor:pointer; transition:all .2s; border:2px solid transparent; text-align:left;
-}
-.strategy-card:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,0,0,0.3); }
-.strategy-card h3 { margin:0 0 4px; font-size:14px; }
-.strategy-card .tag { display:inline-block; padding:2px 8px; border-radius:12px; font-size:10px; font-weight:700; margin-bottom:6px; }
-.strategy-card .win-rate { display:block; font-size:18px; font-weight:800; margin-bottom:4px; }
-.strategy-card p { margin:0; font-size:11px; line-height:1.4; }
-/* Green - #1 Steady Eddie */
-.sc-green { background:rgba(22,163,74,0.15); border-color:rgba(22,163,74,0.4); }
-.sc-green:hover { border-color:#22c55e; box-shadow:0 8px 20px rgba(22,163,74,0.3); }
-.sc-green h3 { color:#22c55e; }
-.sc-green .win-rate { color:#22c55e; }
-.sc-green .tag { background:#22c55e; color:#000; }
-.sc-green p { color:#bbf7d0; }
-/* Yellow - #2 Delayed Surge */
-.sc-yellow { background:rgba(234,179,8,0.15); border-color:rgba(234,179,8,0.4); }
-.sc-yellow:hover { border-color:#eab308; box-shadow:0 8px 20px rgba(234,179,8,0.3); }
-.sc-yellow h3 { color:#eab308; }
-.sc-yellow .win-rate { color:#eab308; }
-.sc-yellow .tag { background:#eab308; color:#000; }
-.sc-yellow p { color:#fef9c3; }
-/* Orange - #3 Slow Grind */
-.sc-orange { background:rgba(249,115,22,0.15); border-color:rgba(249,115,22,0.4); }
-.sc-orange:hover { border-color:#f97316; box-shadow:0 8px 20px rgba(249,115,22,0.3); }
-.sc-orange h3 { color:#f97316; }
-.sc-orange .win-rate { color:#f97316; }
-.sc-orange .tag { background:#f97316; color:#fff; }
-.sc-orange p { color:#fed7aa; }
-/* Red - #4 Streak Reset */
-.sc-red { background:rgba(239,68,68,0.15); border-color:rgba(239,68,68,0.4); }
-.sc-red:hover { border-color:#ef4444; box-shadow:0 8px 20px rgba(239,68,68,0.3); }
-.sc-red h3 { color:#ef4444; }
-.sc-red .win-rate { color:#ef4444; }
-.sc-red .tag { background:#ef4444; color:#fff; }
-.sc-red p { color:#fecaca; }
-/* Blue - Legacy Mode */
-.sc-blue { background:rgba(59,130,246,0.15); border-color:rgba(59,130,246,0.4); }
-.sc-blue:hover { border-color:#3b82f6; box-shadow:0 8px 20px rgba(59,130,246,0.3); }
-.sc-blue h3 { color:#3b82f6; }
-.sc-blue .tag { background:#3b82f6; color:#fff; }
-.sc-blue p { color:#bfdbfe; }
-
-/* ===== STRATEGY PROMPT BAR ===== */
-#strategyPromptBar {
-  display:none; background:#eff6ff; border:2px solid #3b82f6; padding:10px 14px;
-  border-radius:8px; margin-bottom:10px; font-size:13px; color:#1e40af; font-weight:600;
-  text-align:center; line-height:1.5;
-}
-body.theme-dark #strategyPromptBar {
-  background:rgba(59,130,246,0.15); border-color:rgba(59,130,246,0.4); color:#93c5fd;
-}
-body.theme-blue #strategyPromptBar,body.theme-green #strategyPromptBar,
-body.theme-turquoise #strategyPromptBar,body.theme-gold #strategyPromptBar,body.theme-pink #strategyPromptBar,
-body.theme-grey #strategyPromptBar {
-  background:rgba(59,130,246,0.15); border-color:rgba(59,130,246,0.4); color:#111;
-}
-
-/* ===================================================================
-   COMPREHENSIVE THEME OVERRIDES
-   Root problem: body color on colored themes is very light (e.g. #f0f5fb),
-   so anything using color:inherit or the body color is nearly invisible.
-   Fix: force dark/visible text on all text elements, per-theme accent
-   colors on section headers, black borders on all controls.
-   =================================================================== */
-
-/* --- SHARED: All 6 colored themes --- */
-/* Force ALL text to be readable: labels, .big amounts, helper text, ghost buttons, zero boxes */
-body.theme-blue, body.theme-green, body.theme-turquoise,
-body.theme-gold, body.theme-pink, body.theme-grey {
-  --muted:#111;
-}
-/* Ghost buttons that need black text on colored themes (by ID) */
-body.theme-blue #resetSession, body.theme-blue #exportCsv, body.theme-blue #resetHist,
-body.theme-blue #editMidSession, body.theme-blue #clearSavedState, body.theme-blue #randomSpin,
-body.theme-green #resetSession, body.theme-green #exportCsv, body.theme-green #resetHist,
-body.theme-green #editMidSession, body.theme-green #clearSavedState, body.theme-green #randomSpin,
-body.theme-turquoise #resetSession, body.theme-turquoise #exportCsv, body.theme-turquoise #resetHist,
-body.theme-turquoise #editMidSession, body.theme-turquoise #clearSavedState, body.theme-turquoise #randomSpin,
-body.theme-gold #resetSession, body.theme-gold #exportCsv, body.theme-gold #resetHist,
-body.theme-gold #editMidSession, body.theme-gold #clearSavedState, body.theme-gold #randomSpin,
-body.theme-pink #resetSession, body.theme-pink #exportCsv, body.theme-pink #resetHist,
-body.theme-pink #editMidSession, body.theme-pink #clearSavedState, body.theme-pink #randomSpin,
-body.theme-grey #resetSession, body.theme-grey #exportCsv, body.theme-grey #resetHist,
-body.theme-grey #editMidSession, body.theme-grey #clearSavedState, body.theme-grey #randomSpin {
-  color:#111 !important;
-}
-/* Zero bet boxes: black borders, black text for amounts and labels */
-body.theme-blue .zeroItem, body.theme-green .zeroItem, body.theme-turquoise .zeroItem,
-body.theme-gold .zeroItem, body.theme-pink .zeroItem, body.theme-grey .zeroItem {
-  border-color:#111 !important; color:#111 !important;
-}
-body.theme-blue .zeroItem div, body.theme-green .zeroItem div, body.theme-turquoise .zeroItem div,
-body.theme-gold .zeroItem div, body.theme-pink .zeroItem div, body.theme-grey .zeroItem div {
-  color:#111 !important;
-}
-body.theme-blue .zeroItem .big, body.theme-green .zeroItem .big, body.theme-turquoise .zeroItem .big,
-body.theme-gold .zeroItem .big, body.theme-pink .zeroItem .big, body.theme-grey .zeroItem .big {
-  color:#111 !important;
-}
-/* Uniform bet bar text → black */
-body.theme-blue .uniform-bet-bar, body.theme-green .uniform-bet-bar, body.theme-turquoise .uniform-bet-bar,
-body.theme-gold .uniform-bet-bar, body.theme-pink .uniform-bet-bar, body.theme-grey .uniform-bet-bar {
-  color:#111 !important;
-}
-/* Session summary .big amounts (Starting Bankroll value) → black, but NOT P/L amounts */
-body.theme-blue aside .big:not(#sumSession):not(#sumHist),
-body.theme-green aside .big:not(#sumSession):not(#sumHist),
-body.theme-turquoise aside .big:not(#sumSession):not(#sumHist),
-body.theme-gold aside .big:not(#sumSession):not(#sumHist),
-body.theme-pink aside .big:not(#sumSession):not(#sumHist),
-body.theme-grey aside .big:not(#sumSession):not(#sumHist) {
-  color:#111 !important;
-}
-/* Session summary sub-labels (Starting Bankroll, Session P/L, Historical P/L text) → black */
-body.theme-blue aside div[style*="font-size:12px"], body.theme-green aside div[style*="font-size:12px"],
-body.theme-turquoise aside div[style*="font-size:12px"], body.theme-gold aside div[style*="font-size:12px"],
-body.theme-pink aside div[style*="font-size:12px"], body.theme-grey aside div[style*="font-size:12px"] {
-  color:#111 !important;
-}
-/* Session Balance text → handled by div[style*="font-size:11px"] rule below */
-/* Current balance .big → black */
-body.theme-blue #currentBalance, body.theme-green #currentBalance, body.theme-turquoise #currentBalance,
-body.theme-gold #currentBalance, body.theme-pink #currentBalance, body.theme-grey #currentBalance {
-  color:#111 !important;
-}
-/* Helper text (number pad instructions) → black */
-body.theme-blue div[style*="font-size:11px"], body.theme-green div[style*="font-size:11px"],
-body.theme-turquoise div[style*="font-size:11px"], body.theme-gold div[style*="font-size:11px"],
-body.theme-pink div[style*="font-size:11px"], body.theme-grey div[style*="font-size:11px"] {
-  color:#111 !important;
-}
-/* Pocketed section labels → black */
-body.theme-blue .pocketed-label, body.theme-green .pocketed-label, body.theme-turquoise .pocketed-label,
-body.theme-gold .pocketed-label, body.theme-pink .pocketed-label, body.theme-grey .pocketed-label {
-  color:#111 !important;
-}
-/* Pocketed section values → black, but NOT the ones with JS-set green/red */
-body.theme-blue .pocketed-value:not(#pocketedProfits):not(#sessionLosses):not(#netLifetimePL),
-body.theme-green .pocketed-value:not(#pocketedProfits):not(#sessionLosses):not(#netLifetimePL),
-body.theme-turquoise .pocketed-value:not(#pocketedProfits):not(#sessionLosses):not(#netLifetimePL),
-body.theme-gold .pocketed-value:not(#pocketedProfits):not(#sessionLosses):not(#netLifetimePL),
-body.theme-pink .pocketed-value:not(#pocketedProfits):not(#sessionLosses):not(#netLifetimePL),
-body.theme-grey .pocketed-value:not(#pocketedProfits):not(#sessionLosses):not(#netLifetimePL) {
-  color:#111 !important;
-}
-/* Input text inside boxes → white (so it shows on the semi-transparent bg) */
-body.theme-blue input, body.theme-blue select,
-body.theme-green input, body.theme-green select,
-body.theme-turquoise input, body.theme-turquoise select,
-body.theme-gold input, body.theme-gold select,
-body.theme-pink input, body.theme-pink select,
-body.theme-grey input, body.theme-grey select {
-  color:#fff !important;
-}
-/* Leave Casino → red text on ALL themes */
-#leaveCasinoBtn {
-  color:#ef4444 !important; border-color:#ef4444 !important;
-}
-/* Auto Sim → black text on all colored themes */
-body.theme-blue #autoSimToggle,body.theme-green #autoSimToggle,
-body.theme-turquoise #autoSimToggle,body.theme-gold #autoSimToggle,
-body.theme-pink #autoSimToggle,body.theme-grey #autoSimToggle {
-  color:#111 !important; border-color:#111 !important;
-}
-/* Place Side Bet → keep purple on all */
-/* Sit Out Spins → keep red on all */
-/* Undo Last Spin → keep amber text, but black border on colored themes */
-body.theme-blue #rollbackBtn, body.theme-green #rollbackBtn, body.theme-turquoise #rollbackBtn,
-body.theme-gold #rollbackBtn, body.theme-pink #rollbackBtn, body.theme-grey #rollbackBtn {
-  border-color:#111 !important;
-}
-
-/* SIM badge next to Balance → match the mode toggle SIM button style */
-body.theme-blue #modeBadge.sim, body.theme-green #modeBadge.sim, body.theme-turquoise #modeBadge.sim,
-body.theme-gold #modeBadge.sim, body.theme-pink #modeBadge.sim, body.theme-grey #modeBadge.sim {
-  background:#dbeafe !important; color:#1d4ed8 !important; border:2px solid #000 !important;
-}
-body.theme-blue #modeBadge.live, body.theme-green #modeBadge.live, body.theme-turquoise #modeBadge.live,
-body.theme-gold #modeBadge.live, body.theme-pink #modeBadge.live, body.theme-grey #modeBadge.live {
-  background:#fef3c7 !important; color:#92400e !important; border:2px solid #000 !important;
-}
-body.theme-blue #modeBadge.table, body.theme-green #modeBadge.table, body.theme-turquoise #modeBadge.table,
-body.theme-gold #modeBadge.table, body.theme-pink #modeBadge.table, body.theme-grey #modeBadge.table {
-  background:#f3e8ff !important; color:#6b21a8 !important; border:2px solid #000 !important;
-}
-/* Mode toggle inactive buttons → black text */
-body.theme-blue .mode-toggle button, body.theme-green .mode-toggle button, body.theme-turquoise .mode-toggle button,
-body.theme-gold .mode-toggle button, body.theme-pink .mode-toggle button, body.theme-grey .mode-toggle button {
-  color:#111 !important;
-}
-/* Mode toggle active buttons → keep their proper colors */
-body.theme-blue .mode-toggle button.active-sim,body.theme-green .mode-toggle button.active-sim,body.theme-turquoise .mode-toggle button.active-sim,
-body.theme-gold .mode-toggle button.active-sim,body.theme-pink .mode-toggle button.active-sim,body.theme-grey .mode-toggle button.active-sim { color:#1d4ed8 !important; }
-body.theme-blue .mode-toggle button.active-live,body.theme-green .mode-toggle button.active-live,body.theme-turquoise .mode-toggle button.active-live,
-body.theme-gold .mode-toggle button.active-live,body.theme-pink .mode-toggle button.active-live,body.theme-grey .mode-toggle button.active-live { color:#92400e !important; }
-body.theme-blue .mode-toggle button.active-table,body.theme-green .mode-toggle button.active-table,body.theme-turquoise .mode-toggle button.active-table,
-body.theme-gold .mode-toggle button.active-table,body.theme-pink .mode-toggle button.active-table,body.theme-grey .mode-toggle button.active-table { color:#6b21a8 !important; }
-
-/* --- SPIN INPUT PLACEHOLDER — brown on all themes --- */
-body.theme-white #spinInput::placeholder { color:#b45309; opacity:1; }
-body.theme-blue #spinInput::placeholder,body.theme-green #spinInput::placeholder,
-body.theme-turquoise #spinInput::placeholder,body.theme-gold #spinInput::placeholder,
-body.theme-pink #spinInput::placeholder,body.theme-grey #spinInput::placeholder { color:#b45309; opacity:1; }
-
-/* --- WHITE THEME: black borders on controls --- */
-body.theme-white #spinInput { border-color:#111 !important; }
-body.theme-white #randomSpin { border-color:#111 !important; }
-body.theme-white #rollbackBtn { border-color:#111 !important; }
-body.theme-white #resetSession { border-color:#111 !important; }
-body.theme-white #exportCsv { border-color:#111 !important; }
-body.theme-white #resetHist { border-color:#111 !important; }
-body.theme-white #autoSimToggle { border-color:#111 !important; }
-body.theme-white #autoSimSpeed { border-color:#111 !important; }
-body.theme-white #startBank { border-color:#111 !important; }
-body.theme-white #unit { border-color:#111 !important; }
-body.theme-white #tableType { border-color:#111 !important; }
-body.theme-white #bgSelect { border-color:#111 !important; }
-body.theme-white #modeBadge { border-color:#111 !important; }
-body.theme-white .threshold-badge { color:#b45309 !important; border-color:#111 !important; }
-body.theme-white .zeroItem { border-color:#111 !important; }
-body.theme-white .ghost { border-color:rgba(0,0,0,0.35) !important; }
-body.theme-white #clearSavedState { border-color:#111 !important; }
-body.theme-white #editMidSession { border-color:#111 !important; }
-body.theme-white #manualSideBetBtn { border-color:#8b5cf6 !important; }
-
-/* ===== PER-THEME SECTION HEADER ACCENT COLORS =====
-   Blue/Green/Turquoise → blue (#1d4ed8)
-   Gold → orange (#c2410c)
-   Pink → purple (#7e22ce)
-   Grey → blue (#1d4ed8)
-*/
-
-/* BLUE / GREEN / TURQUOISE / GREY: section headers → blue */
-body.theme-blue label, body.theme-green label, body.theme-turquoise label, body.theme-grey label {
-  color:#1d4ed8 !important;
-}
-/* GOLD: section headers → orange */
-body.theme-gold label {
-  color:#c2410c !important;
-}
-/* PINK: section headers → purple */
-body.theme-pink label {
-  color:#7e22ce !important;
-}
-
-/* Threshold badges per theme — all match Undo Last Spin & Enter number color (#b45309) */
-body.theme-blue .threshold-badge, body.theme-green .threshold-badge, body.theme-turquoise .threshold-badge,
-body.theme-gold .threshold-badge, body.theme-pink .threshold-badge, body.theme-grey .threshold-badge {
-  border-color:#111 !important; color:#b45309 !important;
-}
-
-/* ===== THRESHOLD BADGES (Strategy Mode) ===== */
-.threshold-badge{padding:8px 12px;border-radius:8px;font-size:14px;font-weight:700;text-align:center;border:2px solid rgba(0,0,0,0.2);opacity:0.3;transition:all .3s}
-.threshold-badge.active-win{opacity:1;background:#dcfce7;border-color:#16a34a;color:#16a34a;}
-.threshold-badge.active-loss{opacity:1;background:#fee2e2;border-color:#ef4444;color:#ef4444;}
-
-/* ===== THRESHOLD OVERRIDE MODALS ===== */
-#thresholdOverrideModal .modal-box{border-top:4px solid #ef4444}
-#thresholdOverride2Modal .modal-box{border-top:4px solid #ef4444}
-#gaWarningModal .modal-box{border-top:4px solid #22c55e}
-#lockoutWarningModal .modal-box{border-top:4px solid #ef4444}
-
-/* ===== STRATEGY MODE HIDING ===== */
-.strategy-hidden { display:none !important; }
-
-/* ===== STRATEGY SWITCH BUTTONS ===== */
-.strategy-switch-section { margin-top:12px; }
-.strategy-switch-note { font-size:11px; color:var(--muted); text-align:center; margin-bottom:8px; line-height:1.4; font-style:italic; }
-.strategy-switch-grid { display:grid; grid-template-columns:1fr 1fr; gap:5px; }
-.strategy-switch-btn { padding:8px 6px; border-radius:8px; font-size:11px; font-weight:700; cursor:pointer; border:2px solid; background:transparent; transition:all .15s; text-align:center; }
-.strategy-switch-btn.active-strategy { opacity:0.6; cursor:default; }
-.ssb-green { color:#16a34a; border-color:#16a34a; }
-.ssb-yellow { color:#b45309; border-color:#eab308; }
-.ssb-orange { color:#ea580c; border-color:#f97316; }
-.ssb-red { color:#ef4444; border-color:#ef4444; }
-.ssb-blue { color:#3b82f6; border-color:#3b82f6; }
-body.theme-dark .strategy-switch-note { color:#94a3b8; }
-body.theme-dark .ssb-green { color:#4ade80; border-color:#4ade80; }
-body.theme-dark .ssb-yellow { color:#fbbf24; border-color:#fbbf24; }
-body.theme-dark .ssb-orange { color:#fb923c; border-color:#fb923c; }
-body.theme-dark .ssb-red { color:#f87171; border-color:#f87171; }
-body.theme-dark .ssb-blue { color:#60a5fa; border-color:#60a5fa; }
-
-/* ===== AUTO SIM CONTROLS ===== */
-.auto-sim-bar { display:flex; gap:6px; align-items:center; margin-top:8px; flex-wrap:wrap; }
-.auto-sim-bar button { font-size:12px; padding:5px 10px; }
-.auto-sim-bar select { width:auto; font-size:12px; padding:4px 6px; }
-.auto-sim-bar .sim-running { background:#ef4444; }
-
-/* ===== POCKETED PROFITS SECTION ===== */
-.pocketed-section { font-size:13px; }
-.pocketed-section .pocketed-row { display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid rgba(0,0,0,0.06); }
-.pocketed-section .pocketed-row:last-child { border-bottom:none; }
-.pocketed-section .pocketed-label { color:var(--muted); }
-.pocketed-section .pocketed-value { font-weight:700; }
-
-/* ===== MODE SELECTION SCREEN (after splash) ===== */
-#mode-select-overlay {
-  position:fixed; inset:0; background:#0a0a0a;
-  display:none; flex-direction:column; justify-content:center; align-items:center;
-  z-index:9998; color:#fff; font-family:Inter,system-ui,sans-serif; padding:20px;
-}
-#mode-select-overlay h2 { margin:0 0 20px; font-size:22px; color:#fff; text-align:center; }
-.mode-select-grid { display:flex; gap:16px; max-width:600px; width:100%; }
-.mode-select-card {
-  flex:1; padding:24px 18px; border-radius:14px; cursor:pointer;
-  transition:all .2s; border:3px solid transparent; text-align:center;
-  min-height:160px; display:flex; flex-direction:column; justify-content:center;
-}
-.mode-select-card:hover { transform:translateY(-3px); box-shadow:0 8px 24px rgba(0,0,0,0.4); }
-.mode-select-card h3 { margin:0 0 8px; font-size:20px; }
-.mode-select-card p { margin:0; font-size:13px; line-height:1.5; color:#ccc; }
-.msc-strategy { background:#1e293b; }
-.msc-strategy:hover { border-color:#f59e0b; }
-.msc-strategy h3 { color:#f59e0b; }
-.msc-original { background:#1e293b; }
-.msc-original:hover { border-color:#3b82f6; }
-.msc-original h3 { color:#3b82f6; }
-@media(max-width:500px) {
-  .mode-select-grid { flex-direction:column; }
-  .mode-select-card { min-height:100px; }
-}
-
-/* ===== WIN THRESHOLD CASH OUT MODAL ===== */
-#winCashOutModal .modal-box { border-top:4px solid #16a34a; }
 </style>
 </head>
 <body class="theme-white">
-
-<!-- ===== LOCKOUT SCREEN ===== -->
-<div id="lockout-overlay">
-  <div class="lockout-box">
-    <h2>App Locked</h2>
-    <p>This app is temporarily locked. This is not due to non-payment or a technical issue. This is a built-in protection for players who may have a gambling problem.</p>
-    <div class="unlock-date" id="lockoutUnlockDate">Your app will unlock on [date]</div>
-    <p>If you need help, call the National Problem Gambling Helpline:</p>
-    <div class="helpline"><a href="tel:1-800-522-4700" style="color:#22c55e;text-decoration:none;">1-800-522-4700</a></div>
-    <div class="dev-password-wrap" id="devPasswordWrap">
-      <input type="password" id="devPasswordInput" placeholder="Password" />
-      <button id="devUnlockBtn">Unlock</button>
-    </div>
-  </div>
-</div>
-
-<!-- ===== STRATEGY SELECTION SCREEN ===== -->
-<div id="strategy-overlay">
-  <h2>Choose Your Strategy</h2>
-  <div class="subtitle">Select how you want to play this session</div>
-  <div class="strategy-grid-top">
-    <div class="strategy-card sc-green" onclick="selectStrategy('steadyeddie')">
-      <span class="win-rate">49.5%</span>
-      <h3>Steady Eddie</h3>
-      <span class="tag">CONSERVATIVE</span>
-      <p>Proven performer but payouts are minimal. Best for keeping bankroll intact.</p>
-    </div>
-    <div class="strategy-card sc-yellow" onclick="selectStrategy('delayedsurge')">
-      <span class="win-rate">45.2%</span>
-      <h3>Delayed Surge</h3>
-      <span class="tag">MODERATE</span>
-      <p>Hold flat $2/$2/$2 for 10 spins, then +$1 every 3 spins. Patience before power.</p>
-    </div>
-    <div class="strategy-card sc-orange" onclick="selectStrategy('slowgrind')">
-      <span class="win-rate">43.8%</span>
-      <h3>Slow Grind</h3>
-      <span class="tag">MODERATE</span>
-      <p>+$1 every 6 spins from the start. Gradual climb with controlled exposure.</p>
-    </div>
-  </div>
-  <div class="strategy-grid-bottom">
-    <div class="strategy-card sc-red" onclick="selectStrategy('streakreset')">
-      <span class="win-rate">42.5%</span>
-      <h3>Streak Reset</h3>
-      <span class="tag">AGGRESSIVE</span>
-      <p>Flat $2/$2/$2 with a temporary $5/$5/$5 boost after 12-spin dry streak.</p>
-    </div>
-    <div class="strategy-card sc-blue" onclick="selectStrategy('original')">
-      <h3>Legacy Mode</h3>
-      <span class="tag">CLASSIC</span>
-      <p>Place your own bets however you want. Full control, no strategy guidance.</p>
-    </div>
-  </div>
-</div>
 
 <!-- ===== SPLASH SCREEN ===== -->
 <div id="splash-overlay">
@@ -813,34 +345,6 @@ body.theme-dark .ssb-blue { color:#60a5fa; border-color:#60a5fa; }
       <a id="gaPhoneLink" href="tel:1-800-522-4700" style="font-size:28px;font-weight:700;color:#22c55e;text-decoration:none;font-family:sans-serif;">1-800-522-4700</a>
       <div style="font-size:13px;margin-top:12px;color:rgba(255,255,255,0.6);font-family:sans-serif;">Tap the number to call</div>
       <button id="gaBackBtn" style="margin-top:20px;padding:8px 24px;border-radius:8px;border:1px solid rgba(255,255,255,0.3);background:transparent;color:#fff;font-size:14px;cursor:pointer;font-family:sans-serif;">Back</button>
-    </div>
-  </div>
-</div>
-
-<!-- ===== MODE SELECTION SCREEN (after splash) ===== -->
-<div id="mode-select-overlay">
-  <h2 style="font-size:18px; color:#aaa; margin-bottom:6px; font-weight:400;">This is a zero-based betting strategy system.</h2>
-  <h2 style="margin-top:0;">How would you like to play?</h2>
-  <div class="mode-select-grid">
-    <div class="mode-select-card msc-original" onclick="enterOriginalMode()">
-      <h3>Legacy Mode</h3>
-      <p>Full control of your zero-based bets. Set your own bet increments, respond to alerts, and manage your session your way.</p>
-    </div>
-    <div class="mode-select-card msc-strategy" onclick="enterStrategyMode()">
-      <h3>Strategy Mode</h3>
-      <p>Guided zero-based betting. The system walks you through each spin with built-in stop gaps and session protection.</p>
-    </div>
-  </div>
-</div>
-
-<!-- ===== WIN CASH OUT MODAL ===== -->
-<div id="winCashOutModal" class="modal-overlay">
-  <div class="modal-box">
-    <h3 id="winCashOutTitle" style="color:#16a34a;">You're Winning!</h3>
-    <p id="winCashOutMessage" style="font-size:14px;"></p>
-    <div class="modal-actions">
-      <button id="winCashOutBtn" style="background:#16a34a;">Cash Out & Restart</button>
-      <button id="winKeepGoingBtn" class="ghost">Keep Going</button>
     </div>
   </div>
 </div>
@@ -1028,66 +532,11 @@ body.theme-dark .ssb-blue { color:#60a5fa; border-color:#60a5fa; }
   </div>
 </div>
 
-<!-- ===== THRESHOLD OVERRIDE MODAL (First confirmation) ===== -->
-<div id="thresholdOverrideModal" class="modal-overlay">
-  <div class="modal-box">
-    <h3 id="toTitle" style="color:#ef4444;">Session Limit Reached</h3>
-    <p id="toMessage" style="font-size:14px;"></p>
-    <div class="modal-actions">
-      <button id="toEndSession" style="background:#16a34a;">End Session</button>
-      <button id="toKeepGoing" style="background:#475569;">Keep Going</button>
-    </div>
-  </div>
-</div>
-
-<!-- ===== THRESHOLD OVERRIDE MODAL 2 (Double confirmation) ===== -->
-<div id="thresholdOverride2Modal" class="modal-overlay">
-  <div class="modal-box">
-    <h3 style="color:#ef4444;">Are You Sure?</h3>
-    <p style="font-size:14px;">By continuing, you are choosing to play beyond what this app was designed for. From this point forward, you are on your own. The app can no longer protect your bankroll.</p>
-    <div class="modal-actions">
-      <button id="to2Confirm" style="background:#ef4444;">I Understand, Keep Going</button>
-      <button id="to2Cancel" style="background:#16a34a;">No, End Session</button>
-    </div>
-  </div>
-</div>
-
-<!-- ===== GA WARNING MODAL (Before flipping to Legacy Mode) ===== -->
-<div id="gaWarningModal" class="modal-overlay">
-  <div class="modal-box">
-    <h3 style="color:#22c55e;">Please Consider</h3>
-    <p style="font-size:14px;">We strongly recommend that you walk away from the casino. If you or someone you know has a gambling problem, call the National Problem Gambling Helpline:</p>
-    <div style="text-align:center;margin:12px 0;"><a href="tel:1-800-522-4700" style="font-size:20px;font-weight:700;color:#22c55e;text-decoration:none;">1-800-522-4700</a></div>
-    <p style="font-size:14px;">If you still choose to continue, you may adjust your bankroll below:</p>
-    <div style="margin:10px 0;">
-      <label style="font-size:12px;font-weight:700;">Bankroll ($)</label>
-      <input id="gaNewBankroll" type="number" value="1500" style="width:100%;margin-top:4px;" />
-    </div>
-    <div class="modal-actions">
-      <button id="gaConfirmContinue" style="background:#475569;">Continue in Legacy Mode</button>
-      <button id="gaWalkAway" style="background:#16a34a;">Walk Away</button>
-    </div>
-  </div>
-</div>
-
-<!-- ===== LOCKOUT WARNING MODAL (On close after override) ===== -->
-<div id="lockoutWarningModal" class="modal-overlay">
-  <div class="modal-box">
-    <h3 style="color:#ef4444;">Session Complete</h3>
-    <p id="lockoutWarningText" style="font-size:14px;"></p>
-    <p style="font-size:14px;">This app will not reopen for 7 days. If you need help, call the National Problem Gambling Helpline:</p>
-    <div style="text-align:center;margin:12px 0;"><a href="tel:1-800-522-4700" style="font-size:20px;font-weight:700;color:#22c55e;text-decoration:none;">1-800-522-4700</a></div>
-    <div class="modal-actions">
-      <button id="lockoutWarningOk" style="background:#ef4444;">I Understand</button>
-    </div>
-  </div>
-</div>
-
 <!-- ===== STICKY HEADER ===== -->
 <div class="sticky-header" id="stickyHeader">
   <div class="sticky-bal-row">
     <span>Balance: <strong id="stickyBal">$1,000</strong> <span class="mode-badge sim" id="modeBadge">SIM</span></span>
-    <span id="stickySessionSpinsWrap">S/Spins: <strong id="stickySessionSpins">0</strong></span>
+    <span>S/Spins: <strong id="stickySessionSpins">0</strong></span>
     <span>Spins: <strong id="stickyCounter">0/12</strong></span>
   </div>
   <div class="sticky-zeros">
@@ -1158,7 +607,6 @@ body.theme-dark .ssb-blue { color:#60a5fa; border-color:#60a5fa; }
     <div class="card">
       <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;">
         <div style="flex:1;min-width:200px;">
-          <div id="strategyPromptBar"></div>
           <label><strong>Spin Input</strong></label>
           <div class="row">
             <input id="spinInput" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="Enter number" style="flex:1" readonly />
@@ -1166,14 +614,6 @@ body.theme-dark .ssb-blue { color:#60a5fa; border-color:#60a5fa; }
             <button id="randomSpin" class="ghost">Random</button>
           </div>
           <div style="font-size:11px;color:var(--muted);margin-top:4px;">Use the number pad below or type a value. Valid: 0, 00, 1-36.</div>
-          <div class="auto-sim-bar" id="autoSimBar">
-            <button id="autoSimToggle" class="ghost" style="border-color:#3b82f6;color:#3b82f6;">Auto Sim</button>
-            <select id="autoSimSpeed">
-              <option value="2000">Slow (~2s)</option>
-              <option value="1000" selected>Medium (~1s)</option>
-              <option value="300">Fast (~0.3s)</option>
-            </select>
-          </div>
           <div class="numpad" id="numpad"></div>
           <label style="margin-top:8px;"><strong>Last 36 Numbers</strong></label>
           <div class="lastnums" id="numHistory" style="position:sticky;top:90px;z-index:98;background:var(--bg);padding:4px 0;"></div>
@@ -1188,18 +628,8 @@ body.theme-dark .ssb-blue { color:#60a5fa; border-color:#60a5fa; }
             <button id="manualSideBetBtn" class="ghost" style="border-color:#8b5cf6;color:#8b5cf6;grid-column:span 2;">Place Side Bet</button>
             <button id="rollbackBtn" class="ghost" style="border-color:#f59e0b;color:#b45309;">Undo Last Spin</button>
             <button id="editMidSession" class="ghost">Edit Bankroll/Unit</button>
-            <button id="leaveCasinoBtn" class="ghost" style="grid-column:span 2;border-color:#ef4444;color:#ef4444;font-weight:700;">Leave The Casino</button>
+            <button id="leaveCasinoBtn" class="ghost" style="grid-column:span 2;border-color:#16a34a;color:#16a34a;font-weight:700;">Leave The Casino</button>
             <button id="clearSavedState" class="ghost" style="grid-column:span 2;font-size:11px;">Clear Saved App State</button>
-          </div>
-          <div class="strategy-switch-section" id="strategySwitchSection">
-            <div class="strategy-switch-note">Tap any strategy below for details &mdash; including your current active strategy</div>
-            <div class="strategy-switch-grid">
-              <button class="strategy-switch-btn ssb-green" id="sswSteadyEddie" onclick="handleStrategySwitch('steadyeddie')">Steady Eddie</button>
-              <button class="strategy-switch-btn ssb-yellow" id="sswDelayedSurge" onclick="handleStrategySwitch('delayedsurge')">Delayed Surge</button>
-              <button class="strategy-switch-btn ssb-orange" id="sswSlowGrind" onclick="handleStrategySwitch('slowgrind')">Slow Grind</button>
-              <button class="strategy-switch-btn ssb-red" id="sswStreakReset" onclick="handleStrategySwitch('streakreset')">Streak Reset</button>
-              <button class="strategy-switch-btn ssb-blue" id="sswLegacy" onclick="handleStrategySwitch('original')" style="grid-column:span 2;">Switch to Legacy Mode</button>
-            </div>
           </div>
         </div>
       </div>
@@ -1215,8 +645,8 @@ body.theme-dark .ssb-blue { color:#60a5fa; border-color:#60a5fa; }
         <button class="ghost" onclick="cancelSitOut()" style="background:#fff;border-color:red;color:red;">Cancel</button>
       </div>
 
-      <div class="uniform-bet-bar" id="uniformBetBar">Click any Zero box to change individual bets</div>
-      <div class="zeros-strip" id="zerosStrip">
+      <div class="uniform-bet-bar">Click any Zero box to change individual bets</div>
+      <div class="zeros-strip">
         <div class="zeroItem" id="bet0Card" onclick="openZeroEdit()">
           <div style="font-size:11px;color:var(--muted);">Bet on 0</div>
           <div class="big" id="bet0Display">$5.00</div>
@@ -1237,7 +667,7 @@ body.theme-dark .ssb-blue { color:#60a5fa; border-color:#60a5fa; }
       <label style="margin-top:12px;"><strong>Session History</strong></label>
       <div class="history">
         <table id="historyTable">
-          <thead><tr><th>Time</th><th>Spin#</th><th>Result</th><th>Bet/Zero</th><th>Total</th><th>Net</th><th>Bal.</th><th>Status</th></tr></thead>
+          <thead><tr><th>Time</th><th>Mode</th><th>0's Stake</th><th>Side</th><th>Net</th><th>Bal.</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
@@ -1252,83 +682,55 @@ body.theme-dark .ssb-blue { color:#60a5fa; border-color:#60a5fa; }
       <div style="margin-bottom:8px;"><div style="font-size:12px;">Session P/L</div><div class="big" id="sumSession">$0</div></div>
       <div style="margin-bottom:8px;"><div style="font-size:12px;">Historical P/L</div><div class="big" id="sumHist">$0</div></div>
 
-      <!-- Legacy Mode Alerts (shown in legacy mode) -->
-      <div id="originalAlerts">
-        <label style="margin-top:12px;"><strong>Loss / Win Alerts</strong></label>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;">
-          <div class="badge" id="alL15" style="border-color:#ef4444;color:#ef4444;opacity:0.3;">L: 15%</div>
-          <div class="badge" id="alL20" style="border-color:#ef4444;color:#ef4444;opacity:0.3;">L: 20%</div>
-          <div class="badge" id="alL33" style="border-color:#ef4444;color:#ef4444;opacity:0.3;">L: 33%</div>
-          <div class="badge" id="alW15" style="border-color:#16a34a;color:#16a34a;opacity:0.3;">W: 15%</div>
-          <div class="badge" id="alW20" style="border-color:#16a34a;color:#16a34a;opacity:0.3;">W: 20%</div>
-          <div class="badge" id="alW33" style="border-color:#16a34a;color:#16a34a;opacity:0.3;">W: 33%</div>
-        </div>
-      </div>
-      <!-- Strategy Mode Threshold Badges (shown in strategy mode) -->
-      <div id="strategyAlerts" style="display:none;">
-        <label style="margin-top:12px;"><strong>Thresholds</strong></label>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-          <div class="threshold-badge" id="thBadge1">Threshold 1</div>
-          <div class="threshold-badge" id="thBadge2">Threshold 2</div>
-        </div>
+      <label style="margin-top:12px;"><strong>Loss / Win Alerts</strong></label>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;">
+        <div class="badge" id="alL20" style="border-color:#ef4444;color:#ef4444;opacity:0.3;">L: 1/5</div>
+        <div class="badge" id="alL33" style="border-color:#ef4444;color:#ef4444;opacity:0.3;">L: 1/3</div>
+        <div class="badge" id="alL40" style="border-color:#ef4444;color:#ef4444;opacity:0.3;">L: 2/5</div>
+        <div class="badge" id="alW20" style="border-color:#16a34a;color:#16a34a;opacity:0.3;">W: 1/5</div>
+        <div class="badge" id="alW33" style="border-color:#16a34a;color:#16a34a;opacity:0.3;">W: 1/3</div>
+        <div class="badge" id="alW40" style="border-color:#16a34a;color:#16a34a;opacity:0.3;">W: 2/5</div>
       </div>
 
-      <!-- Settings section (Legacy Mode) / Pocketed Profits (LIVE/TABLE) -->
-      <div id="settingsSection">
-        <label style="margin-top:16px;"><strong>Settings</strong></label>
-        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
-          <div id="autoIncSection">
-            <label style="display:flex;align-items:center;gap:8px;margin:0;">
-              <input type="checkbox" id="autoIncEvery" checked> Auto increment every N spins
-            </label>
-            <div style="display:flex;gap:8px;align-items:center;margin-top:4px;">
-              <div><label>N spins:</label><input type="number" id="nSpins" value="12" style="width:55px" /></div>
-              <div><label>Increment $:</label><input type="number" id="incVal" value="5" style="width:55px" /></div>
-            </div>
-          </div>
-          <div id="spinCounterSection" style="display:flex;align-items:center;gap:8px;">
-            <span>Spin counter:</span>
-            <input type="number" id="spinCountLeft" value="0" style="width:45px;text-align:center;" min="0" />
-            <span>/</span>
-            <input type="number" id="spinCountRight" value="12" style="width:45px;text-align:center;" min="1" />
-            <button id="resetCountBtn" class="ghost" style="padding:4px 8px;font-size:11px;">Reset</button>
-          </div>
-          <label style="display:flex;align-items:center;gap:8px;margin:0;">
-            <input type="checkbox" id="showSplit" checked> Show 0/00 split bet (American only)
-          </label>
-          <label style="display:flex;align-items:center;gap:8px;margin:0;">
-            <input type="checkbox" id="autoPlaceSplit" checked> Auto-place split bet when shown
-          </label>
+      <label style="margin-top:16px;"><strong>Settings</strong></label>
+      <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+        <label style="display:flex;align-items:center;gap:8px;margin:0;">
+          <input type="checkbox" id="autoIncEvery" checked> Auto increment every N spins
+        </label>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <div><label>N spins:</label><input type="number" id="nSpins" value="12" style="width:55px" /></div>
+          <div><label>Increment $:</label><input type="number" id="incVal" value="5" style="width:55px" /></div>
         </div>
-      </div>
-      <!-- Pocketed Profits Section (LIVE/TABLE only, not SIM) -->
-      <div id="pocketedSection" style="display:none;">
-        <label style="margin-top:16px;"><strong>Lifetime Tracking</strong></label>
-        <div class="pocketed-section">
-          <div class="pocketed-row"><span class="pocketed-label">Pocketed Profits</span><span class="pocketed-value" id="pocketedProfits">$0</span></div>
-          <div class="pocketed-row"><span class="pocketed-label">Session Losses</span><span class="pocketed-value" id="sessionLosses">$0</span></div>
-          <div class="pocketed-row"><span class="pocketed-label">Net Lifetime P/L</span><span class="pocketed-value" id="netLifetimePL">$0</span></div>
-          <div class="pocketed-row"><span class="pocketed-label">Sessions Played</span><span class="pocketed-value" id="sessionsPlayed">0</span></div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span>Spin counter:</span>
+          <input type="number" id="spinCountLeft" value="0" style="width:45px;text-align:center;" min="0" />
+          <span>/</span>
+          <input type="number" id="spinCountRight" value="12" style="width:45px;text-align:center;" min="1" />
+          <button id="resetCountBtn" class="ghost" style="padding:4px 8px;font-size:11px;">Reset</button>
         </div>
+        <label style="display:flex;align-items:center;gap:8px;margin:0;">
+          <input type="checkbox" id="showSplit" checked> Show 0/00 split bet (American only)
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;margin:0;">
+          <input type="checkbox" id="autoPlaceSplit" checked> Auto-place split bet when shown
+        </label>
       </div>
     </div>
   </aside>
 </div>
 
 <div style="text-align:right;font-size:10px;color:var(--muted);padding:16px;">
-  Project Zero Roulette — Revision 12 — client only
+  Project Zero Roulette — Revision 11 — client only
 </div>
 </div>
 
 <script>
 /* ================================================================
-   PROJECT ZERO ROULETTE — REVISION 12
-   Copyright (c) 2026 James Munchman. All rights reserved.
+   PROJECT ZERO ROULETTE — REVISION 10
+   Copyright (c) 2026 James Jones Jr. All rights reserved.
    
    V10: SIM/LIVE/TABLE modes, Session Spins, Time Tracking,
         Avg Spins Between Zeros, Smart Sit-Out Suggestion, UI Fixes
-   V12: 7-day lockout, SIM no-lockout, dev unlock top-right 15-tap,
-        strategy switch buttons, Steady Eddie desc, LIVE/TABLE bet prompt
    
    PROPRIETARY AND CONFIDENTIAL. Unauthorized use, copying, or
    distribution of this software is strictly prohibited.
@@ -1356,30 +758,8 @@ let state = {
   sessionZeroGaps:[],
   sessionCurrentGap:0,
   // Manual side bet state
-  msbType:null, msbValue:null,
-  // Strategy mode state
-  strategyMode:null, // 'steadyeddie','delayedsurge','slowgrind','streakreset','original',null
-  streakResetBoosted:false, // for Streak Reset: true when in $5 boost mode
-  strategySpinsSinceZero:0, // count spins since last zero (for escalation)
-  overrideTriggered:false, // true if user overrode threshold and flipped to original
-  threshold1Hit:false,
-  threshold2Hit:false,
-  // Pocketed Profits tracking (LIVE/TABLE only)
-  pocketedProfits:0,
-  sessionLosses:0,
-  sessionsPlayed:0,
-  // Sit-out zero tracking
-  sitOutZerosThisSitOut:0,
-  sitOutTotalMissedSession:0
+  msbType:null, msbValue:null
 };
-
-/* ===== STRATEGY & LOCKOUT CONSTANTS ===== */
-const LOCKOUT_KEY='PZ_LOCKOUT_UNTIL';
-const DEV_PASSWORD='062562';
-const STRATEGY_CAP=15; // max bet per zero for Escalate and Cap
-const STRATEGY_BASE_BET=2; // base bet for all strategies
-const STRATEGY_INCREMENT=1; // increment per spin
-const STRATEGY_SITOUT=17; // sit-out spins after zero hit
 
 const REDS=[1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36];
 const STORAGE_KEY_SIM='PZ_ROULETTE_REV10_SIM';
@@ -1438,8 +818,8 @@ function getSessionAvgGap(){
       overlay.style.opacity='0';
       setTimeout(()=>{
         overlay.style.display='none';
-        // Always show mode selection screen (Original vs Strategy)
-        showModeSelect();
+        const app=$('main-app-content');
+        app.style.opacity='1';app.style.visibility='visible';
       },1500);
     },3500);
   }
@@ -1538,24 +918,9 @@ function queueModal(id){
 }
 
 function showNextModal(){
-  if(modalQueue.length===0){
-    activeModal=null;
-    // Resume auto sim if it was paused by a modal
-    if(autoSimPausedByModal&&autoSimRunning){
-      autoSimPausedByModal=false;
-      const speed=parseInt($('autoSimSpeed').value)||1000;
-      autoSimInterval=setInterval(()=>{$('randomSpin').click();},speed);
-    }
-    return;
-  }
+  if(modalQueue.length===0){activeModal=null;return;}
   const next=modalQueue.shift();
   activeModal=next.id;
-  // Pause auto sim when any modal appears
-  if(autoSimRunning&&autoSimInterval){
-    clearInterval(autoSimInterval);
-    autoSimInterval=null;
-    autoSimPausedByModal=true;
-  }
   if(next.id==='patternDialog'){
     $(next.id).style.display='flex';$(next.id).style.flexDirection='column';
     $(next.id).setAttribute('aria-hidden','false');
@@ -1817,8 +1182,6 @@ function liveDoubleConfirm(title,message){
     $('liveConfirmText').textContent=message||'This will permanently erase your real casino betting history.';
     $('liveConfirmBtn').classList.remove('enabled');
     $('liveCountdown').textContent='(3)';
-    // Pause auto sim
-    if(autoSimRunning&&autoSimInterval){clearInterval(autoSimInterval);autoSimInterval=null;autoSimPausedByModal=true;}
     $('liveConfirmModal').style.display='flex';
     let count=3;
     if(liveCountdownTimer)clearInterval(liveCountdownTimer);
@@ -1838,69 +1201,56 @@ $('liveConfirmBtn').onclick=()=>{
   if(!$('liveConfirmBtn').classList.contains('enabled'))return;
   $('liveConfirmModal').style.display='none';
   if(liveCountdownTimer){clearInterval(liveCountdownTimer);liveCountdownTimer=null;}
-  // Resume auto sim if paused
-  if(autoSimPausedByModal&&autoSimRunning){autoSimPausedByModal=false;const speed=parseInt($('autoSimSpeed').value)||1000;autoSimInterval=setInterval(()=>{$('randomSpin').click();},speed);}
   if(liveConfirmResolve){liveConfirmResolve(true);liveConfirmResolve=null;}
 };
 $('liveCancelBtn').onclick=()=>{
   $('liveConfirmModal').style.display='none';
   if(liveCountdownTimer){clearInterval(liveCountdownTimer);liveCountdownTimer=null;}
-  // Resume auto sim if paused
-  if(autoSimPausedByModal&&autoSimRunning){autoSimPausedByModal=false;const speed=parseInt($('autoSimSpeed').value)||1000;autoSimInterval=setInterval(()=>{$('randomSpin').click();},speed);}
   if(liveConfirmResolve){liveConfirmResolve(false);liveConfirmResolve=null;}
 };
 
 /* ===== WIN/LOSS ALERT CHECK ===== */
 function checkAlerts(){
-  // Strategy mode uses its own threshold system
-  if(state.strategyMode&&state.strategyMode!=='original'){
-    checkStrategyThresholds();
-    return;
-  }
   const diff=(state.balance-state.bank)/state.bank;
-  const thresholds={alL15:-0.15,alL20:-0.20,alL33:-0.33,alW15:0.15,alW20:0.20,alW33:0.33};
+  const thresholds={alL20:-0.20,alL33:-0.33,alL40:-0.40,alW20:0.20,alW33:0.33,alW40:0.40};
   let anyWin=false,anyLose=false,highestLoss=0,highestWin=0;
   for(let id in thresholds){
-    const el=$(id);
-    if(!el)continue;
     const t=thresholds[id];const active=t<0?diff<=t:diff>=t;
-    el.style.opacity=active?1:0.3;
-    el.style.background=active?(t<0?'#fee2e2':'#dcfce7'):'transparent';
+    $(id).style.opacity=active?1:0.3;
+    $(id).style.background=active?(t<0?'#fee2e2':'#dcfce7'):'transparent';
     if(active&&t>0){anyWin=true;highestWin=Math.max(highestWin,t);}
     if(active&&t<0){anyLose=true;highestLoss=Math.min(highestLoss,t);}
   }
   let level=null;
-  if(anyWin){level=highestWin>=0.33?'w33':(highestWin>=0.20?'w20':'w15');}
-  else if(anyLose){level=highestLoss<=-0.33?'l33':(highestLoss<=-0.20?'l20':'l15');}
+  if(anyWin){level=highestWin>=0.40?'w40':(highestWin>=0.33?'w33':'w20');}
+  else if(anyLose){level=highestLoss<=-0.40?'l40':(highestLoss<=-0.33?'l33':'l20');}
   if(level!==state.lastAlertLevel){
     document.body.classList.remove('flash-win','flash-lose','flash-lose-urgent');
     if(state.alertTimeoutId){clearTimeout(state.alertTimeoutId);state.alertTimeoutId=null;}
     if(level&&level.startsWith('w')){
       playWinChime();
-      if(level==='w33'){
+      if(level==='w40'){
         flashBorder('win',10,300);
+        // Confirmed: Walk suggestion at 40% win — lock in profits
         setTimeout(()=>{
           const pct=(((state.balance-state.bank)/state.bank)*100).toFixed(0);
-          showWinCashOut(pct,33);
-        },1000);
-      }else if(level==='w20'){
-        flashBorder('win',5,600);
-        setTimeout(()=>{
-          const pct=(((state.balance-state.bank)/state.bank)*100).toFixed(0);
-          showWinCashOut(pct,20);
+          appConfirm('40% Win \u2014 Lock In Profits!',`You are up ${pct}% on your bankroll! The confirmed strategy recommends leaving at 40% profit. Would you like to leave the casino and lock in your winnings?`).then(ok=>{
+            if(ok){$('leaveBtn').click();}
+          });
         },1000);
       }else flashBorder('win',5,600);
-    }else if(level==='l15'){playLossAlert(false);flashBorder('lose',5,600);}
-    else if(level==='l20'){
+    }else if(level==='l20'){playLossAlert(false);flashBorder('lose',5,600);}
+    else if(level==='l33'){
       playLossAlert(false);flashBorder('lose',5,600);
+      // Confirmed: Walk suggestion at 33% loss
       setTimeout(()=>{
         const pct=Math.abs(((state.balance-state.bank)/state.bank)*100).toFixed(0);
-        appConfirm('20% Loss \u2014 Consider Leaving',`You have lost ${pct}% of your bankroll. Consider walking away.`).then(ok=>{
-          if(ok){$('leaveCasinoBtn').click();}
+        appConfirm('33% Loss — Consider Leaving',`You have lost ${pct}% of your bankroll. The confirmed strategy recommends walking at 33% loss. Would you like to leave the casino?`).then(ok=>{
+          if(ok){$('leaveBtn').click();}
         });
       },1000);
     }
-    else if(level==='l33'){
+    else if(level==='l40'){
       playLossAlert(true);flashBorder('lose-urgent',10,300);
       setTimeout(()=>showCrisisModal(),1000);
     }
@@ -1908,37 +1258,10 @@ function checkAlerts(){
   }
 }
 
-/* ===== WIN CASH OUT MODAL (No lockout, no GA) ===== */
-function showWinCashOut(pct,threshold){
-  const profit=state.balance-state.bank;
-  $('winCashOutTitle').textContent=threshold+'% Win \u2014 Lock In Profits!';
-  $('winCashOutMessage').textContent=`Congratulations! You are up ${pct}% (${fmt(profit)}) on your bankroll. We recommend cashing out to lock in your winnings. You can restart a fresh session after cashing out.`;
-  // Pause auto sim
-  if(autoSimRunning&&autoSimInterval){clearInterval(autoSimInterval);autoSimInterval=null;autoSimPausedByModal=true;}
-  $('winCashOutModal').style.display='flex';
-}
-$('winCashOutBtn').onclick=function(){
-  $('winCashOutModal').style.display='none';
-  // Resume auto sim if paused
-  if(autoSimPausedByModal&&autoSimRunning){autoSimPausedByModal=false;const speed=parseInt($('autoSimSpeed').value)||1000;autoSimInterval=setInterval(()=>{$('randomSpin').click();},speed);}
-  // Record pocketed profits (LIVE/TABLE only)
-  const profit=state.balance-state.bank;
-  if(state.mode==='live'||state.mode==='table'){
-    state.pocketedProfits+=profit;
-    state.sessionsPlayed++;
-  }
-  _showLeaveReportInner();
-};
-$('winKeepGoingBtn').onclick=function(){
-  $('winCashOutModal').style.display='none';
-  // Resume auto sim if paused
-  if(autoSimPausedByModal&&autoSimRunning){autoSimPausedByModal=false;const speed=parseInt($('autoSimSpeed').value)||1000;autoSimInterval=setInterval(()=>{$('randomSpin').click();},speed);}
-};
-
 /* ===== CRISIS MODAL ===== */
 function showCrisisModal(){
   const pct=Math.abs(((state.balance-state.bank)/state.bank)*100).toFixed(0);
-  $('crisisTitle').textContent='33% LOSS ALERT';
+  $('crisisTitle').textContent='40% LOSS ALERT (2/5)';
   $('crisisText').textContent=`You have lost ${pct}% of your starting bankroll (${fmt(state.bank)}). Your current balance is ${fmt(state.balance)}. What would you like to do?`;
   queueModal('crisisModal');
 }
@@ -1986,13 +1309,9 @@ $('zeCancel').onclick=()=>{$('zeroEditModal').style.display='none';};
 function refresh(){
   $('currentBalance').textContent=fmt(state.balance);
   $('stickyBal').textContent=fmt(state.balance);
-  // Set theme class FIRST so all theme checks work correctly
-  document.body.className='theme-'+state.theme;
-
   $('sumStart').textContent=fmt(state.bank);
   const sessionPL=state.balance-state.bank;
   $('sumSession').textContent=fmt(sessionPL);
-  // ALL themes: proper green/red P/L colors
   $('sumSession').style.color=sessionPL>=0?'var(--win)':'var(--lose)';
   $('sumHist').textContent=fmt(state.histPL);
   $('sumHist').style.color=state.histPL>=0?'var(--win)':'var(--lose)';
@@ -2031,16 +1350,13 @@ function refresh(){
 
   $('sitOutBadge').style.display=state.sitOut>0?'block':'none';
   $('sitOutCount').textContent=state.sitOut;
-  const ghostText=state.sitOutZerosThisSitOut>0||state.sitOutTotalMissedSession>0
-    ?`${state.sitOutZerosThisSitOut} zero${state.sitOutZerosThisSitOut!==1?'s':''} hit this sit-out | ${state.sitOutTotalMissedSession} total missed this session`
-    :'';
-  $('sitGhostHits').textContent=ghostText;
+  $('sitGhostHits').textContent=state.ghostHits>0?`(${state.ghostHits} zero${state.ghostHits>1?'s':''} hit while out!)`:'';
 
   // Sticky sit-out bar
   const sso=$('stickySitOut');
   if(state.sitOut>0){sso.classList.add('active');}else{sso.classList.remove('active');}
   $('stickySitCount').textContent=state.sitOut;
-  $('stickySitGhost').textContent=ghostText;
+  $('stickySitGhost').textContent=state.ghostHits>0?`(${state.ghostHits} zero${state.ghostHits>1?'s':''} hit while out!)`:'';
 
   $('spinCountLeft').value=state.spinCounter;
   $('spinCountRight').value=state.spinCounterMax;
@@ -2054,61 +1370,7 @@ function refresh(){
   $('sz00').textContent='00: '+fmt(state.bet00);
   $('szSplit').textContent='Spl: '+fmt(state.betSplit);
 
-  // Strategy mode: hide zero boxes, uniform bet bar, auto-increment, spin counter
-  const isStratMode=state.strategyMode&&state.strategyMode!=='original';
-  if(isStratMode){
-    $('uniformBetBar').classList.add('strategy-hidden');
-    $('autoIncSection').classList.add('strategy-hidden');
-    $('spinCounterSection').classList.add('strategy-hidden');
-    // Keep zero bet boxes visible but read-only in strategy mode
-    $('zerosStrip').classList.remove('strategy-hidden');
-    document.querySelectorAll('#zerosStrip .zeroItem').forEach(el=>{
-      el.style.pointerEvents='none';
-      el.style.opacity='0.85';
-    });
-    // Hide set Spins: X/Y in sticky header (but keep S/Spins session counter centered)
-    const stickyCounterSpan=$('stickyCounter').parentElement;
-    if(stickyCounterSpan)stickyCounterSpan.style.visibility='hidden';
-    // Session spin counter stays visible in strategy mode
-    const stickySessionSpinsWrap=$('stickySessionSpinsWrap');
-    if(stickySessionSpinsWrap)stickySessionSpinsWrap.style.display='';
-    // Keep sticky zeros visible in strategy mode (read-only)
-    document.querySelector('.sticky-zeros').style.display='';
-  }else{
-    $('uniformBetBar').classList.remove('strategy-hidden');
-    $('autoIncSection').classList.remove('strategy-hidden');
-    $('spinCounterSection').classList.remove('strategy-hidden');
-    // Restore zero bet boxes to editable in legacy mode
-    document.querySelectorAll('#zerosStrip .zeroItem').forEach(el=>{
-      el.style.pointerEvents='';
-      el.style.opacity='';
-    });
-    const stickyCounterSpan=$('stickyCounter').parentElement;
-    if(stickyCounterSpan)stickyCounterSpan.style.visibility='';
-    const stickySessionSpinsWrap2=$('stickySessionSpinsWrap');
-    if(stickySessionSpinsWrap2)stickySessionSpinsWrap2.style.display='';
-    document.querySelector('.sticky-zeros').style.display='';
-  }
-
-  // Pocketed Profits section (LIVE/TABLE only, not SIM)
-  if((state.mode==='live'||state.mode==='table')&&!isStratMode){
-    $('settingsSection').style.display='none';
-    $('pocketedSection').style.display='block';
-    $('pocketedProfits').textContent=fmt(state.pocketedProfits);
-    $('pocketedProfits').style.color=state.pocketedProfits>=0?'var(--win)':'var(--lose)';
-    $('sessionLosses').textContent=fmt(state.sessionLosses);
-    $('sessionLosses').style.color=state.sessionLosses<=0?'var(--lose)':'var(--win)';
-    const netLife=state.pocketedProfits+state.sessionLosses;
-    $('netLifetimePL').textContent=fmt(netLife);
-    $('netLifetimePL').style.color=netLife>=0?'var(--win)':'var(--lose)';
-    $('sessionsPlayed').textContent=state.sessionsPlayed;
-  }else if(isStratMode){
-    $('settingsSection').style.display='none';
-    $('pocketedSection').style.display='none';
-  }else{
-    $('settingsSection').style.display='block';
-    $('pocketedSection').style.display='none';
-  }
+  document.body.className='theme-'+state.theme;
 
   if(state.activeSides&&state.activeSides.length>0){
     $('activeStakeBar').style.display='block';
@@ -2139,17 +1401,15 @@ function refresh(){
     s.textContent=n;snh.appendChild(s);
   });
 
-  // Render history (expanded columns)
+  // Render history
   const tb=document.querySelector('#historyTable tbody');tb.innerHTML='';
-  [...state.history].reverse().forEach((r,idx)=>{
+  [...state.history].reverse().forEach(r=>{
     const tr=document.createElement('tr');
     const netColor=r.net>=0?'var(--win)':'var(--lose)';
-    const spinNum=state.history.length-idx;
-    const resultNum=r.n||'-';
-    const totalStake=r.totalStake||r.s||0;
-    const statusText=r.status||'Active';
-    const statusColor=statusText==='Sit-Out'?'#b45309':(statusText==='Zero Hit!'?'#16a34a':(statusText==='Sit-Out (0 hit)'?'#d97706':'inherit'));
-    tr.innerHTML=`<td>${r.t}</td><td>${spinNum}</td><td><strong>${resultNum}</strong></td><td>${fmt(r.s)}</td><td>${fmt(totalStake)}</td><td style="color:${netColor}">${fmt(r.net)}</td><td>${fmt(r.b)}</td><td style="color:${statusColor};font-weight:600;font-size:10px;">${statusText}</td>`;
+    const modeLabel=(r.mode||'sim').toUpperCase();
+    const modeBg=r.mode==='table'?'#f3e8ff':(r.mode==='live'?'#fef3c7':'#dbeafe');
+    const modeColor=r.mode==='table'?'#6b21a8':(r.mode==='live'?'#92400e':'#1d4ed8');
+    tr.innerHTML=`<td>${r.t}</td><td><span style="background:${modeBg};color:${modeColor};padding:1px 5px;border-radius:3px;font-size:10px;font-weight:700;">${modeLabel}</span></td><td>${fmt(r.s)}</td><td>${r.side}</td><td style="color:${netColor}">${fmt(r.net)}</td><td>${fmt(r.b)}</td>`;
     tb.appendChild(tr);
   });
 
@@ -2161,53 +1421,8 @@ function saveState(){
   try{localStorage.setItem(getStorageKey(),JSON.stringify(state));}catch(e){}
 }
 
-/* ===== LIVE/TABLE BETS PLACED WORKFLOW ===== */
-let betPlacedResolve=null;
-function showBetsPlacedPrompt(){
-  return new Promise(resolve=>{
-    betPlacedResolve=resolve;
-    // Build bet instruction text
-    const isSit=state.sitOut>0;
-    let betText='';
-    if(isSit){
-      betText='You are currently SITTING OUT. Do not place any bets this spin.';
-    }else if(state.strategyMode&&state.strategyMode!=='original'){
-      const b=state.bet0;
-      const total=state.bet0+state.bet00+state.betSplit;
-      betText='Place $'+b+' on 0, $'+state.bet00+' on 00, $'+state.betSplit+' on 0/00 split. Total: $'+total+'.';
-    }else{
-      const b0=state.bet0;
-      const b00=state.table==='american'?state.bet00:0;
-      const showSplit=state.table==='american';
-      const bSp=showSplit?state.betSplit:0;
-      const total=b0+b00+bSp;
-      betText='Place $'+b0+' on 0';
-      if(b00>0) betText+=', $'+b00+' on 00';
-      if(bSp>0) betText+=', $'+bSp+' on 0/00 split';
-      betText+='. Total: $'+total+'.';
-    }
-    // Add side bets if any
-    if(state.activeSides&&state.activeSides.length>0){
-      state.activeSides.forEach(function(s){
-        betText+=' Side bet: $'+s.amt+' on '+s.type+' '+s.value+'.';
-      });
-    }
-    appConfirm('Place Your Bets',betText+'\n\nPlace your bets at the table now, then tap OK to confirm bets are placed and enter the result.').then(function(confirmed){
-      if(betPlacedResolve){
-        betPlacedResolve(confirmed!==false);
-        betPlacedResolve=null;
-      }
-    });
-  });
-}
-
 /* ===== HANDLE SPIN ===== */
 function handleSpin(val){
-  // Strategy mode: route to strategy handler
-  if(state.strategyMode&&state.strategyMode!=='original'){
-    handleStrategySpin(val);
-    return;
-  }
   val=val.trim();
   if(val!=='0'&&val!=='00'){
     const n=parseInt(val);if(isNaN(n)||n<1||n>36){alert('Invalid number. Enter 0, 00, or 1-36.');return;}
@@ -2237,8 +1452,6 @@ function handleSpin(val){
   // Ghost hit tracking
   if(isSit&&(val==='0'||val==='00')){
     state.ghostHits++;
-    state.sitOutZerosThisSitOut++;
-    state.sitOutTotalMissedSession++;
     state.ghostHitLog.push({time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),number:val});
   }
 
@@ -2300,21 +1513,15 @@ function handleSpin(val){
   state.last36.unshift(val);
   if(state.last36.length>36)state.last36.pop();
 
-  // Determine status for history
-  let spinStatus='Active';
-  if(isSit)spinStatus='Sit-Out';
-  if(val==='0'||val==='00')spinStatus=isSit?'Sit-Out (0 hit)':'Zero Hit!';
-
   state.history.push({
     t:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),
-    n:val,s:zeroStake,totalStake:totalStake,side:(state.activeSides&&state.activeSides.length>0)?sideDescription:'-',net:net,b:state.balance,
-    mode:state.mode,status:spinStatus
+    n:val,s:zeroStake,side:(state.activeSides&&state.activeSides.length>0)?sideDescription:'-',net:net,b:state.balance,
+    mode:state.mode
   });
 
   if(isSit){
     state.sitOut--;
     state.totalSitOutSpins++;
-    if(state.sitOut<=0)state.sitOutZerosThisSitOut=0; // Reset per-sitout counter when sit-out ends
   }else if($('autoIncEvery').checked){
     if(val==='0'||val==='00'){
       state.spinCounter=0;
@@ -2390,17 +1597,9 @@ function editSitOut(){
   });
 }
 function cancelSitOut(){
-  const sessionPL=state.balance-state.bank;
-  if(sessionPL<0){
-    // Block cancellation when losing
-    appConfirm('Sit-Out Protected','Sit-out cannot be cancelled while your session is in a loss. This protection is in place to prevent chasing losses.');
-    return;
-  }
-  // Winning — allow with warning
-  appConfirm('Cancel Sit-Out','You are currently in profit. Are you sure you want to cancel sit-out and resume betting? This increases your risk.').then(ok=>{
+  appConfirm('Cancel Sit-Out','Cancel sit-out and resume betting?').then(ok=>{
     if(ok){
       state.sitOut=0;
-      state.sitOutZerosThisSitOut=0;
       appConfirm('Change Bets','Would you like to change your bet amounts before resuming?').then(changeBet=>{
         if(changeBet)openZeroEdit();
         refresh();
@@ -2485,12 +1684,9 @@ function _showLeaveReportInner(){
   `;
 
   $('leaveTitle').textContent=isProfit?'Winner! \u2014 Session Report':'Session Report';
-  const cTheme=['theme-blue','theme-green','theme-turquoise','theme-gold','theme-pink','theme-grey'].some(t=>document.body.classList.contains(t));
-  $('leaveTitle').style.color=cTheme?'#111':(isProfit?'#16a34a':'#ef4444');
+  $('leaveTitle').style.color=isProfit?'#16a34a':'#ef4444';
   $('leaveReport').innerHTML=report;
   $('leaveEmail').value=state.defaultEmail||'';
-  // Pause auto sim
-  if(autoSimRunning&&autoSimInterval){clearInterval(autoSimInterval);autoSimInterval=null;autoSimPausedByModal=true;}
   $('leaveModal').style.display='flex';
 }
 
@@ -2524,11 +1720,7 @@ $('leaveConfirm').onclick=()=>{
   document.body.classList.remove('flash-win','flash-lose','flash-lose-urgent');
   refresh();
 };
-$('leaveCancel').onclick=()=>{
-  $('leaveModal').style.display='none';
-  // Resume auto sim if paused
-  if(autoSimPausedByModal&&autoSimRunning){autoSimPausedByModal=false;const speed=parseInt($('autoSimSpeed').value)||1000;autoSimInterval=setInterval(()=>{$('randomSpin').click();},speed);}
-};
+$('leaveCancel').onclick=()=>{$('leaveModal').style.display='none';};
 
 /* ===== CSV EXPORT ===== */
 function exportCSV(){
@@ -2892,661 +2084,10 @@ function loadState(){
   }catch(e){}
 }
 
-/* ===== LOCKOUT SYSTEM ===== */
-function checkLockout(){
-  try{
-    const lockUntil=localStorage.getItem(LOCKOUT_KEY);
-    if(lockUntil){
-      const lockDate=new Date(lockUntil);
-      if(Date.now()<lockDate.getTime()){
-        const opts={year:'numeric',month:'long',day:'numeric'};
-        $('lockoutUnlockDate').textContent='Your app will unlock on '+lockDate.toLocaleDateString('en-US',opts);
-        $('lockout-overlay').style.display='flex';
-        // Dev override: 15 rapid taps in top-right quadrant to reveal password field
-        let tapCount=0;let tapTimer=null;
-        $('lockout-overlay').addEventListener('click',function(e){
-          // Only count taps in the top-right quadrant of the screen
-          const vw=window.innerWidth;
-          const vh=window.innerHeight;
-          if(e.clientX>vw/2 && e.clientY<vh/2){
-            tapCount++;
-            if(tapTimer)clearTimeout(tapTimer);
-            tapTimer=setTimeout(()=>{tapCount=0;},2000);
-            if(tapCount>=15){
-              $('devPasswordWrap').style.display='block';
-              tapCount=0;
-            }
-          }
-        });
-        $('devUnlockBtn').onclick=function(){
-          if($('devPasswordInput').value===DEV_PASSWORD){
-            localStorage.removeItem(LOCKOUT_KEY);
-            $('lockout-overlay').style.display='none';
-            showStrategySelection();
-          }else{
-            alert('Incorrect password.');
-          }
-        };
-        return true; // locked
-      }else{
-        localStorage.removeItem(LOCKOUT_KEY);
-      }
-    }
-  }catch(e){}
-  return false;
-}
-
-function setLockout(){
-  const lockDate=new Date();
-  lockDate.setDate(lockDate.getDate()+7);
-  localStorage.setItem(LOCKOUT_KEY,lockDate.toISOString());
-}
-
-/* ===== STRATEGY SELECTION ===== */
-function showStrategySelection(){
-  $('strategy-overlay').style.display='flex';
-}
-
-function selectStrategy(strategy){
-  state.strategyMode=strategy;
-  state.overrideTriggered=false;
-  state.threshold1Hit=false;
-  state.threshold2Hit=false;
-  state.strategySpinsSinceZero=0;
-  $('strategy-overlay').style.display='none';
-  $('main-app-content').style.opacity='1';
-  $('main-app-content').style.visibility='visible';
-  
-  if(strategy==='original'){
-    // Legacy mode: show original alerts, hide strategy alerts
-    $('originalAlerts').style.display='block';
-    $('strategyAlerts').style.display='none';
-    $('strategyPromptBar').style.display='none';
-  }else{
-    // Strategy mode: hide original alerts, show strategy alerts
-    $('originalAlerts').style.display='none';
-    $('strategyAlerts').style.display='block';
-    $('strategyPromptBar').style.display='block';
-    // Set up strategy defaults
-    state.bank=1500;
-    state.balance=1500;
-    state.unit=STRATEGY_BASE_BET;
-    state.bet0=STRATEGY_BASE_BET;
-    state.bet00=STRATEGY_BASE_BET;
-    state.betSplit=STRATEGY_BASE_BET;
-    $('startBank').value=1500;
-    $('unit').value=STRATEGY_BASE_BET;
-    // Reset streak reset boost state
-    state.streakResetBoosted=false;
-    // Steady Eddie and Streak Reset use single threshold (20% hard stop)
-    // Delayed Surge and Slow Grind use dual thresholds (20% warn, 33% stop)
-    if(strategy==='steadyeddie'||strategy==='streakreset'){
-      $('thBadge2').style.display='none';
-    }else{
-      $('thBadge2').style.display='';
-    }
-    updateStrategyPrompt();
-    // Disable manual bet editing in strategy mode
-    $('editMidSession').style.display='none';
-  }
-  if(typeof updateStrategySwitchButtons==='function') updateStrategySwitchButtons();
-  refresh();
-}
-
-/* ===== STRATEGY PROMPT UPDATES (Hand-holding) ===== */
-function updateStrategyPrompt(){
-  const bar=$('strategyPromptBar');
-  if(!state.strategyMode||state.strategyMode==='original'){
-    bar.style.display='none';
-    return;
-  }
-  bar.style.display='block';
-  const sm=state.strategyMode;
-  if(state.sitOut>0){
-    bar.innerHTML='\u23F8 <strong>SITTING OUT:</strong> '+state.sitOut+' spins remaining. Just press SPIN (or tap a number). Bets will reset to $'+STRATEGY_BASE_BET+'/$'+STRATEGY_BASE_BET+'/$'+STRATEGY_BASE_BET+' when you resume.';
-    return;
-  }
-  const b=state.bet0;
-  const total=state.bet0+state.bet00+state.betSplit;
-  if(sm==='steadyeddie'){
-    bar.innerHTML='\u2714 <strong>Steady Eddie: Place $'+STRATEGY_BASE_BET+' on 0, $'+STRATEGY_BASE_BET+' on 00, $'+STRATEGY_BASE_BET+' on split. Total: $'+(STRATEGY_BASE_BET*3)+'. Press Spin.</strong>';
-  }else if(sm==='delayedsurge'){
-    const spins=state.strategySpinsSinceZero;
-    if(spins<10){
-      bar.innerHTML='\u23F3 <strong>Delayed Surge: Holding flat $'+STRATEGY_BASE_BET+'/$'+STRATEGY_BASE_BET+'/$'+STRATEGY_BASE_BET+' (spin '+(spins+1)+'/10). Surge starts after spin 10.</strong>';
-    }else{
-      bar.innerHTML='\u2191 <strong>Delayed Surge: Place $'+b+' on 0, $'+b+' on 00, $'+b+' on split. Total: $'+total+'. Press Spin.</strong>';
-    }
-  }else if(sm==='slowgrind'){
-    bar.innerHTML='\u2191 <strong>Slow Grind: Place $'+b+' on 0, $'+b+' on 00, $'+b+' on split. Total: $'+total+'. Press Spin.</strong>';
-  }else if(sm==='streakreset'){
-    if(state.streakResetBoosted){
-      bar.innerHTML='\u26A1 <strong>Streak Reset: BOOSTED! Place $'+b+' on 0, $'+b+' on 00, $'+b+' on split. Total: $'+total+'. Press Spin.</strong>';
-    }else{
-      const spinsLeft=12-state.strategySpinsSinceZero;
-      if(spinsLeft>0){
-        bar.innerHTML='\u2714 <strong>Streak Reset: Place $'+b+' on 0, $'+b+' on 00, $'+b+' on split. Total: $'+total+'. Boost in '+spinsLeft+' spins.</strong>';
-      }else{
-        bar.innerHTML='\u2714 <strong>Streak Reset: Place $'+b+' on 0, $'+b+' on 00, $'+b+' on split. Total: $'+total+'. Press Spin.</strong>';
-      }
-    }
-  }
-}
-
-/* ===== STRATEGY THRESHOLD CHECKING ===== */
-function checkStrategyThresholds(){
-  if(!state.strategyMode||state.strategyMode==='original')return;
-  const diff=(state.balance-state.bank)/state.bank;
-  const absDiff=Math.abs(diff);
-  const isWinning=diff>0;
-  const sm=state.strategyMode;
-  
-  // Reset badge classes
-  $('thBadge1').className='threshold-badge';
-  $('thBadge2').className='threshold-badge';
-  
-  if(sm==='steadyeddie'||sm==='streakreset'){
-    // Steady Eddie & Streak Reset: Threshold 1 at 20% = HARD STOP
-    if(absDiff>=0.20&&!state.threshold1Hit){
-      state.threshold1Hit=true;
-      $('thBadge1').className='threshold-badge '+(isWinning?'active-win':'active-loss');
-      flashBorder(isWinning?'win':'lose-urgent',10,300);
-      if(isWinning)playWinChime();else playLossAlert(true);
-      showThresholdOverride(isWinning);
-    }else if(absDiff>=0.20){
-      $('thBadge1').className='threshold-badge '+(isWinning?'active-win':'active-loss');
-    }
-  }else{
-    // Delayed Surge / Slow Grind: T1=20% warning, T2=33% hard stop
-    if(absDiff>=0.20){
-      $('thBadge1').className='threshold-badge '+(isWinning?'active-win':'active-loss');
-      if(!state.threshold1Hit){
-        state.threshold1Hit=true;
-        flashBorder(isWinning?'win':'lose',5,600);
-        if(isWinning)playWinChime();else playLossAlert(false);
-        const pct=Math.abs(diff*100).toFixed(0);
-        const msg=isWinning
-          ?'You are up '+pct+'% on your bankroll. You are approaching Threshold 2. You can keep going, but be careful.'
-          :'You have lost '+pct+'% of your bankroll. You are approaching Threshold 2. Consider ending your session.';
-        appConfirm('Threshold 1 \u2014 Warning',msg).then(()=>{});
-      }
-    }
-    if(absDiff>=0.33){
-      $('thBadge2').className='threshold-badge '+(isWinning?'active-win':'active-loss');
-      if(!state.threshold2Hit){
-        state.threshold2Hit=true;
-        flashBorder(isWinning?'win':'lose-urgent',10,300);
-        if(isWinning)playWinChime();else playLossAlert(true);
-        showThresholdOverride(isWinning);
-      }
-    }
-  }
-}
-
-/* ===== THRESHOLD OVERRIDE FLOW ===== */
-function showThresholdOverride(isWinning){
-  // SIM mode: show warning but allow player to continue (no lockout)
-  if(state.mode==='sim'){
-    const simMsg=isWinning
-      ?'You\'ve reached your session limit. If this had been LIVE or TABLE mode, you would have been locked out for 7 days. You may continue playing in SIM mode.'
-      :'You\'ve reached your session limit. If this had been LIVE or TABLE mode, you would have been locked out for 7 days. You may continue playing in SIM mode.';
-    appConfirm(isWinning?'SIM Mode \u2014 Threshold Reached':'SIM Mode \u2014 Threshold Reached',simMsg).then(()=>{});
-    return;
-  }
-  const msg=isWinning
-    ?'You\'ve reached your session limit. This app is designed to help you walk away with a profit. We recommend ending your session now.'
-    :'You\'ve reached your session limit. This app is designed to help you walk away losing a minimum amount of your bankroll. We recommend ending your session now.';
-  $('toMessage').textContent=msg;
-  $('toTitle').textContent=isWinning?'Session Limit Reached \u2014 You\'re Winning!':'Session Limit Reached';
-  queueModal('thresholdOverrideModal');
-}
-
-$('toEndSession').onclick=function(){
-  dismissModal('thresholdOverrideModal');
-  _showLeaveReportInner();
-};
-
-$('toKeepGoing').onclick=function(){
-  dismissModal('thresholdOverrideModal');
-  // Show double confirmation
-  queueModal('thresholdOverride2Modal');
-};
-
-$('to2Cancel').onclick=function(){
-  dismissModal('thresholdOverride2Modal');
-  _showLeaveReportInner();
-};
-
-$('to2Confirm').onclick=function(){
-  dismissModal('thresholdOverride2Modal');
-  state.overrideTriggered=true;
-  // Show GA warning with bankroll adjustment
-  $('gaNewBankroll').value=Math.round(state.balance);
-  queueModal('gaWarningModal');
-};
-
-$('gaWalkAway').onclick=function(){
-  dismissModal('gaWarningModal');
-  _showLeaveReportInner();
-};
-
-$('gaConfirmContinue').onclick=function(){
-  dismissModal('gaWarningModal');
-  // Flip to Legacy Mode with adjusted bankroll
-  const newBank=parseFloat($('gaNewBankroll').value)||state.balance;
-  state.strategyMode='original';
-  state.bank=newBank;
-  state.balance=newBank;
-  state.unit=5;
-  state.bet0=5;state.bet00=5;state.betSplit=5;
-  state.sessionStarted=false;
-  state.spinCounter=0;
-  state.sitOut=0;
-  state.threshold1Hit=false;
-  state.threshold2Hit=false;
-  $('startBank').value=newBank;
-  $('unit').value=5;
-  // Switch UI to legacy mode
-  $('originalAlerts').style.display='block';
-  $('strategyAlerts').style.display='none';
-  $('strategyPromptBar').style.display='none';
-  $('editMidSession').style.display='';
-  refresh();
-};
-
-/* ===== LOCKOUT WARNING ON CLOSE ===== */
-$('lockoutWarningOk').onclick=function(){
-  dismissModal('lockoutWarningModal');
-  setLockout();
-  // Reload to show lockout screen
-  location.reload();
-};
-
-/* (checkAlerts and handleSpin already modified in-place above) */
-
-function handleStrategySpin(val){
-  val=val.trim();
-  if(val!=='0'&&val!=='00'){
-    const n=parseInt(val);if(isNaN(n)||n<1||n>36){alert('Invalid number. Enter 0, 00, or 1-36.');return;}
-    val=String(n);
-  }
-  if(!state.sessionStarted){
-    state.bank=1500;
-    state.balance=1500;
-    state.unit=STRATEGY_BASE_BET;
-    state.bet0=STRATEGY_BASE_BET;state.bet00=STRATEGY_BASE_BET;state.betSplit=STRATEGY_BASE_BET;
-    state.table='american';
-    state.sessionStarted=true;
-    state.sessionStartTime=Date.now();
-    state.strategySpinsSinceZero=0;
-  }
-  
-  const isSit=state.sitOut>0;
-  const b0=isSit?0:state.bet0;
-  const b00=isSit?0:(state.table==='american'?state.bet00:0);
-  const bSp=isSit?0:state.betSplit;
-  const zeroStake=b0+b00+bSp;
-  
-  let win=0;
-  if(val==='0'){win+=b0*36+bSp*18;}
-  else if(val==='00'){win+=b00*36+bSp*18;}
-  
-  // Ghost hit tracking
-  if(isSit&&(val==='0'||val==='00')){
-    state.ghostHits++;
-    state.sitOutZerosThisSitOut++;
-    state.sitOutTotalMissedSession++;
-    state.ghostHitLog.push({time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),number:val});
-  }
-  
-  const totalStake=zeroStake;
-  const net=win-totalStake;
-  state.balance+=net;
-  state.histPL+=net;
-  if(state.mode==='table')state.tableHistPL+=net;
-  else if(state.mode==='live')state.liveHistPL+=net;
-  else state.simHistPL+=net;
-  state.totalSpins++;
-  
-  // Zero gap tracking
-  state.sessionCurrentGap++;
-  let zeroHit=false;
-  if(val==='0'||val==='00'){
-    zeroHit=true;
-    state.sessionZeroGaps.push(state.sessionCurrentGap);
-    globalStats.allZeroGaps.push(state.sessionCurrentGap);
-    globalStats.totalZerosAllTime++;
-    state.sessionCurrentGap=0;
-    saveGlobalStats();
-  }
-  globalStats.totalSpinsAllTime++;
-  
-  state.last36.unshift(val);
-  if(state.last36.length>36)state.last36.pop();
-  
-  // Determine status
-  let spinStatus='Active';
-  if(isSit)spinStatus='Sit-Out';
-  if(val==='0'||val==='00')spinStatus=isSit?'Sit-Out (0 hit)':'Zero Hit!';
-
-  state.history.push({
-    t:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),
-    n:val,s:zeroStake,totalStake:totalStake,side:'-',net:net,b:state.balance,
-    mode:state.mode,status:spinStatus
-  });
-  
-  if(isSit){
-    state.sitOut--;
-    state.totalSitOutSpins++;
-    if(state.sitOut<=0)state.sitOutZerosThisSitOut=0;
-  }else{
-    state.strategySpinsSinceZero++;
-  }
-  
-  // Strategy-specific post-spin logic
-  const sm=state.strategyMode;
-  if(zeroHit&&!isSit){
-    // Zero hit! Reset bets and start sit-out
-    state.bet0=STRATEGY_BASE_BET;
-    state.bet00=STRATEGY_BASE_BET;
-    state.betSplit=STRATEGY_BASE_BET;
-    state.unit=STRATEGY_BASE_BET;
-    state.sitOut=STRATEGY_SITOUT;
-    state.sitOutTimesUsed++;
-    state.strategySpinsSinceZero=0;
-    state.streakResetBoosted=false; // reset boost flag on zero hit
-  }else if(!isSit&&!zeroHit){
-    // Non-zero, not sitting out: escalate bets if applicable
-    if(sm==='steadyeddie'){
-      // Steady Eddie: no change, stays flat at $2/$2/$2
-    }else if(sm==='delayedsurge'){
-      // Delayed Surge: hold flat for 10 spins, then +$1 every 3 spins
-      const spins=state.strategySpinsSinceZero;
-      if(spins>10&&(spins-10)%3===0){
-        state.bet0+=STRATEGY_INCREMENT;
-        state.bet00+=STRATEGY_INCREMENT;
-        state.betSplit+=STRATEGY_INCREMENT;
-        state.unit=state.bet0;
-      }
-    }else if(sm==='slowgrind'){
-      // Slow Grind: +$1 every 6 spins from start
-      const spins=state.strategySpinsSinceZero;
-      if(spins>0&&spins%6===0){
-        state.bet0+=STRATEGY_INCREMENT;
-        state.bet00+=STRATEGY_INCREMENT;
-        state.betSplit+=STRATEGY_INCREMENT;
-        state.unit=state.bet0;
-      }
-    }else if(sm==='streakreset'){
-      // Streak Reset: flat $2/$2/$2, boost to $5/$5/$5 after 12-spin dry streak
-      if(state.strategySpinsSinceZero>=12&&!state.streakResetBoosted){
-        state.streakResetBoosted=true;
-        state.bet0=5;
-        state.bet00=5;
-        state.betSplit=5;
-        state.unit=5;
-      }
-    }
-  }
-  
-  state.activeSides=[];state.pendingType=null;state.pendingValue=null;state.pendingAlerts=[];
-  refresh();
-  updateStrategyPrompt();
-}
-
-/* ===== OVERRIDE LEAVE CASINO HANDLER ===== */
-const _originalLeaveConfirmClick=$('leaveConfirm').onclick;
-$('leaveConfirm').onclick=function(){
-  if(state.overrideTriggered){
-    dismissModal('leaveModal');
-    // SIM mode: never lockout
-    if(state.mode==='sim'){
-      if(_originalLeaveConfirmClick){
-        _originalLeaveConfirmClick();
-      }
-      return;
-    }
-    const isWinning=state.balance>=state.bank;
-    if(isWinning){
-      // Player recovered to profit — no lockout, just end session normally
-      if(_originalLeaveConfirmClick){
-        _originalLeaveConfirmClick();
-      }
-    }else{
-      // Player is still losing after pushing past thresholds — 7-day lockout
-      const lockMsg='We recommend seeking help for gambling-related issues.';
-      $('lockoutWarningText').textContent=lockMsg;
-      queueModal('lockoutWarningModal');
-    }
-  }else if(_originalLeaveConfirmClick){
-    _originalLeaveConfirmClick();
-  }
-};
-
-/* ===== MODE SELECTION SCREEN (after splash) ===== */
-function showModeSelect(){
-  $('mode-select-overlay').style.display='flex';
-}
-function enterStrategyMode(){
-  $('mode-select-overlay').style.display='none';
-  showStrategySelection();
-}
-function enterOriginalMode(){
-  $('mode-select-overlay').style.display='none';
-  selectStrategy('original');
-}
-
-/* ===== AUTO SIM ===== */
-let autoSimInterval=null;
-let autoSimRunning=false;
-let autoSimPausedByModal=false;
-$('autoSimToggle').onclick=function(){
-  if(autoSimRunning){
-    // Stop
-    clearInterval(autoSimInterval);
-    autoSimInterval=null;
-    autoSimRunning=false;
-    $('autoSimToggle').textContent='Auto Sim';
-    $('autoSimToggle').style.borderColor='#3b82f6';
-    $('autoSimToggle').style.color='#3b82f6';
-    $('autoSimToggle').style.background='transparent';
-  }else{
-    // Start
-    autoSimRunning=true;
-    $('autoSimToggle').textContent='Stop Sim';
-    $('autoSimToggle').style.background='#ef4444';
-    $('autoSimToggle').style.color='#fff';
-    $('autoSimToggle').style.borderColor='#ef4444';
-    const speed=parseInt($('autoSimSpeed').value)||1000;
-    autoSimInterval=setInterval(()=>{
-      $('randomSpin').click();
-    },speed);
-  }
-};
-$('autoSimSpeed').onchange=function(){
-  if(autoSimRunning){
-    clearInterval(autoSimInterval);
-    const speed=parseInt($('autoSimSpeed').value)||1000;
-    autoSimInterval=setInterval(()=>{
-      $('randomSpin').click();
-    },speed);
-  }
-};
-
-/* ===== CHANGE #9: SIM MODE EXCLUDED FROM HISTORICAL TRACKING ===== */
-// globalStats.allZeroGaps is used for sit-out suggestions.
-// Only LIVE and TABLE data should feed sit-out suggestions.
-function getHistoricalAvgGapFiltered(){
-  // This replaces getHistoricalAvgGap for sit-out suggestions
-  // Only uses LIVE/TABLE data, not SIM
-  if(globalStats.allZeroGaps.length===0)return 0;
-  // For now, use all gaps since we can't retroactively separate them.
-  // Going forward, new gaps are tagged with mode.
-  const sum=globalStats.allZeroGaps.reduce((a,b)=>a+b,0);
-  return Math.round(sum/globalStats.allZeroGaps.length);
-}
-
-/* ===== STRATEGY SWITCH BUTTONS ===== */
-const STRATEGY_DESCRIPTIONS={
-  steadyeddie:{name:'Steady Eddie',desc:'Proven performer but payouts are minimal. Best for keeping bankroll intact. Flat $2/$2/$2 every spin with no escalation. Sit out 17 after a zero hit. Single threshold at 20%.',tag:'CONSERVATIVE',color:'green'},
-  delayedsurge:{name:'Delayed Surge',desc:'Hold flat $2/$2/$2 for 10 spins, then escalate +$1 every 3 spins. Patience before power. Dual thresholds at 20% (warning) and 33% (hard stop).',tag:'MODERATE',color:'yellow'},
-  slowgrind:{name:'Slow Grind',desc:'+$1 every 6 spins from the start. Gradual climb with controlled exposure. Dual thresholds at 20% (warning) and 33% (hard stop).',tag:'MODERATE',color:'orange'},
-  streakreset:{name:'Streak Reset',desc:'Flat $2/$2/$2 with a temporary $5/$5/$5 boost after a 12-spin dry streak. Single threshold at 20%.',tag:'AGGRESSIVE',color:'red'},
-  original:{name:'Legacy Mode',desc:'Full control of your zero-based bets. Set your own bet increments, respond to alerts, and manage your session your way. No strategy guidance or thresholds.',tag:'CLASSIC',color:'blue'}
-};
-
-function updateStrategySwitchButtons(){
-  const sm=state.strategyMode;
-  ['steadyeddie','delayedsurge','slowgrind','streakreset','original'].forEach(function(key){
-    const btnId=key==='steadyeddie'?'sswSteadyEddie':key==='delayedsurge'?'sswDelayedSurge':key==='slowgrind'?'sswSlowGrind':key==='streakreset'?'sswStreakReset':'sswLegacy';
-    const btn=$(btnId);
-    if(btn){
-      if(sm===key){
-        btn.classList.add('active-strategy');
-        btn.textContent=STRATEGY_DESCRIPTIONS[key].name+' (Active)';
-      }else{
-        btn.classList.remove('active-strategy');
-        btn.textContent=key==='original'?'Switch to Legacy Mode':STRATEGY_DESCRIPTIONS[key].name;
-      }
-    }
-  });
-}
-
-function handleStrategySwitch(targetStrategy){
-  const info=STRATEGY_DESCRIPTIONS[targetStrategy];
-  if(!info)return;
-  
-  // If tapping the active strategy, just show explanation
-  if(state.strategyMode===targetStrategy){
-    appConfirm(info.name+' (Active)',info.desc+'\n\nThis is your current active strategy.').then(()=>{});
-    return;
-  }
-  
-  // Legacy mode: double confirmation with red warning
-  if(targetStrategy==='original'){
-    appConfirm('\u26A0 Switch to Legacy Mode?','WARNING: Legacy Mode removes all strategy guidance and threshold protection. You will be fully responsible for managing your own bets. This cannot be undone during this session.\n\nAre you sure?').then(function(confirmed){
-      if(confirmed){
-        appConfirm('\u26A0 Final Confirmation','You are about to switch to Legacy Mode. All strategy protections will be removed. Are you absolutely sure?').then(function(confirmed2){
-          if(confirmed2){
-            executeStrategySwitch(targetStrategy);
-          }
-        });
-      }
-    });
-    return;
-  }
-  
-  // Other strategies: show info with Yes (with explanation) / Yes / Cancel
-  // Using appConfirm for the first step, then a second confirmation
-  appConfirm('Switch to '+info.name+'?',info.desc+'\n\nWould you like to switch to this strategy?').then(function(confirmed){
-    if(confirmed){
-      appConfirm('Confirm Switch','Switch to '+info.name+'? Your current session will be reset with the new strategy settings.').then(function(confirmed2){
-        if(confirmed2){
-          executeStrategySwitch(targetStrategy);
-        }
-      });
-    }
-  });
-}
-
-function executeStrategySwitch(targetStrategy){
-  // Reset session state for new strategy
-  state.strategyMode=targetStrategy;
-  state.overrideTriggered=false;
-  state.threshold1Hit=false;
-  state.threshold2Hit=false;
-  state.strategySpinsSinceZero=0;
-  state.streakResetBoosted=false;
-  state.spinCounter=0;
-  state.sitOut=0;
-  
-  if(targetStrategy==='original'){
-    // Switch to legacy mode
-    state.unit=5;
-    state.bet0=5;state.bet00=5;state.betSplit=5;
-    $('originalAlerts').style.display='block';
-    $('strategyAlerts').style.display='none';
-    $('strategyPromptBar').style.display='none';
-    $('editMidSession').style.display='';
-  }else{
-    // Switch to a strategy mode
-    state.unit=STRATEGY_BASE_BET;
-    state.bet0=STRATEGY_BASE_BET;
-    state.bet00=STRATEGY_BASE_BET;
-    state.betSplit=STRATEGY_BASE_BET;
-    $('originalAlerts').style.display='none';
-    $('strategyAlerts').style.display='block';
-    $('strategyPromptBar').style.display='block';
-    $('editMidSession').style.display='none';
-    // Threshold badge visibility
-    if(targetStrategy==='steadyeddie'||targetStrategy==='streakreset'){
-      $('thBadge2').style.display='none';
-    }else{
-      $('thBadge2').style.display='';
-    }
-    updateStrategyPrompt();
-  }
-  updateStrategySwitchButtons();
-  refresh();
-  saveState();
-}
-
-/* ===== CACHE BUST & AUTO-CLEAR ON STARTUP ===== */
-(function cacheBustOnStartup(){
-  // 1. Unregister old service workers and re-register with network-first SW
-  if('serviceWorker' in navigator){
-    navigator.serviceWorker.getRegistrations().then(function(registrations){
-      registrations.forEach(function(reg){ reg.unregister(); });
-    }).then(function(){
-      // Clear all caches
-      if('caches' in window){
-        caches.keys().then(function(names){
-          names.forEach(function(name){ caches.delete(name); });
-        });
-      }
-      // Re-register the updated service worker
-      navigator.serviceWorker.register('./sw.js');
-    });
-  }
-
-  // 2. Auto-clear saved app state on every startup
-  const allKeys=Object.keys(localStorage);
-  const pzrKeys=allKeys.filter(function(k){return k.startsWith('pzr_');});
-  if(pzrKeys.length>0){
-    pzrKeys.forEach(function(k){ localStorage.removeItem(k); });
-  }
-})();
-
 /* ===== INIT ===== */
 buildNumpad();
 loadState();
 refresh();
-updateStrategySwitchButtons();
-
-// Check lockout on startup
-(function initStrategyFlow(){
-  if(checkLockout()){
-    // Locked — hide splash and show lockout screen
-    $('splash-overlay').style.display='none';
-    return;
-  }
-})();
-
-// Show auto-clear message on splash screen before user enters
-(function showStartupMessage(){
-  const splashEl=$('splash-overlay');
-  if(splashEl && splashEl.style.display!=='none'){
-    const msgDiv=document.createElement('div');
-    msgDiv.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.92);color:#fff;padding:24px 28px;border-radius:12px;z-index:100000;text-align:center;font-size:15px;line-height:1.6;max-width:340px;border:1px solid #333;';
-    msgDiv.innerHTML='<div style="font-weight:700;font-size:17px;margin-bottom:10px;color:#22c55e;">App Data Refreshed</div>App data has been refreshed to ensure the latest version and updates are loaded.<br><br>The application will now restart.<div style="margin-top:16px;"><button id="startupMsgOk" style="padding:10px 32px;font-size:15px;font-weight:700;border:none;border-radius:8px;background:#22c55e;color:#fff;cursor:pointer;">OK</button></div>';
-    document.body.appendChild(msgDiv);
-    splashEl.style.display='none';
-    document.getElementById('startupMsgOk').addEventListener('click',function(){
-      msgDiv.remove();
-      splashEl.style.display='flex';
-    });
-  }
-})();
 
 </script>
 </body>

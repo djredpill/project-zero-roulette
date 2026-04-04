@@ -1,6 +1,6 @@
 {
-  "name": "Project Zero Roulette",
-  "short_name": "Zero Roulette",
+  "name": "Project Zero Legacy",
+  "short_name": "PZ Legacy",
   "description": "Roulette zero-bet strategy tracker and session manager",
   "start_url": "/project-zero-roulette/index.html",
   "scope": "/project-zero-roulette/",
