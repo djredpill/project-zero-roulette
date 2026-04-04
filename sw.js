@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pzr-v9-cache';
+const CACHE_NAME = 'pzr-legacy-v11-cache';
 const ASSETS = [
   '/',
   '/index.html',
@@ -27,18 +27,18 @@ self.addEventListener('activate', event => {
   self.clients.claim();
 });
 
-// Fetch: serve from cache first, fall back to network, then update cache
+// Fetch: NETWORK FIRST — always try to get the latest version
+// Falls back to cache only when offline
 self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(event.request).then(cached => {
-      const fetchPromise = fetch(event.request).then(response => {
-        if (response && response.status === 200 && response.type === 'basic') {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
-        }
-        return response;
-      }).catch(() => cached);
-      return cached || fetchPromise;
+    fetch(event.request).then(response => {
+      if (response && response.status === 200) {
+        const clone = response.clone();
+        caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+      }
+      return response;
+    }).catch(() => {
+      return caches.match(event.request);
     })
   );
 });

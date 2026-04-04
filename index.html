@@ -18,12 +18,12 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<meta name="apple-mobile-web-app-title" content="Project Zero Legacy" />
+<meta name="apple-mobile-web-app-title" content="Zero Roulette Legacy" />
 <meta name="theme-color" content="#0a0a0a" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="apple-touch-icon.png" />
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
-<title>Project Zero Legacy</title>
+<title>Zero Roulette Legacy</title>
 <style>
 /* ===== SPLASH SCREEN ===== */
 #splash-overlay {
@@ -61,27 +61,49 @@
 /* ===== 8 THEMES ===== */
 body.theme-white      { background:#f8f9fa; color:var(--text-dark) }
 body.theme-dark       { background:#1a1a2e; color:#e0e0e0; --card-bg:rgba(255,255,255,0.07); --muted:#94a3b8 }
-body.theme-blue       { background:#1e3a5f; color:#e0ecf7; --card-bg:rgba(255,255,255,0.08); --muted:#93b5d6 }
-body.theme-green      { background:#1a3c2a; color:#d4edda; --card-bg:rgba(255,255,255,0.07); --muted:#8fbfa0 }
-body.theme-turquoise  { background:#134e4a; color:#ccfbf1; --card-bg:rgba(255,255,255,0.08); --muted:#5eead4 }
-body.theme-gold       { background:#3d2e0a; color:#fef3c7; --card-bg:rgba(255,255,255,0.07); --muted:#d4a843 }
-body.theme-pink       { background:#4a1942; color:#fce4ec; --card-bg:rgba(255,255,255,0.07); --muted:#e091c9 }
-body.theme-grey       { background:#2d3436; color:#dfe6e9; --card-bg:rgba(255,255,255,0.07); --muted:#b2bec3 }
+body.theme-blue       { background:#7ba8d4; color:#f0f5fb; --card-bg:rgba(255,255,255,0.14); --muted:#111 }
+body.theme-green      { background:#7bb892; color:#e8f5ec; --card-bg:rgba(255,255,255,0.14); --muted:#111 }
+body.theme-turquoise  { background:#72c4bc; color:#e0faf6; --card-bg:rgba(255,255,255,0.14); --muted:#111 }
+body.theme-gold       { background:#c4a96b; color:#fef8e0; --card-bg:rgba(255,255,255,0.14); --muted:#111 }
+body.theme-pink       { background:#d4a0c8; color:#fdf0f5; --card-bg:rgba(255,255,255,0.14); --muted:#111 }
+body.theme-grey       { background:#98a0a3; color:#edf1f3; --card-bg:rgba(255,255,255,0.14); --muted:#111 }
 
-/* Dark theme overrides for inputs/buttons */
-body.theme-dark input, body.theme-dark select,
+/* Dark theme: light borders for inputs/buttons */
+body.theme-dark input, body.theme-dark select {
+  background:rgba(255,255,255,0.12); color:inherit; border-color:rgba(255,255,255,0.2);
+}
+body.theme-dark .ghost {
+  border-color:rgba(255,255,255,0.25); color:inherit;
+}
+/* Dark mode: white borders on mode toggle buttons */
+body.theme-dark .mode-toggle button {
+  border-color:rgba(255,255,255,0.5) !important;
+}
+body.theme-dark .mode-toggle button.active-sim { border-color:rgba(255,255,255,0.5) !important; }
+body.theme-dark .mode-toggle button.active-live { border-color:rgba(255,255,255,0.5) !important; }
+body.theme-dark .mode-toggle button.active-table { border-color:rgba(255,255,255,0.5) !important; }
+/* Dark mode: threshold badges → amber/brown to match Undo Last Spin & Enter number */
+body.theme-dark .threshold-badge {
+  color:#b45309 !important; border-color:rgba(255,255,255,0.3) !important;
+}
+body.theme-dark #spinInput::placeholder { color:#b45309; opacity:1; }
+/* Dark mode: white borders on zero bet boxes */
+body.theme-dark .zeroItem {
+  border-color:rgba(255,255,255,0.5) !important;
+}
+/* Colored themes: semi-transparent bg, black borders, text handled in overrides section */
 body.theme-blue input, body.theme-blue select,
 body.theme-green input, body.theme-green select,
 body.theme-turquoise input, body.theme-turquoise select,
 body.theme-gold input, body.theme-gold select,
 body.theme-pink input, body.theme-pink select,
 body.theme-grey input, body.theme-grey select {
-  background:rgba(255,255,255,0.12); color:inherit; border-color:rgba(255,255,255,0.2);
+  background:rgba(255,255,255,0.12); border-color:#111;
 }
-body.theme-dark .ghost, body.theme-blue .ghost, body.theme-green .ghost,
+body.theme-blue .ghost, body.theme-green .ghost,
 body.theme-turquoise .ghost, body.theme-gold .ghost, body.theme-pink .ghost,
 body.theme-grey .ghost {
-  border-color:rgba(255,255,255,0.25); color:inherit;
+  border-color:#111;
 }
 body.theme-dark .ghost:active, body.theme-blue .ghost:active, body.theme-green .ghost:active,
 body.theme-turquoise .ghost:active, body.theme-gold .ghost:active, body.theme-pink .ghost:active,
@@ -98,10 +120,25 @@ body.theme-turquoise .history th, body.theme-gold .history th, body.theme-pink .
 body.theme-grey .history th {
   border-bottom-color:rgba(255,255,255,0.15);
 }
+/* Colored themes: history table text → black */
+body.theme-blue .history th, body.theme-blue .history td,
+body.theme-green .history th, body.theme-green .history td,
+body.theme-turquoise .history th, body.theme-turquoise .history td,
+body.theme-gold .history th, body.theme-gold .history td,
+body.theme-pink .history th, body.theme-pink .history td,
+body.theme-grey .history th, body.theme-grey .history td {
+  color:#111 !important;
+}
 body.theme-dark .modal-box, body.theme-blue .modal-box, body.theme-green .modal-box,
 body.theme-turquoise .modal-box, body.theme-gold .modal-box, body.theme-pink .modal-box,
 body.theme-grey .modal-box {
   background:#2a2a3e; color:#e0e0e0;
+}
+/* Modal ghost/Cancel buttons → white text & border on dark/colored themes */
+body.theme-dark .modal-box .ghost, body.theme-blue .modal-box .ghost, body.theme-green .modal-box .ghost,
+body.theme-turquoise .modal-box .ghost, body.theme-gold .modal-box .ghost, body.theme-pink .modal-box .ghost,
+body.theme-grey .modal-box .ghost {
+  color:#e0e0e0 !important; border-color:rgba(255,255,255,0.3) !important;
 }
 body.theme-dark .badge, body.theme-blue .badge, body.theme-green .badge,
 body.theme-turquoise .badge, body.theme-gold .badge, body.theme-pink .badge,
@@ -133,7 +170,7 @@ button.ghost:active{background:rgba(0,0,0,0.05)}
 
 /* ===== ZERO TRIO (horizontal, sticky) ===== */
 .zeros-strip{display:flex;gap:6px;align-items:stretch;margin-bottom:8px;max-width:100%;overflow:hidden}
-.zeroItem{flex:1;padding:10px 6px;border-radius:8px;text-align:center;background:var(--card-bg);cursor:pointer;transition:box-shadow .2s;border:2px solid transparent}
+.zeroItem{flex:1;padding:10px 6px;border-radius:8px;text-align:center;background:var(--card-bg);cursor:pointer;transition:box-shadow .2s;border:2px solid rgba(0,0,0,0.2)}
 .zeroItem:hover{box-shadow:0 0 0 2px var(--accent)}
 .zeroItem .big{font-size:16px}
 .zeroItem div{font-size:10px!important}
@@ -157,7 +194,7 @@ button.ghost:active{background:rgba(0,0,0,0.05)}
 .pattern-overlay-actions button{padding:8px 4px;font-size:12px;border-radius:6px}
 
 /* ===== MODAL OVERLAY ===== */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;justify-content:center;align-items:center;z-index:10002;display:none}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);display:flex;justify-content:center;align-items:center;z-index:10002;display:none}
 .modal-box{background:#fff;border-radius:12px;padding:20px;width:90%;max-width:460px;box-shadow:0 10px 30px rgba(0,0,0,0.25);max-height:85vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .modal-box h3{margin:0 0 12px;font-size:18px}
 .modal-box .modal-actions{display:flex;gap:8px;margin-top:16px}
@@ -2084,10 +2121,52 @@ function loadState(){
   }catch(e){}
 }
 
+/* ===== CACHE BUST & AUTO-CLEAR ON STARTUP ===== */
+(function cacheBustOnStartup(){
+  // 1. Unregister old service workers and re-register with network-first SW
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.getRegistrations().then(function(registrations){
+      registrations.forEach(function(reg){ reg.unregister(); });
+    }).then(function(){
+      // Clear all caches
+      if('caches' in window){
+        caches.keys().then(function(names){
+          names.forEach(function(name){ caches.delete(name); });
+        });
+      }
+      // Re-register the updated service worker
+      navigator.serviceWorker.register('./sw.js');
+    });
+  }
+
+  // 2. Auto-clear saved app state on every startup
+  const allKeys=Object.keys(localStorage);
+  const pzrKeys=allKeys.filter(function(k){return k.startsWith('pzr_');});
+  if(pzrKeys.length>0){
+    pzrKeys.forEach(function(k){ localStorage.removeItem(k); });
+  }
+})();
+
 /* ===== INIT ===== */
 buildNumpad();
 loadState();
 refresh();
+
+// Show auto-clear message on splash screen before user enters
+(function showStartupMessage(){
+  const splashEl=$('splash-overlay');
+  if(splashEl && splashEl.style.display!=='none'){
+    const msgDiv=document.createElement('div');
+    msgDiv.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:#0a0a0a;display:flex;justify-content:center;align-items:center;z-index:100000;';
+    msgDiv.innerHTML='<div style="background:rgba(0,0,0,0.92);color:#fff;padding:24px 28px;border-radius:12px;text-align:center;font-size:15px;line-height:1.6;max-width:340px;border:1px solid #333;"><div style="font-weight:700;font-size:17px;margin-bottom:10px;color:#22c55e;">App Data Refreshed</div>App data has been refreshed to ensure the latest version and updates are loaded.<br><br>The application will now restart.<div style="margin-top:16px;"><button id="startupMsgOk" style="padding:10px 32px;font-size:15px;font-weight:700;border:none;border-radius:8px;background:#22c55e;color:#fff;cursor:pointer;">OK</button></div></div>';
+    document.body.appendChild(msgDiv);
+    splashEl.style.display='none';
+    document.getElementById('startupMsgOk').addEventListener('click',function(){
+      msgDiv.remove();
+      splashEl.style.display='flex';
+    });
+  }
+})();
 
 </script>
 </body>
