@@ -153,7 +153,8 @@ body{font-family:Inter,system-ui,'Segoe UI',Roboto,Arial,sans-serif;margin:0;pad
 .wrap{max-width:1100px;margin:0 auto;padding:12px 14px;position:relative}
 
 /* ===== HEADER ===== */
-header{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:6px}
+header{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:10px}
+.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .card{background:var(--card-bg);padding:10px 12px;border-radius:10px}
 label{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}
 input[type="number"],select,input[type="text"]{background:#fff;border:1px solid rgba(0,0,0,0.12);padding:7px 8px;border-radius:6px;width:90px;font-size:14px}
@@ -165,7 +166,7 @@ button.ghost:active{background:rgba(0,0,0,0.05)}
 .big{font-size:18px;font-weight:600}
 
 /* ===== LAYOUT ===== */
-.panel{display:grid;grid-template-columns:1fr 340px;gap:16px 16px;margin-top:10px}
+.panel{display:grid;grid-template-columns:1fr 340px;gap:12px;margin-top:10px}
 
 /* ===== ZERO TRIO (horizontal, sticky) ===== */
 .zeros-strip{display:flex;gap:6px;align-items:stretch;margin-bottom:8px;max-width:100%;overflow:hidden}
@@ -260,17 +261,7 @@ body.theme-dark .sticky-sitout .ghost,body.theme-blue .sticky-sitout .ghost,body
   .controls{justify-content:center}
   .sticky-header{display:block}
 }
-/* ===== LANDSCAPE: config bar in col 1, aside spans full height in col 2 ===== */
-@media (orientation:landscape) and (min-width:900px) {
-  .panel { grid-template-columns:1fr 340px; }
-  .panel .config-bar { grid-column:1; grid-row:1; }
-  .panel .left { grid-column:1; grid-row:2; }
-  .panel aside { grid-column:2; grid-row:1 / span 3; }
-}
-/* ===== PORTRAIT: config bar spans full width ===== */
-@media (orientation:portrait) {
-  .panel .config-bar { grid-column:1 / -1; }
-}
+
 /* ===== Portrait iPad: Compact bottom section ===== */
 @media (orientation:portrait) and (min-width:700px) {
   /* Row 1: Session Summary 4 across */
@@ -630,14 +621,10 @@ body.theme-dark .mode-toggle,body.theme-blue .mode-toggle,body.theme-green .mode
     <h1 style="margin:0;font-size:22px;">Project Zero Roulette - Legacy</h1>
     <div style="font-size:11px;color:var(--muted);">American table by default. Switch to European to disable 00 and split.</div>
   </div>
-</header>
-
-<div class="panel">
-  <!-- ===== CONFIG BAR (column 1 only in landscape) ===== -->
-  <div class="config-bar" id="configBar">
+  <div class="controls">
     <div class="card" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
       <div><label>Starting Bankroll</label><input id="startBank" type="number" value="1500" /></div>
-      <div><label>Unit per zero</label><input id="unit" type="number" value="5" style="width:60px;" /></div>
+      <div><label>Unit per zero</label><input id="unit" type="number" value="5" /></div>
       <div>
         <label>Table Type</label>
         <select id="tableType">
@@ -658,7 +645,7 @@ body.theme-dark .mode-toggle,body.theme-blue .mode-toggle,body.theme-green .mode
           <option value="grey">Grey</option>
         </select>
       </div>
-      <div>
+      <div style="margin-top:8px;">
         <label>Mode</label>
         <div class="mode-toggle" id="modeToggle">
           <button id="modeSimBtn" class="active-sim">SIM</button>
@@ -666,10 +653,12 @@ body.theme-dark .mode-toggle,body.theme-blue .mode-toggle,body.theme-green .mode
           <button id="modeTableBtn">TABLE</button>
         </div>
       </div>
-      <button id="startSession">Start Session</button>
+      <button id="startSession" style="margin-top:14px;">Start Session</button>
     </div>
   </div>
+</header>
 
+<div class="panel">
   <!-- ===== LEFT COLUMN ===== -->
   <div class="left">
     <div style="display:flex;gap:12px;flex-wrap:wrap;">
@@ -819,7 +808,7 @@ body.theme-dark .mode-toggle,body.theme-blue .mode-toggle,body.theme-green .mode
 </div>
 
 <div style="text-align:right;font-size:10px;color:var(--muted);padding:16px;">
-  Project Zero Roulette — Legacy — Revision 15 — client only
+  Project Zero Roulette — Legacy — Revision 16 — client only
 </div>
 </div>
 
