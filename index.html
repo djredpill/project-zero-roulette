@@ -3491,6 +3491,32 @@ function executeStrategySwitch(targetStrategy){
   saveState();
 }
 
+/* ===== CACHE BUST & AUTO-CLEAR ON STARTUP ===== */
+(function cacheBustOnStartup(){
+  // 1. Unregister old service workers and re-register with network-first SW
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.getRegistrations().then(function(registrations){
+      registrations.forEach(function(reg){ reg.unregister(); });
+    }).then(function(){
+      // Clear all caches
+      if('caches' in window){
+        caches.keys().then(function(names){
+          names.forEach(function(name){ caches.delete(name); });
+        });
+      }
+      // Re-register the updated service worker
+      navigator.serviceWorker.register('./sw.js');
+    });
+  }
+
+  // 2. Auto-clear saved app state on every startup
+  const allKeys=Object.keys(localStorage);
+  const pzrKeys=allKeys.filter(function(k){return k.startsWith('pzr_');});
+  if(pzrKeys.length>0){
+    pzrKeys.forEach(function(k){ localStorage.removeItem(k); });
+  }
+})();
+
 /* ===== INIT ===== */
 buildNumpad();
 loadState();
@@ -3503,6 +3529,22 @@ updateStrategySwitchButtons();
     // Locked — hide splash and show lockout screen
     $('splash-overlay').style.display='none';
     return;
+  }
+})();
+
+// Show auto-clear message on splash screen before user enters
+(function showStartupMessage(){
+  const splashEl=$('splash-overlay');
+  if(splashEl && splashEl.style.display!=='none'){
+    const msgDiv=document.createElement('div');
+    msgDiv.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.92);color:#fff;padding:24px 28px;border-radius:12px;z-index:100000;text-align:center;font-size:15px;line-height:1.6;max-width:340px;border:1px solid #333;';
+    msgDiv.innerHTML='<div style="font-weight:700;font-size:17px;margin-bottom:10px;color:#22c55e;">App Data Refreshed</div>App data has been refreshed to ensure the latest version and updates are loaded.<br><br>The application will now restart.<div style="margin-top:16px;"><button id="startupMsgOk" style="padding:10px 32px;font-size:15px;font-weight:700;border:none;border-radius:8px;background:#22c55e;color:#fff;cursor:pointer;">OK</button></div>';
+    document.body.appendChild(msgDiv);
+    splashEl.style.display='none';
+    document.getElementById('startupMsgOk').addEventListener('click',function(){
+      msgDiv.remove();
+      splashEl.style.display='flex';
+    });
   }
 })();
 
