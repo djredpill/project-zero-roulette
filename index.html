@@ -65,7 +65,7 @@ body.theme-blue       { background:#7ba8d4; color:#f0f5fb; --card-bg:rgba(255,25
 body.theme-green      { background:#7bb892; color:#e8f5ec; --card-bg:rgba(255,255,255,0.14); --muted:#111 }
 body.theme-turquoise  { background:#72c4bc; color:#e0faf6; --card-bg:rgba(255,255,255,0.14); --muted:#111 }
 body.theme-gold       { background:#c4a96b; color:#fef8e0; --card-bg:rgba(255,255,255,0.14); --muted:#111 }
-body.theme-pink       { background:#c47db4; color:#fdf0f5; --card-bg:rgba(255,255,255,0.14); --muted:#111 }
+body.theme-pink       { background:#d4a0c8; color:#fdf0f5; --card-bg:rgba(255,255,255,0.14); --muted:#111 }
 body.theme-grey       { background:#98a0a3; color:#edf1f3; --card-bg:rgba(255,255,255,0.14); --muted:#111 }
 
 /* Dark theme: light borders for inputs/buttons */
@@ -75,19 +75,35 @@ body.theme-dark input, body.theme-dark select {
 body.theme-dark .ghost {
   border-color:rgba(255,255,255,0.25); color:inherit;
 }
-/* Colored themes: black borders for inputs/selects/ghost buttons */
+/* Dark mode: white borders on mode toggle buttons */
+body.theme-dark .mode-toggle button {
+  border-color:rgba(255,255,255,0.5) !important;
+}
+body.theme-dark .mode-toggle button.active-sim { border-color:rgba(255,255,255,0.5) !important; }
+body.theme-dark .mode-toggle button.active-live { border-color:rgba(255,255,255,0.5) !important; }
+body.theme-dark .mode-toggle button.active-table { border-color:rgba(255,255,255,0.5) !important; }
+/* Dark mode: threshold badges → amber/brown to match Undo Last Spin & Enter number */
+body.theme-dark .threshold-badge {
+  color:#b45309 !important; border-color:rgba(255,255,255,0.3) !important;
+}
+body.theme-dark #spinInput::placeholder { color:#b45309; opacity:1; }
+/* Dark mode: white borders on zero bet boxes */
+body.theme-dark .zeroItem {
+  border-color:rgba(255,255,255,0.5) !important;
+}
+/* Colored themes: semi-transparent bg, black borders, text handled in overrides section */
 body.theme-blue input, body.theme-blue select,
 body.theme-green input, body.theme-green select,
 body.theme-turquoise input, body.theme-turquoise select,
 body.theme-gold input, body.theme-gold select,
 body.theme-pink input, body.theme-pink select,
 body.theme-grey input, body.theme-grey select {
-  background:rgba(255,255,255,0.12); color:inherit; border-color:#111;
+  background:rgba(255,255,255,0.12); border-color:#111;
 }
 body.theme-blue .ghost, body.theme-green .ghost,
 body.theme-turquoise .ghost, body.theme-gold .ghost, body.theme-pink .ghost,
 body.theme-grey .ghost {
-  border-color:#111; color:inherit;
+  border-color:#111;
 }
 body.theme-dark .ghost:active, body.theme-blue .ghost:active, body.theme-green .ghost:active,
 body.theme-turquoise .ghost:active, body.theme-gold .ghost:active, body.theme-pink .ghost:active,
@@ -104,10 +120,25 @@ body.theme-turquoise .history th, body.theme-gold .history th, body.theme-pink .
 body.theme-grey .history th {
   border-bottom-color:rgba(255,255,255,0.15);
 }
+/* Colored themes: history table text → black */
+body.theme-blue .history th, body.theme-blue .history td,
+body.theme-green .history th, body.theme-green .history td,
+body.theme-turquoise .history th, body.theme-turquoise .history td,
+body.theme-gold .history th, body.theme-gold .history td,
+body.theme-pink .history th, body.theme-pink .history td,
+body.theme-grey .history th, body.theme-grey .history td {
+  color:#111 !important;
+}
 body.theme-dark .modal-box, body.theme-blue .modal-box, body.theme-green .modal-box,
 body.theme-turquoise .modal-box, body.theme-gold .modal-box, body.theme-pink .modal-box,
 body.theme-grey .modal-box {
   background:#2a2a3e; color:#e0e0e0;
+}
+/* Modal ghost/Cancel buttons → white text & border on dark/colored themes */
+body.theme-dark .modal-box .ghost, body.theme-blue .modal-box .ghost, body.theme-green .modal-box .ghost,
+body.theme-turquoise .modal-box .ghost, body.theme-gold .modal-box .ghost, body.theme-pink .modal-box .ghost,
+body.theme-grey .modal-box .ghost {
+  color:#e0e0e0 !important; border-color:rgba(255,255,255,0.3) !important;
 }
 body.theme-dark .badge, body.theme-blue .badge, body.theme-green .badge,
 body.theme-turquoise .badge, body.theme-gold .badge, body.theme-pink .badge,
@@ -128,7 +159,7 @@ header{display:flex;gap:12px;align-items:center;justify-content:space-between;fl
 label{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}
 input[type="number"],select,input[type="text"]{background:#fff;border:1px solid rgba(0,0,0,0.12);padding:7px 8px;border-radius:6px;width:90px;font-size:14px}
 button{background:var(--accent);border:none;color:#fff;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:600;font-size:13px;touch-action:manipulation}
-button.ghost{background:transparent;border:1px solid rgba(0,0,0,0.12);color:var(--muted)}
+button.ghost{background:transparent;border:1px solid rgba(0,0,0,0.25);color:var(--muted)}
 button.ghost:active{background:rgba(0,0,0,0.05)}
 .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .badge{padding:5px 8px;border-radius:8px;background:rgba(0,0,0,0.03);font-size:13px;color:var(--muted);border:1px solid transparent}
@@ -139,7 +170,7 @@ button.ghost:active{background:rgba(0,0,0,0.05)}
 
 /* ===== ZERO TRIO (horizontal, sticky) ===== */
 .zeros-strip{display:flex;gap:6px;align-items:stretch;margin-bottom:8px;max-width:100%;overflow:hidden}
-.zeroItem{flex:1;padding:10px 6px;border-radius:8px;text-align:center;background:var(--card-bg);cursor:pointer;transition:box-shadow .2s;border:2px solid transparent}
+.zeroItem{flex:1;padding:10px 6px;border-radius:8px;text-align:center;background:var(--card-bg);cursor:pointer;transition:box-shadow .2s;border:2px solid rgba(0,0,0,0.2)}
 .zeroItem:hover{box-shadow:0 0 0 2px var(--accent)}
 .zeroItem .big{font-size:16px}
 .zeroItem div{font-size:10px!important}
@@ -300,6 +331,12 @@ body.theme-dark .sticky-sitout .ghost,body.theme-blue .sticky-sitout .ghost,body
 .outcome-table th{font-weight:700;font-size:11px;color:var(--muted)}
 .outcome-table .win{color:#16a34a;font-weight:600}
 .outcome-table .lose{color:#ef4444;font-weight:600}
+/* Colored themes: outcome table text → black (except .win/.lose) */
+body.theme-blue .outcome-table td, body.theme-green .outcome-table td,
+body.theme-turquoise .outcome-table td, body.theme-gold .outcome-table td,
+body.theme-pink .outcome-table td, body.theme-grey .outcome-table td {
+  color:#111;
+}
 
 /* ===== MODE BADGE ===== */
 .mode-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:800;letter-spacing:0.5px;margin-left:8px;vertical-align:middle}
@@ -373,30 +410,57 @@ body.theme-dark .mode-toggle,body.theme-blue .mode-toggle,body.theme-green .mode
 }
 #strategy-overlay h2 { margin:0 0 8px; font-size:22px; color:#fff; }
 #strategy-overlay .subtitle { font-size:13px; color:#94a3b8; margin-bottom:20px; }
+.strategy-grid-top {
+  display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px;
+  width:100%; max-width:520px; margin-bottom:10px;
+}
+.strategy-grid-bottom {
+  display:grid; grid-template-columns:1fr 1fr; gap:10px;
+  width:100%; max-width:348px; margin-bottom:0;
+}
 .strategy-card {
-  width:100%; max-width:380px; padding:18px; border-radius:12px; margin-bottom:12px;
+  padding:14px; border-radius:12px;
   cursor:pointer; transition:all .2s; border:2px solid transparent; text-align:left;
 }
 .strategy-card:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,0,0,0.3); }
-.strategy-card h3 { margin:0 0 4px; font-size:17px; }
-.strategy-card .tag { display:inline-block; padding:2px 10px; border-radius:12px; font-size:11px; font-weight:700; margin-bottom:8px; }
-.strategy-card p { margin:0; font-size:12px; line-height:1.5; color:#ccc; }
-.sc-aggressive { background:#1e293b; }
-.sc-aggressive:hover { border-color:#ef4444; }
-.sc-aggressive h3 { color:#ef4444; }
-.sc-aggressive .tag { background:#ef4444; color:#fff; }
-.sc-controlled { background:#1e293b; }
-.sc-controlled:hover { border-color:#f59e0b; }
-.sc-controlled h3 { color:#f59e0b; }
-.sc-controlled .tag { background:#f59e0b; color:#000; }
-.sc-conservative { background:#1e293b; }
-.sc-conservative:hover { border-color:#22c55e; }
-.sc-conservative h3 { color:#22c55e; }
-.sc-conservative .tag { background:#22c55e; color:#000; }
-.sc-original { background:#1e293b; }
-.sc-original:hover { border-color:#3b82f6; }
-.sc-original h3 { color:#3b82f6; }
-.sc-original .tag { background:#3b82f6; color:#fff; }
+.strategy-card h3 { margin:0 0 4px; font-size:14px; }
+.strategy-card .tag { display:inline-block; padding:2px 8px; border-radius:12px; font-size:10px; font-weight:700; margin-bottom:6px; }
+.strategy-card .win-rate { display:block; font-size:18px; font-weight:800; margin-bottom:4px; }
+.strategy-card p { margin:0; font-size:11px; line-height:1.4; }
+/* Green - #1 Steady Eddie */
+.sc-green { background:rgba(22,163,74,0.15); border-color:rgba(22,163,74,0.4); }
+.sc-green:hover { border-color:#22c55e; box-shadow:0 8px 20px rgba(22,163,74,0.3); }
+.sc-green h3 { color:#22c55e; }
+.sc-green .win-rate { color:#22c55e; }
+.sc-green .tag { background:#22c55e; color:#000; }
+.sc-green p { color:#bbf7d0; }
+/* Yellow - #2 Delayed Surge */
+.sc-yellow { background:rgba(234,179,8,0.15); border-color:rgba(234,179,8,0.4); }
+.sc-yellow:hover { border-color:#eab308; box-shadow:0 8px 20px rgba(234,179,8,0.3); }
+.sc-yellow h3 { color:#eab308; }
+.sc-yellow .win-rate { color:#eab308; }
+.sc-yellow .tag { background:#eab308; color:#000; }
+.sc-yellow p { color:#fef9c3; }
+/* Orange - #3 Slow Grind */
+.sc-orange { background:rgba(249,115,22,0.15); border-color:rgba(249,115,22,0.4); }
+.sc-orange:hover { border-color:#f97316; box-shadow:0 8px 20px rgba(249,115,22,0.3); }
+.sc-orange h3 { color:#f97316; }
+.sc-orange .win-rate { color:#f97316; }
+.sc-orange .tag { background:#f97316; color:#fff; }
+.sc-orange p { color:#fed7aa; }
+/* Red - #4 Streak Reset */
+.sc-red { background:rgba(239,68,68,0.15); border-color:rgba(239,68,68,0.4); }
+.sc-red:hover { border-color:#ef4444; box-shadow:0 8px 20px rgba(239,68,68,0.3); }
+.sc-red h3 { color:#ef4444; }
+.sc-red .win-rate { color:#ef4444; }
+.sc-red .tag { background:#ef4444; color:#fff; }
+.sc-red p { color:#fecaca; }
+/* Blue - Legacy Mode */
+.sc-blue { background:rgba(59,130,246,0.15); border-color:rgba(59,130,246,0.4); }
+.sc-blue:hover { border-color:#3b82f6; box-shadow:0 8px 20px rgba(59,130,246,0.3); }
+.sc-blue h3 { color:#3b82f6; }
+.sc-blue .tag { background:#3b82f6; color:#fff; }
+.sc-blue p { color:#bfdbfe; }
 
 /* ===== STRATEGY PROMPT BAR ===== */
 #strategyPromptBar {
@@ -413,41 +477,154 @@ body.theme-grey #strategyPromptBar {
   background:rgba(59,130,246,0.15); border-color:rgba(59,130,246,0.4); color:#111;
 }
 
-/* ===== TEXT COLOR OVERRIDES FOR COLORED THEMES ===== */
+/* ===================================================================
+   COMPREHENSIVE THEME OVERRIDES
+   Root problem: body color on colored themes is very light (e.g. #f0f5fb),
+   so anything using color:inherit or the body color is nearly invisible.
+   Fix: force dark/visible text on all text elements, per-theme accent
+   colors on section headers, black borders on all controls.
+   =================================================================== */
 
-/* Leave Casino → black on all colored themes */
-body.theme-blue #leaveCasinoBtn,body.theme-green #leaveCasinoBtn,
-body.theme-turquoise #leaveCasinoBtn,body.theme-gold #leaveCasinoBtn,
-body.theme-pink #leaveCasinoBtn,body.theme-grey #leaveCasinoBtn {
-  color:#111 !important; border-color:#111 !important;
+/* --- SHARED: All 6 colored themes --- */
+/* Force ALL text to be readable: labels, .big amounts, helper text, ghost buttons, zero boxes */
+body.theme-blue, body.theme-green, body.theme-turquoise,
+body.theme-gold, body.theme-pink, body.theme-grey {
+  --muted:#111;
 }
-/* Auto Sim → black on all colored themes */
+/* Ghost buttons that need black text on colored themes (by ID) */
+body.theme-blue #resetSession, body.theme-blue #exportCsv, body.theme-blue #resetHist,
+body.theme-blue #editMidSession, body.theme-blue #clearSavedState, body.theme-blue #randomSpin,
+body.theme-green #resetSession, body.theme-green #exportCsv, body.theme-green #resetHist,
+body.theme-green #editMidSession, body.theme-green #clearSavedState, body.theme-green #randomSpin,
+body.theme-turquoise #resetSession, body.theme-turquoise #exportCsv, body.theme-turquoise #resetHist,
+body.theme-turquoise #editMidSession, body.theme-turquoise #clearSavedState, body.theme-turquoise #randomSpin,
+body.theme-gold #resetSession, body.theme-gold #exportCsv, body.theme-gold #resetHist,
+body.theme-gold #editMidSession, body.theme-gold #clearSavedState, body.theme-gold #randomSpin,
+body.theme-pink #resetSession, body.theme-pink #exportCsv, body.theme-pink #resetHist,
+body.theme-pink #editMidSession, body.theme-pink #clearSavedState, body.theme-pink #randomSpin,
+body.theme-grey #resetSession, body.theme-grey #exportCsv, body.theme-grey #resetHist,
+body.theme-grey #editMidSession, body.theme-grey #clearSavedState, body.theme-grey #randomSpin {
+  color:#111 !important;
+}
+/* Zero bet boxes: black borders, black text for amounts and labels */
+body.theme-blue .zeroItem, body.theme-green .zeroItem, body.theme-turquoise .zeroItem,
+body.theme-gold .zeroItem, body.theme-pink .zeroItem, body.theme-grey .zeroItem {
+  border-color:#111 !important; color:#111 !important;
+}
+body.theme-blue .zeroItem div, body.theme-green .zeroItem div, body.theme-turquoise .zeroItem div,
+body.theme-gold .zeroItem div, body.theme-pink .zeroItem div, body.theme-grey .zeroItem div {
+  color:#111 !important;
+}
+body.theme-blue .zeroItem .big, body.theme-green .zeroItem .big, body.theme-turquoise .zeroItem .big,
+body.theme-gold .zeroItem .big, body.theme-pink .zeroItem .big, body.theme-grey .zeroItem .big {
+  color:#111 !important;
+}
+/* Uniform bet bar text → black */
+body.theme-blue .uniform-bet-bar, body.theme-green .uniform-bet-bar, body.theme-turquoise .uniform-bet-bar,
+body.theme-gold .uniform-bet-bar, body.theme-pink .uniform-bet-bar, body.theme-grey .uniform-bet-bar {
+  color:#111 !important;
+}
+/* Session summary .big amounts (Starting Bankroll value) → black, but NOT P/L amounts */
+body.theme-blue aside .big:not(#sumSession):not(#sumHist),
+body.theme-green aside .big:not(#sumSession):not(#sumHist),
+body.theme-turquoise aside .big:not(#sumSession):not(#sumHist),
+body.theme-gold aside .big:not(#sumSession):not(#sumHist),
+body.theme-pink aside .big:not(#sumSession):not(#sumHist),
+body.theme-grey aside .big:not(#sumSession):not(#sumHist) {
+  color:#111 !important;
+}
+/* Session summary sub-labels (Starting Bankroll, Session P/L, Historical P/L text) → black */
+body.theme-blue aside div[style*="font-size:12px"], body.theme-green aside div[style*="font-size:12px"],
+body.theme-turquoise aside div[style*="font-size:12px"], body.theme-gold aside div[style*="font-size:12px"],
+body.theme-pink aside div[style*="font-size:12px"], body.theme-grey aside div[style*="font-size:12px"] {
+  color:#111 !important;
+}
+/* Session Balance text → handled by div[style*="font-size:11px"] rule below */
+/* Current balance .big → black */
+body.theme-blue #currentBalance, body.theme-green #currentBalance, body.theme-turquoise #currentBalance,
+body.theme-gold #currentBalance, body.theme-pink #currentBalance, body.theme-grey #currentBalance {
+  color:#111 !important;
+}
+/* Helper text (number pad instructions) → black */
+body.theme-blue div[style*="font-size:11px"], body.theme-green div[style*="font-size:11px"],
+body.theme-turquoise div[style*="font-size:11px"], body.theme-gold div[style*="font-size:11px"],
+body.theme-pink div[style*="font-size:11px"], body.theme-grey div[style*="font-size:11px"] {
+  color:#111 !important;
+}
+/* Pocketed section labels → black */
+body.theme-blue .pocketed-label, body.theme-green .pocketed-label, body.theme-turquoise .pocketed-label,
+body.theme-gold .pocketed-label, body.theme-pink .pocketed-label, body.theme-grey .pocketed-label {
+  color:#111 !important;
+}
+/* Pocketed section values → black, but NOT the ones with JS-set green/red */
+body.theme-blue .pocketed-value:not(#pocketedProfits):not(#sessionLosses):not(#netLifetimePL),
+body.theme-green .pocketed-value:not(#pocketedProfits):not(#sessionLosses):not(#netLifetimePL),
+body.theme-turquoise .pocketed-value:not(#pocketedProfits):not(#sessionLosses):not(#netLifetimePL),
+body.theme-gold .pocketed-value:not(#pocketedProfits):not(#sessionLosses):not(#netLifetimePL),
+body.theme-pink .pocketed-value:not(#pocketedProfits):not(#sessionLosses):not(#netLifetimePL),
+body.theme-grey .pocketed-value:not(#pocketedProfits):not(#sessionLosses):not(#netLifetimePL) {
+  color:#111 !important;
+}
+/* Input text inside boxes → white (so it shows on the semi-transparent bg) */
+body.theme-blue input, body.theme-blue select,
+body.theme-green input, body.theme-green select,
+body.theme-turquoise input, body.theme-turquoise select,
+body.theme-gold input, body.theme-gold select,
+body.theme-pink input, body.theme-pink select,
+body.theme-grey input, body.theme-grey select {
+  color:#fff !important;
+}
+/* Leave Casino → red text on ALL themes */
+#leaveCasinoBtn {
+  color:#ef4444 !important; border-color:#ef4444 !important;
+}
+/* Auto Sim → black text on all colored themes */
 body.theme-blue #autoSimToggle,body.theme-green #autoSimToggle,
 body.theme-turquoise #autoSimToggle,body.theme-gold #autoSimToggle,
 body.theme-pink #autoSimToggle,body.theme-grey #autoSimToggle {
   color:#111 !important; border-color:#111 !important;
 }
-/* Place Side Bet → black on blue, green, turquoise, pink, grey */
-body.theme-blue #manualSideBetBtn,body.theme-green #manualSideBetBtn,
-body.theme-turquoise #manualSideBetBtn,body.theme-pink #manualSideBetBtn,
-body.theme-grey #manualSideBetBtn {
-  color:#111 !important; border-color:#111 !important;
-}
-/* Sit Out Spins → black on pink */
-body.theme-pink #sitOutToggle {
-  color:#111 !important; border-color:#111 !important;
+/* Place Side Bet → keep purple on all */
+/* Sit Out Spins → keep red on all */
+/* Undo Last Spin → keep amber text, but black border on colored themes */
+body.theme-blue #rollbackBtn, body.theme-green #rollbackBtn, body.theme-turquoise #rollbackBtn,
+body.theme-gold #rollbackBtn, body.theme-pink #rollbackBtn, body.theme-grey #rollbackBtn {
+  border-color:#111 !important;
 }
 
-/* ===== SPIN INPUT PLACEHOLDER — match Undo Last Spin color per theme ===== */
+/* SIM badge next to Balance → match the mode toggle SIM button style */
+body.theme-blue #modeBadge.sim, body.theme-green #modeBadge.sim, body.theme-turquoise #modeBadge.sim,
+body.theme-gold #modeBadge.sim, body.theme-pink #modeBadge.sim, body.theme-grey #modeBadge.sim {
+  background:#dbeafe !important; color:#1d4ed8 !important; border:2px solid #000 !important;
+}
+body.theme-blue #modeBadge.live, body.theme-green #modeBadge.live, body.theme-turquoise #modeBadge.live,
+body.theme-gold #modeBadge.live, body.theme-pink #modeBadge.live, body.theme-grey #modeBadge.live {
+  background:#fef3c7 !important; color:#92400e !important; border:2px solid #000 !important;
+}
+body.theme-blue #modeBadge.table, body.theme-green #modeBadge.table, body.theme-turquoise #modeBadge.table,
+body.theme-gold #modeBadge.table, body.theme-pink #modeBadge.table, body.theme-grey #modeBadge.table {
+  background:#f3e8ff !important; color:#6b21a8 !important; border:2px solid #000 !important;
+}
+/* Mode toggle inactive buttons → black text */
+body.theme-blue .mode-toggle button, body.theme-green .mode-toggle button, body.theme-turquoise .mode-toggle button,
+body.theme-gold .mode-toggle button, body.theme-pink .mode-toggle button, body.theme-grey .mode-toggle button {
+  color:#111 !important;
+}
+/* Mode toggle active buttons → keep their proper colors */
+body.theme-blue .mode-toggle button.active-sim,body.theme-green .mode-toggle button.active-sim,body.theme-turquoise .mode-toggle button.active-sim,
+body.theme-gold .mode-toggle button.active-sim,body.theme-pink .mode-toggle button.active-sim,body.theme-grey .mode-toggle button.active-sim { color:#1d4ed8 !important; }
+body.theme-blue .mode-toggle button.active-live,body.theme-green .mode-toggle button.active-live,body.theme-turquoise .mode-toggle button.active-live,
+body.theme-gold .mode-toggle button.active-live,body.theme-pink .mode-toggle button.active-live,body.theme-grey .mode-toggle button.active-live { color:#92400e !important; }
+body.theme-blue .mode-toggle button.active-table,body.theme-green .mode-toggle button.active-table,body.theme-turquoise .mode-toggle button.active-table,
+body.theme-gold .mode-toggle button.active-table,body.theme-pink .mode-toggle button.active-table,body.theme-grey .mode-toggle button.active-table { color:#6b21a8 !important; }
+
+/* --- SPIN INPUT PLACEHOLDER — brown on all themes --- */
 body.theme-white #spinInput::placeholder { color:#b45309; opacity:1; }
-body.theme-blue #spinInput::placeholder { color:#b45309; opacity:1; }
-body.theme-green #spinInput::placeholder { color:#b45309; opacity:1; }
-body.theme-turquoise #spinInput::placeholder { color:#b45309; opacity:1; }
-body.theme-gold #spinInput::placeholder { color:#b45309; opacity:1; }
-body.theme-pink #spinInput::placeholder { color:#b45309; opacity:1; }
-body.theme-grey #spinInput::placeholder { color:#b45309; opacity:1; }
+body.theme-blue #spinInput::placeholder,body.theme-green #spinInput::placeholder,
+body.theme-turquoise #spinInput::placeholder,body.theme-gold #spinInput::placeholder,
+body.theme-pink #spinInput::placeholder,body.theme-grey #spinInput::placeholder { color:#b45309; opacity:1; }
 
-/* ===== WHITE THEME: black borders on controls ===== */
+/* --- WHITE THEME: black borders on controls --- */
 body.theme-white #spinInput { border-color:#111 !important; }
 body.theme-white #randomSpin { border-color:#111 !important; }
 body.theme-white #rollbackBtn { border-color:#111 !important; }
@@ -461,33 +638,41 @@ body.theme-white #unit { border-color:#111 !important; }
 body.theme-white #tableType { border-color:#111 !important; }
 body.theme-white #bgSelect { border-color:#111 !important; }
 body.theme-white #modeBadge { border-color:#111 !important; }
+body.theme-white .threshold-badge { color:#b45309 !important; border-color:#111 !important; }
+body.theme-white .zeroItem { border-color:#111 !important; }
+body.theme-white .ghost { border-color:rgba(0,0,0,0.35) !important; }
+body.theme-white #clearSavedState { border-color:#111 !important; }
+body.theme-white #editMidSession { border-color:#111 !important; }
+body.theme-white #manualSideBetBtn { border-color:#8b5cf6 !important; }
 
-/* ===== ALL COLORED THEMES: SIM badge, threshold badges, mode toggle text ===== */
-/* SIM badge in sticky header → match mode toggle style */
-body.theme-blue #modeBadge,body.theme-green #modeBadge,body.theme-turquoise #modeBadge,
-body.theme-gold #modeBadge,body.theme-pink #modeBadge,body.theme-grey #modeBadge {
-  background:#dbeafe !important; color:#1d4ed8 !important; border-color:#111 !important;
+/* ===== PER-THEME SECTION HEADER ACCENT COLORS =====
+   Blue/Green/Turquoise → blue (#1d4ed8)
+   Gold → orange (#c2410c)
+   Pink → purple (#7e22ce)
+   Grey → blue (#1d4ed8)
+*/
+
+/* BLUE / GREEN / TURQUOISE / GREY: section headers → blue */
+body.theme-blue label, body.theme-green label, body.theme-turquoise label, body.theme-grey label {
+  color:#1d4ed8 !important;
 }
-/* Threshold badges → black border + black text (when inactive) */
-body.theme-blue .threshold-badge,body.theme-green .threshold-badge,body.theme-turquoise .threshold-badge,
-body.theme-gold .threshold-badge,body.theme-pink .threshold-badge,body.theme-grey .threshold-badge {
-  border-color:#111 !important; color:#111 !important;
+/* GOLD: section headers → orange */
+body.theme-gold label {
+  color:#c2410c !important;
 }
-/* Mode toggle inactive buttons → black text */
-body.theme-blue .mode-toggle button,body.theme-green .mode-toggle button,body.theme-turquoise .mode-toggle button,
-body.theme-gold .mode-toggle button,body.theme-pink .mode-toggle button,body.theme-grey .mode-toggle button {
-  color:#111 !important;
+/* PINK: section headers → purple */
+body.theme-pink label {
+  color:#7e22ce !important;
 }
-/* Mode toggle active buttons → keep their proper colors */
-body.theme-blue .mode-toggle button.active-sim,body.theme-green .mode-toggle button.active-sim,body.theme-turquoise .mode-toggle button.active-sim,
-body.theme-gold .mode-toggle button.active-sim,body.theme-pink .mode-toggle button.active-sim,body.theme-grey .mode-toggle button.active-sim { color:#1d4ed8 !important; }
-body.theme-blue .mode-toggle button.active-live,body.theme-green .mode-toggle button.active-live,body.theme-turquoise .mode-toggle button.active-live,
-body.theme-gold .mode-toggle button.active-live,body.theme-pink .mode-toggle button.active-live,body.theme-grey .mode-toggle button.active-live { color:#92400e !important; }
-body.theme-blue .mode-toggle button.active-table,body.theme-green .mode-toggle button.active-table,body.theme-turquoise .mode-toggle button.active-table,
-body.theme-gold .mode-toggle button.active-table,body.theme-pink .mode-toggle button.active-table,body.theme-grey .mode-toggle button.active-table { color:#6b21a8 !important; }
+
+/* Threshold badges per theme — all match Undo Last Spin & Enter number color (#b45309) */
+body.theme-blue .threshold-badge, body.theme-green .threshold-badge, body.theme-turquoise .threshold-badge,
+body.theme-gold .threshold-badge, body.theme-pink .threshold-badge, body.theme-grey .threshold-badge {
+  border-color:#111 !important; color:#b45309 !important;
+}
 
 /* ===== THRESHOLD BADGES (Strategy Mode) ===== */
-.threshold-badge{padding:8px 12px;border-radius:8px;font-size:14px;font-weight:700;text-align:center;border:2px solid transparent;opacity:0.3;transition:all .3s}
+.threshold-badge{padding:8px 12px;border-radius:8px;font-size:14px;font-weight:700;text-align:center;border:2px solid rgba(0,0,0,0.2);opacity:0.3;transition:all .3s}
 .threshold-badge.active-win{opacity:1;background:#dcfce7;border-color:#16a34a;color:#16a34a;}
 .threshold-badge.active-loss{opacity:1;background:#fee2e2;border-color:#ef4444;color:#ef4444;}
 
@@ -499,6 +684,24 @@ body.theme-gold .mode-toggle button.active-table,body.theme-pink .mode-toggle bu
 
 /* ===== STRATEGY MODE HIDING ===== */
 .strategy-hidden { display:none !important; }
+
+/* ===== STRATEGY SWITCH BUTTONS ===== */
+.strategy-switch-section { margin-top:12px; }
+.strategy-switch-note { font-size:11px; color:var(--muted); text-align:center; margin-bottom:8px; line-height:1.4; font-style:italic; }
+.strategy-switch-grid { display:grid; grid-template-columns:1fr 1fr; gap:5px; }
+.strategy-switch-btn { padding:8px 6px; border-radius:8px; font-size:11px; font-weight:700; cursor:pointer; border:2px solid; background:transparent; transition:all .15s; text-align:center; }
+.strategy-switch-btn.active-strategy { opacity:0.6; cursor:default; }
+.ssb-green { color:#16a34a; border-color:#16a34a; }
+.ssb-yellow { color:#b45309; border-color:#eab308; }
+.ssb-orange { color:#ea580c; border-color:#f97316; }
+.ssb-red { color:#ef4444; border-color:#ef4444; }
+.ssb-blue { color:#3b82f6; border-color:#3b82f6; }
+body.theme-dark .strategy-switch-note { color:#94a3b8; }
+body.theme-dark .ssb-green { color:#4ade80; border-color:#4ade80; }
+body.theme-dark .ssb-yellow { color:#fbbf24; border-color:#fbbf24; }
+body.theme-dark .ssb-orange { color:#fb923c; border-color:#fb923c; }
+body.theme-dark .ssb-red { color:#f87171; border-color:#f87171; }
+body.theme-dark .ssb-blue { color:#60a5fa; border-color:#60a5fa; }
 
 /* ===== AUTO SIM CONTROLS ===== */
 .auto-sim-bar { display:flex; gap:6px; align-items:center; margin-top:8px; flex-wrap:wrap; }
@@ -565,25 +768,38 @@ body.theme-gold .mode-toggle button.active-table,body.theme-pink .mode-toggle bu
 <div id="strategy-overlay">
   <h2>Choose Your Strategy</h2>
   <div class="subtitle">Select how you want to play this session</div>
-  <div class="strategy-card sc-aggressive" onclick="selectStrategy('sitandclimb')">
-    <h3>Sit and Climb</h3>
-    <span class="tag">AGGRESSIVE</span>
-    <p>Start at $2 per zero. After every spin, add $1 to each bet. No cap. When a zero hits, collect your payout, sit out 17 spins, then reset to $2. Highest risk, highest reward.</p>
+  <div class="strategy-grid-top">
+    <div class="strategy-card sc-green" onclick="selectStrategy('steadyeddie')">
+      <span class="win-rate">49.5%</span>
+      <h3>Steady Eddie</h3>
+      <span class="tag">CONSERVATIVE</span>
+      <p>Proven performer but payouts are minimal. Best for keeping bankroll intact.</p>
+    </div>
+    <div class="strategy-card sc-yellow" onclick="selectStrategy('delayedsurge')">
+      <span class="win-rate">45.2%</span>
+      <h3>Delayed Surge</h3>
+      <span class="tag">MODERATE</span>
+      <p>Hold flat $2/$2/$2 for 10 spins, then +$1 every 3 spins. Patience before power.</p>
+    </div>
+    <div class="strategy-card sc-orange" onclick="selectStrategy('slowgrind')">
+      <span class="win-rate">43.8%</span>
+      <h3>Slow Grind</h3>
+      <span class="tag">MODERATE</span>
+      <p>+$1 every 6 spins from the start. Gradual climb with controlled exposure.</p>
+    </div>
   </div>
-  <div class="strategy-card sc-controlled" onclick="selectStrategy('escalateandcap')">
-    <h3>Escalate and Cap</h3>
-    <span class="tag">CONTROLLED</span>
-    <p>Same as Sit and Climb, but bets cap at $15 per zero ($45/spin max). The cap protects you from over-exposure during long dry spells while still giving solid payouts.</p>
-  </div>
-  <div class="strategy-card sc-conservative" onclick="selectStrategy('steadyeddie')">
-    <h3>Steady Eddie</h3>
-    <span class="tag">CONSERVATIVE</span>
-    <p>Flat $2 per zero, every spin, no escalation. Sit out 17 after a zero hit. Lowest volatility, longest sessions. For the player with time to kill who doesn't mind extended sessions.</p>
-  </div>
-  <div class="strategy-card sc-original" onclick="selectStrategy('original')">
-    <h3>Legacy Mode</h3>
-    <span class="tag">CLASSIC</span>
-    <p>Place your own bets however you want. Full control, no strategy guidance. The classic Project Zero Roulette experience.</p>
+  <div class="strategy-grid-bottom">
+    <div class="strategy-card sc-red" onclick="selectStrategy('streakreset')">
+      <span class="win-rate">42.5%</span>
+      <h3>Streak Reset</h3>
+      <span class="tag">AGGRESSIVE</span>
+      <p>Flat $2/$2/$2 with a temporary $5/$5/$5 boost after 12-spin dry streak.</p>
+    </div>
+    <div class="strategy-card sc-blue" onclick="selectStrategy('original')">
+      <h3>Legacy Mode</h3>
+      <span class="tag">CLASSIC</span>
+      <p>Place your own bets however you want. Full control, no strategy guidance.</p>
+    </div>
   </div>
 </div>
 
@@ -859,7 +1075,7 @@ body.theme-gold .mode-toggle button.active-table,body.theme-pink .mode-toggle bu
   <div class="modal-box">
     <h3 style="color:#ef4444;">Session Complete</h3>
     <p id="lockoutWarningText" style="font-size:14px;"></p>
-    <p style="font-size:14px;">This app will not reopen for 30 days. If you need help, call the National Problem Gambling Helpline:</p>
+    <p style="font-size:14px;">This app will not reopen for 7 days. If you need help, call the National Problem Gambling Helpline:</p>
     <div style="text-align:center;margin:12px 0;"><a href="tel:1-800-522-4700" style="font-size:20px;font-weight:700;color:#22c55e;text-decoration:none;">1-800-522-4700</a></div>
     <div class="modal-actions">
       <button id="lockoutWarningOk" style="background:#ef4444;">I Understand</button>
@@ -972,8 +1188,18 @@ body.theme-gold .mode-toggle button.active-table,body.theme-pink .mode-toggle bu
             <button id="manualSideBetBtn" class="ghost" style="border-color:#8b5cf6;color:#8b5cf6;grid-column:span 2;">Place Side Bet</button>
             <button id="rollbackBtn" class="ghost" style="border-color:#f59e0b;color:#b45309;">Undo Last Spin</button>
             <button id="editMidSession" class="ghost">Edit Bankroll/Unit</button>
-            <button id="leaveCasinoBtn" class="ghost" style="grid-column:span 2;border-color:#16a34a;color:#16a34a;font-weight:700;">Leave The Casino</button>
+            <button id="leaveCasinoBtn" class="ghost" style="grid-column:span 2;border-color:#ef4444;color:#ef4444;font-weight:700;">Leave The Casino</button>
             <button id="clearSavedState" class="ghost" style="grid-column:span 2;font-size:11px;">Clear Saved App State</button>
+          </div>
+          <div class="strategy-switch-section" id="strategySwitchSection">
+            <div class="strategy-switch-note">Tap any strategy below for details &mdash; including your current active strategy</div>
+            <div class="strategy-switch-grid">
+              <button class="strategy-switch-btn ssb-green" id="sswSteadyEddie" onclick="handleStrategySwitch('steadyeddie')">Steady Eddie</button>
+              <button class="strategy-switch-btn ssb-yellow" id="sswDelayedSurge" onclick="handleStrategySwitch('delayedsurge')">Delayed Surge</button>
+              <button class="strategy-switch-btn ssb-orange" id="sswSlowGrind" onclick="handleStrategySwitch('slowgrind')">Slow Grind</button>
+              <button class="strategy-switch-btn ssb-red" id="sswStreakReset" onclick="handleStrategySwitch('streakreset')">Streak Reset</button>
+              <button class="strategy-switch-btn ssb-blue" id="sswLegacy" onclick="handleStrategySwitch('original')" style="grid-column:span 2;">Switch to Legacy Mode</button>
+            </div>
           </div>
         </div>
       </div>
@@ -1090,17 +1316,19 @@ body.theme-gold .mode-toggle button.active-table,body.theme-pink .mode-toggle bu
 </div>
 
 <div style="text-align:right;font-size:10px;color:var(--muted);padding:16px;">
-  Project Zero Roulette — Revision 11 — client only
+  Project Zero Roulette — Revision 12 — client only
 </div>
 </div>
 
 <script>
 /* ================================================================
-   PROJECT ZERO ROULETTE — REVISION 10
+   PROJECT ZERO ROULETTE — REVISION 12
    Copyright (c) 2026 James Munchman. All rights reserved.
    
    V10: SIM/LIVE/TABLE modes, Session Spins, Time Tracking,
         Avg Spins Between Zeros, Smart Sit-Out Suggestion, UI Fixes
+   V12: 7-day lockout, SIM no-lockout, dev unlock top-right 15-tap,
+        strategy switch buttons, Steady Eddie desc, LIVE/TABLE bet prompt
    
    PROPRIETARY AND CONFIDENTIAL. Unauthorized use, copying, or
    distribution of this software is strictly prohibited.
@@ -1130,7 +1358,8 @@ let state = {
   // Manual side bet state
   msbType:null, msbValue:null,
   // Strategy mode state
-  strategyMode:null, // 'sitandclimb','escalateandcap','steadyeddie','original',null
+  strategyMode:null, // 'steadyeddie','delayedsurge','slowgrind','streakreset','original',null
+  streakResetBoosted:false, // for Streak Reset: true when in $5 boost mode
   strategySpinsSinceZero:0, // count spins since last zero (for escalation)
   overrideTriggered:false, // true if user overrode threshold and flipped to original
   threshold1Hit:false,
@@ -1763,29 +1992,10 @@ function refresh(){
   $('sumStart').textContent=fmt(state.bank);
   const sessionPL=state.balance-state.bank;
   $('sumSession').textContent=fmt(sessionPL);
-  const isDark=document.body.classList.contains('theme-dark');
-  const isGrey=document.body.classList.contains('theme-grey');
-  const coloredTheme=['theme-blue','theme-green','theme-turquoise','theme-gold','theme-pink'].some(t=>document.body.classList.contains(t));
-  // Dark mode: green/red as normal. Grey: black for zeros, green/red for non-zero. Other colored: always #111.
-  if(isDark){
-    $('sumSession').style.color=sessionPL>=0?'var(--win)':'var(--lose)';
-  } else if(isGrey){
-    $('sumSession').style.color=sessionPL===0?'#111':(sessionPL>0?'var(--win)':'var(--lose)');
-  } else if(coloredTheme){
-    $('sumSession').style.color='#111';
-  } else {
-    $('sumSession').style.color=sessionPL>=0?'var(--win)':'var(--lose)';
-  }
+  // ALL themes: proper green/red P/L colors
+  $('sumSession').style.color=sessionPL>=0?'var(--win)':'var(--lose)';
   $('sumHist').textContent=fmt(state.histPL);
-  if(isDark){
-    $('sumHist').style.color=state.histPL>=0?'var(--win)':'var(--lose)';
-  } else if(isGrey){
-    $('sumHist').style.color=state.histPL===0?'#111':(state.histPL>0?'var(--win)':'var(--lose)');
-  } else if(coloredTheme){
-    $('sumHist').style.color='#111';
-  } else {
-    $('sumHist').style.color=state.histPL>=0?'var(--win)':'var(--lose)';
-  }
+  $('sumHist').style.color=state.histPL>=0?'var(--win)':'var(--lose)';
 
   // V10: Mode badge (3 modes)
   const mb=$('modeBadge');
@@ -1856,11 +2066,12 @@ function refresh(){
       el.style.pointerEvents='none';
       el.style.opacity='0.85';
     });
-    // Hide Spins: X/Y and S/Spins in sticky header
+    // Hide set Spins: X/Y in sticky header (but keep S/Spins session counter centered)
     const stickyCounterSpan=$('stickyCounter').parentElement;
-    if(stickyCounterSpan)stickyCounterSpan.style.display='none';
+    if(stickyCounterSpan)stickyCounterSpan.style.visibility='hidden';
+    // Session spin counter stays visible in strategy mode
     const stickySessionSpinsWrap=$('stickySessionSpinsWrap');
-    if(stickySessionSpinsWrap)stickySessionSpinsWrap.style.display='none';
+    if(stickySessionSpinsWrap)stickySessionSpinsWrap.style.display='';
     // Keep sticky zeros visible in strategy mode (read-only)
     document.querySelector('.sticky-zeros').style.display='';
   }else{
@@ -1873,7 +2084,7 @@ function refresh(){
       el.style.opacity='';
     });
     const stickyCounterSpan=$('stickyCounter').parentElement;
-    if(stickyCounterSpan)stickyCounterSpan.style.display='';
+    if(stickyCounterSpan)stickyCounterSpan.style.visibility='';
     const stickySessionSpinsWrap2=$('stickySessionSpinsWrap');
     if(stickySessionSpinsWrap2)stickySessionSpinsWrap2.style.display='';
     document.querySelector('.sticky-zeros').style.display='';
@@ -1948,6 +2159,46 @@ function refresh(){
 
 function saveState(){
   try{localStorage.setItem(getStorageKey(),JSON.stringify(state));}catch(e){}
+}
+
+/* ===== LIVE/TABLE BETS PLACED WORKFLOW ===== */
+let betPlacedResolve=null;
+function showBetsPlacedPrompt(){
+  return new Promise(resolve=>{
+    betPlacedResolve=resolve;
+    // Build bet instruction text
+    const isSit=state.sitOut>0;
+    let betText='';
+    if(isSit){
+      betText='You are currently SITTING OUT. Do not place any bets this spin.';
+    }else if(state.strategyMode&&state.strategyMode!=='original'){
+      const b=state.bet0;
+      const total=state.bet0+state.bet00+state.betSplit;
+      betText='Place $'+b+' on 0, $'+state.bet00+' on 00, $'+state.betSplit+' on 0/00 split. Total: $'+total+'.';
+    }else{
+      const b0=state.bet0;
+      const b00=state.table==='american'?state.bet00:0;
+      const showSplit=state.table==='american';
+      const bSp=showSplit?state.betSplit:0;
+      const total=b0+b00+bSp;
+      betText='Place $'+b0+' on 0';
+      if(b00>0) betText+=', $'+b00+' on 00';
+      if(bSp>0) betText+=', $'+bSp+' on 0/00 split';
+      betText+='. Total: $'+total+'.';
+    }
+    // Add side bets if any
+    if(state.activeSides&&state.activeSides.length>0){
+      state.activeSides.forEach(function(s){
+        betText+=' Side bet: $'+s.amt+' on '+s.type+' '+s.value+'.';
+      });
+    }
+    appConfirm('Place Your Bets',betText+'\n\nPlace your bets at the table now, then tap OK to confirm bets are placed and enter the result.').then(function(confirmed){
+      if(betPlacedResolve){
+        betPlacedResolve(confirmed!==false);
+        betPlacedResolve=null;
+      }
+    });
+  });
 }
 
 /* ===== HANDLE SPIN ===== */
@@ -2651,15 +2902,20 @@ function checkLockout(){
         const opts={year:'numeric',month:'long',day:'numeric'};
         $('lockoutUnlockDate').textContent='Your app will unlock on '+lockDate.toLocaleDateString('en-US',opts);
         $('lockout-overlay').style.display='flex';
-        // Dev override: 5 taps to reveal password field
+        // Dev override: 15 rapid taps in top-right quadrant to reveal password field
         let tapCount=0;let tapTimer=null;
-        $('lockout-overlay').querySelector('.lockout-box').addEventListener('click',function(){
-          tapCount++;
-          if(tapTimer)clearTimeout(tapTimer);
-          tapTimer=setTimeout(()=>{tapCount=0;},1500);
-          if(tapCount>=5){
-            $('devPasswordWrap').style.display='block';
-            tapCount=0;
+        $('lockout-overlay').addEventListener('click',function(e){
+          // Only count taps in the top-right quadrant of the screen
+          const vw=window.innerWidth;
+          const vh=window.innerHeight;
+          if(e.clientX>vw/2 && e.clientY<vh/2){
+            tapCount++;
+            if(tapTimer)clearTimeout(tapTimer);
+            tapTimer=setTimeout(()=>{tapCount=0;},2000);
+            if(tapCount>=15){
+              $('devPasswordWrap').style.display='block';
+              tapCount=0;
+            }
           }
         });
         $('devUnlockBtn').onclick=function(){
@@ -2682,7 +2938,7 @@ function checkLockout(){
 
 function setLockout(){
   const lockDate=new Date();
-  lockDate.setDate(lockDate.getDate()+30);
+  lockDate.setDate(lockDate.getDate()+7);
   localStorage.setItem(LOCKOUT_KEY,lockDate.toISOString());
 }
 
@@ -2720,8 +2976,11 @@ function selectStrategy(strategy){
     state.betSplit=STRATEGY_BASE_BET;
     $('startBank').value=1500;
     $('unit').value=STRATEGY_BASE_BET;
-    // Hide Steady Eddie's Threshold 2 badge
-    if(strategy==='steadyeddie'){
+    // Reset streak reset boost state
+    state.streakResetBoosted=false;
+    // Steady Eddie and Streak Reset use single threshold (20% hard stop)
+    // Delayed Surge and Slow Grind use dual thresholds (20% warn, 33% stop)
+    if(strategy==='steadyeddie'||strategy==='streakreset'){
       $('thBadge2').style.display='none';
     }else{
       $('thBadge2').style.display='';
@@ -2730,6 +2989,7 @@ function selectStrategy(strategy){
     // Disable manual bet editing in strategy mode
     $('editMidSession').style.display='none';
   }
+  if(typeof updateStrategySwitchButtons==='function') updateStrategySwitchButtons();
   refresh();
 }
 
@@ -2749,13 +3009,26 @@ function updateStrategyPrompt(){
   const b=state.bet0;
   const total=state.bet0+state.bet00+state.betSplit;
   if(sm==='steadyeddie'){
-    bar.innerHTML='\u2714 <strong>Place $'+STRATEGY_BASE_BET+' on 0, $'+STRATEGY_BASE_BET+' on 00, $'+STRATEGY_BASE_BET+' on split. Total: $'+(STRATEGY_BASE_BET*3)+'. Press Spin.</strong>';
-  }else if(sm==='sitandclimb'||sm==='escalateandcap'){
-    const cap=(sm==='escalateandcap')?STRATEGY_CAP:null;
-    if(cap&&b>=cap){
-      bar.innerHTML='\u26A0 <strong>Bets at maximum. Place $'+cap+' on 0, $'+cap+' on 00, $'+cap+' on split. Total: $'+(cap*3)+'. Press Spin.</strong>';
+    bar.innerHTML='\u2714 <strong>Steady Eddie: Place $'+STRATEGY_BASE_BET+' on 0, $'+STRATEGY_BASE_BET+' on 00, $'+STRATEGY_BASE_BET+' on split. Total: $'+(STRATEGY_BASE_BET*3)+'. Press Spin.</strong>';
+  }else if(sm==='delayedsurge'){
+    const spins=state.strategySpinsSinceZero;
+    if(spins<10){
+      bar.innerHTML='\u23F3 <strong>Delayed Surge: Holding flat $'+STRATEGY_BASE_BET+'/$'+STRATEGY_BASE_BET+'/$'+STRATEGY_BASE_BET+' (spin '+(spins+1)+'/10). Surge starts after spin 10.</strong>';
     }else{
-      bar.innerHTML='\u2191 <strong>Place $'+b+' on 0, $'+b+' on 00, $'+b+' on split. Total: $'+total+'. Press Spin.</strong>';
+      bar.innerHTML='\u2191 <strong>Delayed Surge: Place $'+b+' on 0, $'+b+' on 00, $'+b+' on split. Total: $'+total+'. Press Spin.</strong>';
+    }
+  }else if(sm==='slowgrind'){
+    bar.innerHTML='\u2191 <strong>Slow Grind: Place $'+b+' on 0, $'+b+' on 00, $'+b+' on split. Total: $'+total+'. Press Spin.</strong>';
+  }else if(sm==='streakreset'){
+    if(state.streakResetBoosted){
+      bar.innerHTML='\u26A1 <strong>Streak Reset: BOOSTED! Place $'+b+' on 0, $'+b+' on 00, $'+b+' on split. Total: $'+total+'. Press Spin.</strong>';
+    }else{
+      const spinsLeft=12-state.strategySpinsSinceZero;
+      if(spinsLeft>0){
+        bar.innerHTML='\u2714 <strong>Streak Reset: Place $'+b+' on 0, $'+b+' on 00, $'+b+' on split. Total: $'+total+'. Boost in '+spinsLeft+' spins.</strong>';
+      }else{
+        bar.innerHTML='\u2714 <strong>Streak Reset: Place $'+b+' on 0, $'+b+' on 00, $'+b+' on split. Total: $'+total+'. Press Spin.</strong>';
+      }
     }
   }
 }
@@ -2772,8 +3045,8 @@ function checkStrategyThresholds(){
   $('thBadge1').className='threshold-badge';
   $('thBadge2').className='threshold-badge';
   
-  if(sm==='steadyeddie'){
-    // Steady Eddie: Threshold 1 at 20% = HARD STOP
+  if(sm==='steadyeddie'||sm==='streakreset'){
+    // Steady Eddie & Streak Reset: Threshold 1 at 20% = HARD STOP
     if(absDiff>=0.20&&!state.threshold1Hit){
       state.threshold1Hit=true;
       $('thBadge1').className='threshold-badge '+(isWinning?'active-win':'active-loss');
@@ -2784,14 +3057,13 @@ function checkStrategyThresholds(){
       $('thBadge1').className='threshold-badge '+(isWinning?'active-win':'active-loss');
     }
   }else{
-    // Sit and Climb / Escalate and Cap: T1=20% warning, T2=33% hard stop
+    // Delayed Surge / Slow Grind: T1=20% warning, T2=33% hard stop
     if(absDiff>=0.20){
       $('thBadge1').className='threshold-badge '+(isWinning?'active-win':'active-loss');
       if(!state.threshold1Hit){
         state.threshold1Hit=true;
         flashBorder(isWinning?'win':'lose',5,600);
         if(isWinning)playWinChime();else playLossAlert(false);
-        // Warning only, no override modal
         const pct=Math.abs(diff*100).toFixed(0);
         const msg=isWinning
           ?'You are up '+pct+'% on your bankroll. You are approaching Threshold 2. You can keep going, but be careful.'
@@ -2813,6 +3085,14 @@ function checkStrategyThresholds(){
 
 /* ===== THRESHOLD OVERRIDE FLOW ===== */
 function showThresholdOverride(isWinning){
+  // SIM mode: show warning but allow player to continue (no lockout)
+  if(state.mode==='sim'){
+    const simMsg=isWinning
+      ?'You\'ve reached your session limit. If this had been LIVE or TABLE mode, you would have been locked out for 7 days. You may continue playing in SIM mode.'
+      :'You\'ve reached your session limit. If this had been LIVE or TABLE mode, you would have been locked out for 7 days. You may continue playing in SIM mode.';
+    appConfirm(isWinning?'SIM Mode \u2014 Threshold Reached':'SIM Mode \u2014 Threshold Reached',simMsg).then(()=>{});
+    return;
+  }
   const msg=isWinning
     ?'You\'ve reached your session limit. This app is designed to help you walk away with a profit. We recommend ending your session now.'
     :'You\'ve reached your session limit. This app is designed to help you walk away losing a minimum amount of your bankroll. We recommend ending your session now.';
@@ -2974,21 +3254,39 @@ function handleStrategySpin(val){
     state.sitOut=STRATEGY_SITOUT;
     state.sitOutTimesUsed++;
     state.strategySpinsSinceZero=0;
+    state.streakResetBoosted=false; // reset boost flag on zero hit
   }else if(!isSit&&!zeroHit){
     // Non-zero, not sitting out: escalate bets if applicable
-    if(sm==='sitandclimb'){
-      state.bet0+=STRATEGY_INCREMENT;
-      state.bet00+=STRATEGY_INCREMENT;
-      state.betSplit+=STRATEGY_INCREMENT;
-      state.unit=state.bet0;
-    }else if(sm==='escalateandcap'){
-      const newBet=Math.min(state.bet0+STRATEGY_INCREMENT,STRATEGY_CAP);
-      state.bet0=newBet;
-      state.bet00=newBet;
-      state.betSplit=newBet;
-      state.unit=newBet;
+    if(sm==='steadyeddie'){
+      // Steady Eddie: no change, stays flat at $2/$2/$2
+    }else if(sm==='delayedsurge'){
+      // Delayed Surge: hold flat for 10 spins, then +$1 every 3 spins
+      const spins=state.strategySpinsSinceZero;
+      if(spins>10&&(spins-10)%3===0){
+        state.bet0+=STRATEGY_INCREMENT;
+        state.bet00+=STRATEGY_INCREMENT;
+        state.betSplit+=STRATEGY_INCREMENT;
+        state.unit=state.bet0;
+      }
+    }else if(sm==='slowgrind'){
+      // Slow Grind: +$1 every 6 spins from start
+      const spins=state.strategySpinsSinceZero;
+      if(spins>0&&spins%6===0){
+        state.bet0+=STRATEGY_INCREMENT;
+        state.bet00+=STRATEGY_INCREMENT;
+        state.betSplit+=STRATEGY_INCREMENT;
+        state.unit=state.bet0;
+      }
+    }else if(sm==='streakreset'){
+      // Streak Reset: flat $2/$2/$2, boost to $5/$5/$5 after 12-spin dry streak
+      if(state.strategySpinsSinceZero>=12&&!state.streakResetBoosted){
+        state.streakResetBoosted=true;
+        state.bet0=5;
+        state.bet00=5;
+        state.betSplit=5;
+        state.unit=5;
+      }
     }
-    // Steady Eddie: no change, stays flat
   }
   
   state.activeSides=[];state.pendingType=null;state.pendingValue=null;state.pendingAlerts=[];
@@ -3001,6 +3299,13 @@ const _originalLeaveConfirmClick=$('leaveConfirm').onclick;
 $('leaveConfirm').onclick=function(){
   if(state.overrideTriggered){
     dismissModal('leaveModal');
+    // SIM mode: never lockout
+    if(state.mode==='sim'){
+      if(_originalLeaveConfirmClick){
+        _originalLeaveConfirmClick();
+      }
+      return;
+    }
     const isWinning=state.balance>=state.bank;
     if(isWinning){
       // Player recovered to profit — no lockout, just end session normally
@@ -3008,7 +3313,7 @@ $('leaveConfirm').onclick=function(){
         _originalLeaveConfirmClick();
       }
     }else{
-      // Player is still losing after pushing past thresholds — 30-day lockout
+      // Player is still losing after pushing past thresholds — 7-day lockout
       const lockMsg='We recommend seeking help for gambling-related issues.';
       $('lockoutWarningText').textContent=lockMsg;
       queueModal('lockoutWarningModal');
@@ -3081,10 +3386,116 @@ function getHistoricalAvgGapFiltered(){
   return Math.round(sum/globalStats.allZeroGaps.length);
 }
 
+/* ===== STRATEGY SWITCH BUTTONS ===== */
+const STRATEGY_DESCRIPTIONS={
+  steadyeddie:{name:'Steady Eddie',desc:'Proven performer but payouts are minimal. Best for keeping bankroll intact. Flat $2/$2/$2 every spin with no escalation. Sit out 17 after a zero hit. Single threshold at 20%.',tag:'CONSERVATIVE',color:'green'},
+  delayedsurge:{name:'Delayed Surge',desc:'Hold flat $2/$2/$2 for 10 spins, then escalate +$1 every 3 spins. Patience before power. Dual thresholds at 20% (warning) and 33% (hard stop).',tag:'MODERATE',color:'yellow'},
+  slowgrind:{name:'Slow Grind',desc:'+$1 every 6 spins from the start. Gradual climb with controlled exposure. Dual thresholds at 20% (warning) and 33% (hard stop).',tag:'MODERATE',color:'orange'},
+  streakreset:{name:'Streak Reset',desc:'Flat $2/$2/$2 with a temporary $5/$5/$5 boost after a 12-spin dry streak. Single threshold at 20%.',tag:'AGGRESSIVE',color:'red'},
+  original:{name:'Legacy Mode',desc:'Full control of your zero-based bets. Set your own bet increments, respond to alerts, and manage your session your way. No strategy guidance or thresholds.',tag:'CLASSIC',color:'blue'}
+};
+
+function updateStrategySwitchButtons(){
+  const sm=state.strategyMode;
+  ['steadyeddie','delayedsurge','slowgrind','streakreset','original'].forEach(function(key){
+    const btnId=key==='steadyeddie'?'sswSteadyEddie':key==='delayedsurge'?'sswDelayedSurge':key==='slowgrind'?'sswSlowGrind':key==='streakreset'?'sswStreakReset':'sswLegacy';
+    const btn=$(btnId);
+    if(btn){
+      if(sm===key){
+        btn.classList.add('active-strategy');
+        btn.textContent=STRATEGY_DESCRIPTIONS[key].name+' (Active)';
+      }else{
+        btn.classList.remove('active-strategy');
+        btn.textContent=key==='original'?'Switch to Legacy Mode':STRATEGY_DESCRIPTIONS[key].name;
+      }
+    }
+  });
+}
+
+function handleStrategySwitch(targetStrategy){
+  const info=STRATEGY_DESCRIPTIONS[targetStrategy];
+  if(!info)return;
+  
+  // If tapping the active strategy, just show explanation
+  if(state.strategyMode===targetStrategy){
+    appConfirm(info.name+' (Active)',info.desc+'\n\nThis is your current active strategy.').then(()=>{});
+    return;
+  }
+  
+  // Legacy mode: double confirmation with red warning
+  if(targetStrategy==='original'){
+    appConfirm('\u26A0 Switch to Legacy Mode?','WARNING: Legacy Mode removes all strategy guidance and threshold protection. You will be fully responsible for managing your own bets. This cannot be undone during this session.\n\nAre you sure?').then(function(confirmed){
+      if(confirmed){
+        appConfirm('\u26A0 Final Confirmation','You are about to switch to Legacy Mode. All strategy protections will be removed. Are you absolutely sure?').then(function(confirmed2){
+          if(confirmed2){
+            executeStrategySwitch(targetStrategy);
+          }
+        });
+      }
+    });
+    return;
+  }
+  
+  // Other strategies: show info with Yes (with explanation) / Yes / Cancel
+  // Using appConfirm for the first step, then a second confirmation
+  appConfirm('Switch to '+info.name+'?',info.desc+'\n\nWould you like to switch to this strategy?').then(function(confirmed){
+    if(confirmed){
+      appConfirm('Confirm Switch','Switch to '+info.name+'? Your current session will be reset with the new strategy settings.').then(function(confirmed2){
+        if(confirmed2){
+          executeStrategySwitch(targetStrategy);
+        }
+      });
+    }
+  });
+}
+
+function executeStrategySwitch(targetStrategy){
+  // Reset session state for new strategy
+  state.strategyMode=targetStrategy;
+  state.overrideTriggered=false;
+  state.threshold1Hit=false;
+  state.threshold2Hit=false;
+  state.strategySpinsSinceZero=0;
+  state.streakResetBoosted=false;
+  state.spinCounter=0;
+  state.sitOut=0;
+  
+  if(targetStrategy==='original'){
+    // Switch to legacy mode
+    state.unit=5;
+    state.bet0=5;state.bet00=5;state.betSplit=5;
+    $('originalAlerts').style.display='block';
+    $('strategyAlerts').style.display='none';
+    $('strategyPromptBar').style.display='none';
+    $('editMidSession').style.display='';
+  }else{
+    // Switch to a strategy mode
+    state.unit=STRATEGY_BASE_BET;
+    state.bet0=STRATEGY_BASE_BET;
+    state.bet00=STRATEGY_BASE_BET;
+    state.betSplit=STRATEGY_BASE_BET;
+    $('originalAlerts').style.display='none';
+    $('strategyAlerts').style.display='block';
+    $('strategyPromptBar').style.display='block';
+    $('editMidSession').style.display='none';
+    // Threshold badge visibility
+    if(targetStrategy==='steadyeddie'||targetStrategy==='streakreset'){
+      $('thBadge2').style.display='none';
+    }else{
+      $('thBadge2').style.display='';
+    }
+    updateStrategyPrompt();
+  }
+  updateStrategySwitchButtons();
+  refresh();
+  saveState();
+}
+
 /* ===== INIT ===== */
 buildNumpad();
 loadState();
 refresh();
+updateStrategySwitchButtons();
 
 // Check lockout on startup
 (function initStrategyFlow(){
