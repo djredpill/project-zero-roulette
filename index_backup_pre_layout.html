@@ -18,12 +18,12 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<meta name="apple-mobile-web-app-title" content="PZR Legacy" />
+<meta name="apple-mobile-web-app-title" content="Zero Roulette Legacy" />
 <meta name="theme-color" content="#0a0a0a" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="apple-touch-icon.png" />
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
-<title>Project Zero Roulette - Legacy</title>
+<title>Zero Roulette Legacy</title>
 <style>
 /* ===== SPLASH SCREEN ===== */
 #splash-overlay {
@@ -260,21 +260,6 @@ body.theme-dark .sticky-sitout .ghost,body.theme-blue .sticky-sitout .ghost,body
   header{flex-direction:column;align-items:stretch}
   .controls{justify-content:center}
   .sticky-header{display:block}
-}
-/* Portrait iPad: Settings stretch full width in 3 rows */
-@media (orientation:portrait) and (min-width:700px) {
-  #settingsContainer { display:grid !important; grid-template-columns:1fr 1fr 1fr; gap:8px; align-items:start; }
-  #alertsGrid { margin-bottom:4px; }
-}
-/* Landscape: show zero bet controls in sidebar, hide in left column */
-@media (orientation:landscape) {
-  #zeroBetControlsSidebar { display:block !important; }
-  #zeroBetControlsLeft { display:none !important; }
-}
-/* Portrait: hide zero bet controls in sidebar, show in left column */
-@media (orientation:portrait) {
-  #zeroBetControlsSidebar { display:none !important; }
-  #zeroBetControlsLeft { display:block !important; }
 }
 @media(max-width:600px){
   .wrap{padding:8px}
@@ -692,24 +677,22 @@ body.theme-dark .mode-toggle,body.theme-blue .mode-toggle,body.theme-green .mode
         <button class="ghost" onclick="cancelSitOut()" style="background:#fff;border-color:red;color:red;">Cancel</button>
       </div>
 
-      <div id="zeroBetControlsLeft">
-        <div class="uniform-bet-bar">Click any Zero box to change individual bets</div>
-        <div class="zeros-strip">
-          <div class="zeroItem" id="bet0Card" onclick="openZeroEdit()">
-            <div style="font-size:11px;color:var(--muted);">Bet on 0</div>
-            <div class="big" id="bet0Display">$5.00</div>
-            <div style="font-size:10px;color:var(--muted);" id="pay0"></div>
-          </div>
-          <div class="zeroItem" id="betSplitCard" onclick="openZeroEdit()">
-            <div style="font-size:11px;color:var(--muted);">Bet on 0/00 split</div>
-            <div class="big" id="betSplitDisplay">$5.00</div>
-            <div style="font-size:10px;color:var(--muted);" id="paySplit"></div>
-          </div>
-          <div class="zeroItem" id="bet00Card" onclick="openZeroEdit()">
-            <div style="font-size:11px;color:var(--muted);">Bet on 00</div>
-            <div class="big" id="bet00Display">$5.00</div>
-            <div style="font-size:10px;color:var(--muted);" id="pay00"></div>
-          </div>
+      <div class="uniform-bet-bar">Click any Zero box to change individual bets</div>
+      <div class="zeros-strip">
+        <div class="zeroItem" id="bet0Card" onclick="openZeroEdit()">
+          <div style="font-size:11px;color:var(--muted);">Bet on 0</div>
+          <div class="big" id="bet0Display">$5.00</div>
+          <div style="font-size:10px;color:var(--muted);" id="pay0"></div>
+        </div>
+        <div class="zeroItem" id="betSplitCard" onclick="openZeroEdit()">
+          <div style="font-size:11px;color:var(--muted);">Bet on 0/00 split</div>
+          <div class="big" id="betSplitDisplay">$5.00</div>
+          <div style="font-size:10px;color:var(--muted);" id="paySplit"></div>
+        </div>
+        <div class="zeroItem" id="bet00Card" onclick="openZeroEdit()">
+          <div style="font-size:11px;color:var(--muted);">Bet on 00</div>
+          <div class="big" id="bet00Display">$5.00</div>
+          <div style="font-size:10px;color:var(--muted);" id="pay00"></div>
         </div>
       </div>
 
@@ -727,19 +710,17 @@ body.theme-dark .mode-toggle,body.theme-blue .mode-toggle,body.theme-green .mode
   <aside>
     <div class="card">
       <label><strong>Session Summary</strong></label>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;margin-bottom:8px;">
-        <div><div style="font-size:12px;">Starting Bankroll</div><div class="big" id="sumStart">$1,500</div></div>
-        <div><div style="font-size:12px;">Session Balance</div><div class="big" id="currentBalance">$1,000</div></div>
-        <div><div style="font-size:12px;">Session P/L</div><div class="big" id="sumSession">$0</div></div>
-        <div><div style="font-size:12px;">Historical P/L</div><div class="big" id="sumHist">$0</div></div>
-      </div>
+      <div style="margin-bottom:8px;"><div style="font-size:12px;">Session Balance</div><div class="big" id="currentBalance">$1,000</div></div>
+      <div style="margin-bottom:8px;"><div style="font-size:12px;">Starting Bankroll</div><div class="big" id="sumStart">$1,500</div></div>
+      <div style="margin-bottom:8px;"><div style="font-size:12px;">Session P/L</div><div class="big" id="sumSession">$0</div></div>
+      <div style="margin-bottom:8px;"><div style="font-size:12px;">Historical P/L</div><div class="big" id="sumHist">$0</div></div>
 
       <div class="active-stake-bar" id="activeStakeBar" style="margin-top:8px;">
         <strong>Active Stake:</strong> <span id="activeStakeText"></span>
       </div>
 
       <label style="margin-top:12px;"><strong>Loss / Win Alerts</strong></label>
-      <div id="alertsGrid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;">
         <div class="badge" id="alL20" style="border-color:#ef4444;color:#ef4444;opacity:0.3;">L: 1/5</div>
         <div class="badge" id="alL33" style="border-color:#ef4444;color:#ef4444;opacity:0.3;">L: 1/3</div>
         <div class="badge" id="alL40" style="border-color:#ef4444;color:#ef4444;opacity:0.3;">L: 2/5</div>
@@ -748,31 +729,8 @@ body.theme-dark .mode-toggle,body.theme-blue .mode-toggle,body.theme-green .mode
         <div class="badge" id="alW40" style="border-color:#16a34a;color:#16a34a;opacity:0.3;">W: 2/5</div>
       </div>
 
-      <!-- Zero Bet Controls (landscape only - moved here from left column) -->
-      <div id="zeroBetControlsSidebar" style="display:none;">
-        <label style="margin-top:12px;"><strong>Zero Bet Controls</strong></label>
-        <div class="zeros-strip" id="zerosStripSidebar">
-          <div class="zeroItem" style="border:2px solid #000;padding:6px 4px;" onclick="openZeroEdit()">
-            <div style="font-size:10px;color:var(--muted);">Bet on 0</div>
-            <div class="big" id="bet0DisplaySB" style="font-size:14px;">$5.00</div>
-            <div style="font-size:9px;color:var(--muted);" id="pay0SB"></div>
-          </div>
-          <div class="zeroItem" style="border:2px solid #000;padding:6px 4px;" onclick="openZeroEdit()">
-            <div style="font-size:10px;color:var(--muted);">0/00 split</div>
-            <div class="big" id="betSplitDisplaySB" style="font-size:14px;">$5.00</div>
-            <div style="font-size:9px;color:var(--muted);" id="paySplitSB"></div>
-          </div>
-          <div class="zeroItem" style="border:2px solid #000;padding:6px 4px;" onclick="openZeroEdit()">
-            <div style="font-size:10px;color:var(--muted);">Bet on 00</div>
-            <div class="big" id="bet00DisplaySB" style="font-size:14px;">$5.00</div>
-            <div style="font-size:9px;color:var(--muted);" id="pay00SB"></div>
-          </div>
-        </div>
-        <div style="text-align:center;font-size:10px;color:var(--muted);margin-top:4px;">Click any Zero box to change individual bets</div>
-      </div>
-
       <label style="margin-top:16px;"><strong>Settings</strong></label>
-      <div id="settingsContainer" style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+      <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
         <label style="display:flex;align-items:center;gap:8px;margin:0;">
           <input type="checkbox" id="autoIncEvery" checked> Auto increment every N spins
         </label>
@@ -799,7 +757,7 @@ body.theme-dark .mode-toggle,body.theme-blue .mode-toggle,body.theme-green .mode
 </div>
 
 <div style="text-align:right;font-size:10px;color:var(--muted);padding:16px;">
-  Project Zero Roulette — Legacy — Revision 15 — client only
+  Project Zero Roulette — Legacy — Revision 13 — client only
 </div>
 </div>
 
@@ -900,7 +858,7 @@ function getSessionAvgGap(){
         const app=$('main-app-content');
         app.style.opacity='1';app.style.visibility='visible';
       },1500);
-    },2500);
+    },3500);
   }
   /* Double-tap detection for GA Hotline */
   let splashTapCount=0;
@@ -1424,21 +1382,6 @@ function refresh(){
 
   $('bet00Card').style.opacity=state.table==='american'?1:0.3;
   $('betSplitCard').style.opacity=showSplit?1:0.3;
-
-  // Update sidebar zero bet displays (landscape mode)
-  if($('bet0DisplaySB')){$('bet0DisplaySB').textContent=fmt(b0);}
-  if($('bet00DisplaySB')){$('bet00DisplaySB').textContent=state.table==='american'?fmt(b00):'\u2014';}
-  if($('betSplitDisplaySB')){$('betSplitDisplaySB').textContent=showSplit?fmt(bSp):'\u2014';}
-  if($('pay0SB')){$('pay0SB').textContent=b0>0?`${fmt(b0*36)} / ${fmt(b0*35)} profit`:'';}
-  if($('pay00SB')){$('pay00SB').textContent=(state.table==='american'&&b00>0)?`${fmt(b00*36)} / ${fmt(b00*35)} profit`:'';}
-  if($('paySplitSB')){$('paySplitSB').textContent=(showSplit&&bSp>0)?`${fmt(bSp*18)} / ${fmt(bSp*17)} profit`:'';}
-  // Sidebar zero bet opacity
-  var sbZeros=$('zerosStripSidebar');
-  if(sbZeros){
-    var sbItems=sbZeros.querySelectorAll('.zeroItem');
-    if(sbItems[2])sbItems[2].style.opacity=state.table==='american'?1:0.3;
-    if(sbItems[1])sbItems[1].style.opacity=showSplit?1:0.3;
-  }
 
   $('sitOutBadge').style.display=state.sitOut>0?'block':'none';
   $('sitOutCount').textContent=state.sitOut;

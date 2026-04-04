@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pzr-legacy-v13-cache';
+const CACHE_NAME = 'pzr-legacy-v15-cache';
 const ASSETS = [
   '/',
   '/index.html',
