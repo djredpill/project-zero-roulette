@@ -1635,89 +1635,7 @@ $('crCancel').onclick=()=>{
   refresh();
 };
 
-/* ===== QUICK BET KEYPAD ===== */
-let quickBetTarget=null;
-let quickBetValue='';
-let quickBetReturnTo=null; // 'customRaiseModal' or null
 
-const BET_LABELS={bet0:'Bet on 0',betSplit:'0/00 Split',bet00:'Bet on 00'};
-
-var qkFirstPress=true;
-function openQuickBet(target){
-  quickBetTarget=target;
-  quickBetValue=String(state[target]||0);
-  qkFirstPress=true;
-  $('quickBetTitle').textContent='Quick Edit: '+BET_LABELS[target];
-  $('quickBetDisplay').textContent=quickBetValue||'0';
-  $('quickBetModal').style.display='flex';
-}
-function qkDigit(d){
-  if(qkFirstPress){quickBetValue='';qkFirstPress=false;}
-  if(quickBetValue==='0')quickBetValue='';
-  if(quickBetValue.length>=5)return;
-  quickBetValue+=d;
-  $('quickBetDisplay').textContent=quickBetValue;
-}
-function qkClear(){
-  quickBetValue='';
-  $('quickBetDisplay').textContent='0';
-}
-function qkBackspace(){
-  quickBetValue=quickBetValue.slice(0,-1);
-  $('quickBetDisplay').textContent=quickBetValue||'0';
-}
-$('qkSave').onclick=()=>{
-  const val=parseInt(quickBetValue)||0;
-  state[quickBetTarget]=val;
-  $('quickBetModal').style.display='none';
-  if(quickBetReturnTo){
-    updateCustomRaiseDisplay();
-    $(quickBetReturnTo).style.display='flex';
-  }
-  quickBetReturnTo=null;
-  refresh();
-};
-$('qkCancel').onclick=()=>{
-  $('quickBetModal').style.display='none';
-  if(quickBetReturnTo){
-    $(quickBetReturnTo).style.display='flex';
-  }
-  quickBetReturnTo=null;
-};
-
-/* ===== TAP DETECTION FOR ZERO BET BOXES ===== */
-let tapTimer=null;
-let tapCount=0;
-let tapTarget=null;
-
-function handleZeroTap(betKey){
-  tapCount++;
-  if(tapCount===1){
-    tapTarget=betKey;
-    tapTimer=setTimeout(()=>{
-      // Single tap — open quick keypad
-      quickBetReturnTo=null;
-      openQuickBet(tapTarget);
-      tapCount=0;tapTarget=null;
-    },300);
-  } else if(tapCount===2){
-    // Double tap — open full editor
-    clearTimeout(tapTimer);
-    tapCount=0;tapTarget=null;
-    openZeroEdit();
-  }
-}
-
-// Attach tap handlers to all zeroItem elements with data-bet
-document.querySelectorAll('[data-bet]').forEach(el=>{
-  el.style.cursor='pointer';
-  el.style.webkitTapHighlightColor='transparent';
-  el.addEventListener('click',(e)=>{
-    e.preventDefault();
-    e.stopPropagation();
-    handleZeroTap(el.getAttribute('data-bet'));
-  });
-});
 
 /* ===== CUSTOM RAISE MODAL ===== */
 function updateCustomRaiseDisplay(){
@@ -2598,7 +2516,7 @@ function loadState(){
         });
       }
       // Re-register the updated service worker
-      navigator.serviceWorker.register('./sw.js?v=15c');
+      navigator.serviceWorker.register('./sw.js?v=15d');
     });
   }
 
